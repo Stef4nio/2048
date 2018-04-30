@@ -91,14 +91,14 @@ public class InputDetecter : MonoBehaviour {
 
             if (deltaSwipe.y > 50 && deltaSwipe.x > -250f && deltaSwipe.x < 250f)
             {
-                EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Up });
-                Debug.Log("Swipe up");
+                EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Down });
+                Debug.Log("Swipe down");
             }
 
             if (deltaSwipe.y < -50 && deltaSwipe.x > -250f && deltaSwipe.x < 250f)
             {
-                EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Down });
-                Debug.Log("Swipe down");
+                EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Up });
+                Debug.Log("Swipe up");
             }
         }
 

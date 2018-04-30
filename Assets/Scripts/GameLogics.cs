@@ -19,7 +19,7 @@ public class GameLogics:MonoBehaviour{
         {
             for (int j = 0; j < 4; j++)
             {
-                GameModel.PreviousMoveField[i, j] = GameModel.GameField[i, j];
+                GameModel.SetCellToPrevious(j,i, GameModel.GetCell(j, i));
             }
         }
         switch(e.CurrDirection)
@@ -52,13 +52,13 @@ public class GameLogics:MonoBehaviour{
                 }
                 break;
         }
-        if (TwoDCellArrayComparer(GameModel.GameField, GameModel.PreviousMoveField))
+        if (GameModel.CompareLastAndCurrentMove())
         {
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    GameModel.GameField[i, j] = GameModel.PreviousMoveField[i, j];
+                    GameModel.SetCell(j,i, GameModel.GetCellFromPrevious(j, i).value);
                 }
             }
         }
@@ -78,10 +78,10 @@ public class GameLogics:MonoBehaviour{
         {
             rndX = rand.Next(4);
             rndY = rand.Next(4);
-            if(GameModel.GameField[rndY,rndX] == null)
+            if(!GameModel.DoesCellExist(rndX,rndY))
             {
                 isSet = true;
-                GameModel.AddCell(rndX, rndY, rndValue);
+                GameModel.SetCell(rndX, rndY, rndValue);
             }
         }
     }
@@ -122,19 +122,4 @@ public class GameLogics:MonoBehaviour{
         return row;
     }
     
-    private static bool TwoDCellArrayComparer(Cell[,] array1, Cell[,] array2)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-
-                if ((GameModel.PreviousMoveField[i, j] ?? new Cell(0)).value != (GameModel.GameField[i, j] ?? new Cell(0)).value)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 }
