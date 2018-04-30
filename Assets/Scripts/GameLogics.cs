@@ -122,7 +122,6 @@ public class GameLogics:MonoBehaviour{
         return row;
     }
     
-    //some comment
     private static bool TwoDCellArrayComparer(Cell[,] array1, Cell[,] array2)
     {
         for (int i = 0; i < 4; i++)
