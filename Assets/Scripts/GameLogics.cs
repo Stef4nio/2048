@@ -129,8 +129,7 @@ public class GameLogics:MonoBehaviour{
             for (int j = 0; j < 4; j++)
             {
 
-
-                if (/*GameModel.PreviousMoveField != null && GameModel.GameField != null*/ GameModel.PreviousMoveField[i, j].value != GameModel.GameField[i, j].value &&!(GameModel.PreviousMoveField==null&&GameModel.GameField==null))
+                if ((GameModel.PreviousMoveField[i, j] ?? new Cell(0)).value != (GameModel.GameField[i, j] ?? new Cell(0)).value)
                 {
                     return false;
                 }
