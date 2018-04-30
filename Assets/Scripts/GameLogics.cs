@@ -122,16 +122,14 @@ public class GameLogics:MonoBehaviour{
         return row;
     }
     
+    //some comment
     private static bool TwoDCellArrayComparer(Cell[,] array1, Cell[,] array2)
     {
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                /*if()
-                {
 
-                }*/
 
                 if (/*GameModel.PreviousMoveField != null && GameModel.GameField != null*/ GameModel.PreviousMoveField[i, j].value != GameModel.GameField[i, j].value &&!(GameModel.PreviousMoveField==null&&GameModel.GameField==null))
                 {
