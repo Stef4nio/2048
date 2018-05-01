@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
 public static class GameModel {
 
-    private static Cell[,] GameField = new Cell[4,4];
-    private static Cell[,] PreviousMoveField = new Cell[4, 4];
+    private static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    private static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
 
 
     public static void SetCell(int x,int y,int value)
@@ -38,7 +39,7 @@ public static class GameModel {
 
     public static void SetRow(Cell[] row, int rowPosition)
     {
-        for(int i = 0;i<4;i++)
+        for(int i = 0;i<row.Length;i++)
         {
             GameField[rowPosition, i] = row[i];
         }
@@ -47,7 +48,7 @@ public static class GameModel {
 
     public static void SetColumn(Cell[] column, int columnPosition)
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < column.Length; i++)
         {
             GameField[i, columnPosition] = column[i];
         }
@@ -56,8 +57,8 @@ public static class GameModel {
 
     public static Cell[] GetColumn(int columnPosition)
     {
-        Cell[] output = new Cell[4];
-        for (int i = 0; i < 4; i++)
+        Cell[] output = new Cell[Config.FieldHeight];
+        for (int i = 0; i < Config.FieldHeight; i++)
         {
             output[i] = GameField[i, columnPosition];
         }
@@ -66,8 +67,8 @@ public static class GameModel {
 
     public static Cell[] GetRow(int rowPosition)
     {
-        Cell[] output = new Cell[4];
-        for (int i = 0; i < 4; i++)
+        Cell[] output = new Cell[Config.FieldWidth];
+        for (int i = 0; i < Config.FieldWidth; i++)
         {
             output[i] = GameField[rowPosition, i];
         }
@@ -76,9 +77,9 @@ public static class GameModel {
 
     public static bool CompareLastAndCurrentMove()
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < Config.FieldHeight; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < Config.FieldWidth; j++)
             {
 
                 if ((PreviousMoveField[i, j] ?? new Cell(0)).value != (GameField[i, j] ?? new Cell(0)).value)

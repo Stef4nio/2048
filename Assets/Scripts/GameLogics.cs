@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
 public class GameLogics:MonoBehaviour{
@@ -14,10 +15,10 @@ public class GameLogics:MonoBehaviour{
     }
 
     private void OnSwipe(object sender, InputEventArg e)
-    {   
-        for(int i = 0;i <4;i++)
+    {
+        for (int i = 0; i < Config.FieldHeight; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < Config.FieldWidth; j++)
             {
                 GameModel.SetCellToPrevious(j,i, GameModel.GetCell(j, i));
             }
@@ -25,28 +26,28 @@ public class GameLogics:MonoBehaviour{
         switch(e.CurrDirection)
         {
             case Directions.Up:
-                for(int i = 0;i < 4;i++)
+                for (int i = 0; i < Config.FieldHeight; i++)
                 {
                     GameModel.SetColumn(Compressor(GameModel.GetColumn(i),false),i);
                 }
                 break;
 
             case Directions.Down:
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < Config.FieldHeight; i++)
                 {
                     GameModel.SetColumn(Compressor(GameModel.GetColumn(i), true), i);
                 }
                 break;
 
             case Directions.Left:
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < Config.FieldWidth; i++)
                 {
                     GameModel.SetRow(Compressor(GameModel.GetRow(i), false), i);
                 }
                 break;
 
             case Directions.Right:
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < Config.FieldWidth; i++)
                 {
                     GameModel.SetRow(Compressor(GameModel.GetRow(i), true), i);
                 }
@@ -54,9 +55,9 @@ public class GameLogics:MonoBehaviour{
         }
         if (GameModel.CompareLastAndCurrentMove())
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < Config.FieldHeight; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < Config.FieldWidth; j++)
                 {
                     GameModel.SetCell(j,i, GameModel.GetCellFromPrevious(j, i).value);
                 }
@@ -76,8 +77,8 @@ public class GameLogics:MonoBehaviour{
         int rndValue = rand.Next(100) <= 80 ? 2 : 4;
         while (!isSet)
         {
-            rndX = rand.Next(4);
-            rndY = rand.Next(4);
+            rndX = rand.Next(Config.FieldWidth);
+            rndY = rand.Next(Config.FieldHeight);
             if(!GameModel.DoesCellExist(rndX,rndY))
             {
                 isSet = true;
@@ -96,7 +97,7 @@ public class GameLogics:MonoBehaviour{
         do
         {
             changes = 0;
-            for (int i = 1; i < 4; i++)
+            for (int i = 1; i < row.Length; i++)
             {
                 if (row[i] != null && row[i - 1] == null)
                 {

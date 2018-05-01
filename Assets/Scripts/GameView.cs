@@ -1,50 +1,46 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
 
-    [SerializeField] private Transform gamePanelTransform;
+    [SerializeField] private Transform _gamePanelTransform;
+    [SerializeField] private GameObject _cellPrefab;
 
-    GameObject[,] Field = new GameObject[4,4];
+    private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
 
 	// Use this for initialization
 	void Awake () {
 	    EventSystem.ModelModified += RefreshField;
-        /*for (int i = 0; i < 4;i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                Field[i, j] =(GameObject) Instantiate(Resources.Load("Cell"), new Vector3(j * 253 +40, (3-i) * 253 +701),
-                    new Quaternion(0, 0, 0, 0), gamePanelTransform);
-            }
-        }*/
 	}
 
     private void RefreshField(object sender, EventArgs e)
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < Config.FieldHeight; i++)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < Config.FieldWidth; j++)
             {
                 Cell currentCell = GameModel.GetCell(j, i);
-                if (Field[i, j] == null&& currentCell != null)
+                if (Field[i, j] == null && currentCell != null)
                 {
-                    Field[i, j] = (GameObject)Instantiate(Resources.Load("Cell"), new Vector3(j * 253 + 40, i * 253 + 701),
-                        new Quaternion(0, 0, 0, 0), gamePanelTransform);
-                    Field[i, j].GetComponent<Text>().text = GameModel.GetCell(j, i).value.ToString();
+                    var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
+                    cellView.SetText(GameModel.GetCell(j, i).value.ToString());
+                    cellView.SetPosition(new Vector3(j * (cellView.Width+Config.CellViewSpacing), i * (cellView.Height + Config.CellViewSpacing)));
+
+                    Field[i, j] = cellView;
                 }
                 else if (Field[i, j] != null && currentCell == null)
                 {
-                    Destroy(Field[i, j]);
+                    Field[i, j].Kill();
                     Field[i, j] = null;
                 }
                 else if(Field[i, j] != null && currentCell != null)
                 {
-                    Field[i, j].GetComponent<Text>().text = currentCell.value.ToString();
+                    Field[i, j].SetText(currentCell.value.ToString());
                 }
 
 
