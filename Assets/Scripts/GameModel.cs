@@ -28,8 +28,7 @@ public static class GameModel {
 
     public static void SetCellToPrevious(int x, int y, Cell value)
     {
-        GameField[y, x] = value;
-        EventSystem.ModelModifiedInvoke(null);
+        PreviousMoveField[y, x] = value;
     }
 
     public static Cell GetCellFromPrevious(int x, int y)
@@ -81,8 +80,7 @@ public static class GameModel {
         {
             for (int j = 0; j < Config.FieldWidth; j++)
             {
-
-                if ((PreviousMoveField[i, j] ?? new Cell(0)).value != (GameField[i, j] ?? new Cell(0)).value)
+                if ((PreviousMoveField[i, j]??new Cell(0)).value != (GameField[i, j]??new Cell(0)).value)
                 {
                     return false;
                 }

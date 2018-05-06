@@ -28,14 +28,14 @@ public class GameLogics:MonoBehaviour{
             case Directions.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i),false),i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i),true),i);
                 }
                 break;
 
             case Directions.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), true), i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), false), i);
                 }
                 break;
 
@@ -53,17 +53,7 @@ public class GameLogics:MonoBehaviour{
                 }
                 break;
         }
-        if (GameModel.CompareLastAndCurrentMove())
-        {
-            for (int i = 0; i < Config.FieldHeight; i++)
-            {
-                for (int j = 0; j < Config.FieldWidth; j++)
-                {
-                    GameModel.SetCell(j,i, GameModel.GetCellFromPrevious(j, i).value);
-                }
-            }
-        }
-        else
+        if (!GameModel.CompareLastAndCurrentMove())
         {
             AddRandomCell();
         }
