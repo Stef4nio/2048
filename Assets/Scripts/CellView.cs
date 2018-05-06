@@ -8,6 +8,8 @@ public class CellView : MonoBehaviour
     [SerializeField]
     private Text _text;
 
+    public Cell Cell;
+
     private RectTransform _rectTransform;
 
     public int Width
@@ -27,7 +29,7 @@ public class CellView : MonoBehaviour
         }
     }
 
-    public void SetText(string text)
+    private void SetText(string text)
     {
         _text.text = text;
     }
@@ -42,6 +44,12 @@ public class CellView : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void ChangeText()
+    {
+        SetText(Cell.value.ToString());
+    }
+
 
     private void GetRectTransform()
     {

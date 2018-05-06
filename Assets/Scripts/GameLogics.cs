@@ -98,7 +98,8 @@ public class GameLogics:MonoBehaviour{
                 }
                 if (row[i] != null && row[i - 1] != null && !(row[i].isMultiply || row[i - 1].isMultiply) && row[i - 1].value == row[i].value)
                 {
-                    row[i - 1].value *= 2;
+                    row[i].value *= 2;
+                    row[i - 1] = row[i];
                     row[i] = null;
                     row[i - 1].isMultiply = true;
                     row[i - 1].offset++;

@@ -13,6 +13,8 @@ public static class GameModel {
     public static void SetCell(int x,int y,int value)
     {
         GameField[y, x] = CellFactory.CreateCell(value);
+        GameField[y, x].x = x;
+        GameField[y, x].y = y;
         EventSystem.ModelModifiedInvoke(null);
     }
 
@@ -41,6 +43,11 @@ public static class GameModel {
         for(int i = 0;i<row.Length;i++)
         {
             GameField[rowPosition, i] = row[i];
+            if (GameField[rowPosition, i] != null)
+            {
+                GameField[rowPosition, i].x = i;
+                GameField[rowPosition, i].y = rowPosition;
+            }
         }
         EventSystem.ModelModifiedInvoke(null);
     }
@@ -50,6 +57,11 @@ public static class GameModel {
         for (int i = 0; i < column.Length; i++)
         {
             GameField[i, columnPosition] = column[i];
+            if (GameField[i, columnPosition] != null)
+            {
+                GameField[i, columnPosition].x = columnPosition;
+                GameField[i, columnPosition].y = i;
+            }
         }
         EventSystem.ModelModifiedInvoke(null);
     }

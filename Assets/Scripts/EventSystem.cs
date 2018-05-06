@@ -18,9 +18,13 @@ public static class EventSystem {
         ModelModified.Invoke(null, EventArgs.Empty);
     }
 
+    
+
 }
 
 public class InputEventArg : System.EventArgs
 {
     public Directions CurrDirection;
 }
+
+

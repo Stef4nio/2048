@@ -28,9 +28,9 @@ public class GameView : MonoBehaviour
                 if (Field[i, j] == null && currentCell != null)
                 {
                     var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
-                    cellView.SetText(GameModel.GetCell(j, i).value.ToString());
-                    cellView.SetPosition(new Vector3(j * (cellView.Width+Config.CellViewSpacing), i * (cellView.Height + Config.CellViewSpacing)));
-
+                    cellView.Cell = currentCell;
+                    cellView.ChangeText();
+                    cellView.SetPosition(new Vector3(cellView.Cell.x * (cellView.Width+Config.CellViewSpacing), cellView.Cell.y * (cellView.Height + Config.CellViewSpacing)));
                     Field[i, j] = cellView;
                 }
                 else if (Field[i, j] != null && currentCell == null)
@@ -40,7 +40,7 @@ public class GameView : MonoBehaviour
                 }
                 else if(Field[i, j] != null && currentCell != null)
                 {
-                    Field[i, j].SetText(currentCell.value.ToString());
+                    Field[i, j].ChangeText();
                 }
 
 
