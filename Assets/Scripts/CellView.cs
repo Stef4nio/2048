@@ -2,13 +2,16 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using Assets.Scripts;
+using DG;
+using DG.Tweening;
 
 public class CellView : MonoBehaviour
 {
     [SerializeField]
     private Text _text;
 
-    public Cell Cell;
+    public Cell CellData;
 
     private RectTransform _rectTransform;
 
@@ -47,7 +50,7 @@ public class CellView : MonoBehaviour
 
     public void ChangeText()
     {
-        SetText(Cell.value.ToString());
+        SetText(CellData.value.ToString());
     }
 
 
@@ -56,6 +59,17 @@ public class CellView : MonoBehaviour
         if (_rectTransform == null)
         {
             _rectTransform = GetComponent<RectTransform>();
+        }
+    }
+
+    public void Move()
+    {
+        transform.DOLocalMove(new Vector3(CellData.x*(Width + Config.CellViewSpacing), CellData.y*(Height + Config.CellViewSpacing)), 1f);
+        CellData.offset = 0;
+        if (CellData.isMultiply)
+        {
+            ChangeText();
+            CellData.isMultiply = false;
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
 public enum Directions
@@ -80,24 +81,28 @@ public class InputDetecter : MonoBehaviour {
             if (deltaSwipe.x > 50 && deltaSwipe.y > -250f && deltaSwipe.y < 250f)
             {
                 EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Right });
+                Config.CurrentDirection = Directions.Right;
                 Debug.Log("Swipe right");
             }
 
             if (deltaSwipe.x < -50 && deltaSwipe.y > -250f && deltaSwipe.y < 250f)
             {
                 EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Left });
+                Config.CurrentDirection = Directions.Left;
                 Debug.Log("Swipe left");
             }
 
             if (deltaSwipe.y > 50 && deltaSwipe.x > -250f && deltaSwipe.x < 250f)
             {
                 EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Up });
+                Config.CurrentDirection = Directions.Up;
                 Debug.Log("Swipe up");
             }
 
             if (deltaSwipe.y < -50 && deltaSwipe.x > -250f && deltaSwipe.x < 250f)
             {
                 EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Directions.Down });
+                Config.CurrentDirection = Directions.Down;
                 Debug.Log("Swipe down");
             }
         }

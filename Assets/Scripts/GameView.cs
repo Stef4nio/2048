@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,7 @@ public class GameView : MonoBehaviour
 
     private void RefreshField(object sender, EventArgs e)
     {
-        for (int i = 0; i < Config.FieldHeight; i++)
+       /* for (int i = 0; i < Config.FieldHeight; i++)
         {
             for (int j = 0; j < Config.FieldWidth; j++)
             {
@@ -28,9 +29,9 @@ public class GameView : MonoBehaviour
                 if (Field[i, j] == null && currentCell != null)
                 {
                     var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
-                    cellView.Cell = currentCell;
+                    cellView.CellData = currentCell;
                     cellView.ChangeText();
-                    cellView.SetPosition(new Vector3(cellView.Cell.x * (cellView.Width+Config.CellViewSpacing), cellView.Cell.y * (cellView.Height + Config.CellViewSpacing)));
+                    cellView.SetPosition(new Vector3(cellView.CellData.x * (cellView.Width+Config.CellViewSpacing), cellView.CellData.y * (cellView.Height + Config.CellViewSpacing)));
                     Field[i, j] = cellView;
                 }
                 else if (Field[i, j] != null && currentCell == null)
@@ -51,8 +52,56 @@ public class GameView : MonoBehaviour
                     currentCell.offset = 0;
                 }
             }
+        }*/
+
+        foreach (var cell in GameModel.GameField)
+        {
+            if (cell == null)
+            {
+                continue;
+            }
+
+            CellView currCellView = GetCellViewByData(cell);
+            if (cell.isNew)
+            {
+                var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
+                cell.isNew = false;
+                cellView.CellData = cell;
+                cellView.ChangeText();
+                cellView.SetPosition(new Vector3(cellView.CellData.x * (cellView.Width + Config.CellViewSpacing), cellView.CellData.y * (cellView.Height + Config.CellViewSpacing)));
+                Field[cellView.CellData.y, cellView.CellData.x] = cellView;
+            }
+
+            if (cell.offset > 0)
+            {
+                if (Field[cell.y, cell.x] != null && Field[cell.y, cell.x].CellData == null)
+                {
+                    Field[cell.y, cell.x].Kill();
+                    Field[cell.y, cell.x] = null;
+                }
+                
+                Field[cell.y, cell.x] = currCellView;
+                Field[cell.y, cell.x].Move();
+            }
         }
         
+    }
+
+    private CellView GetCellViewByData(Cell data)
+    {
+        foreach (var View in Field)
+        {
+            if (View == null)
+            {
+                continue;
+            }
+            if (View.CellData == data)
+            {
+                return View;
+            }
+        }
+
+        return null;
     }
 
     // Update is called once per frame

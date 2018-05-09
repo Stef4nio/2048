@@ -6,8 +6,8 @@ using UnityEngine;
 
 public static class GameModel {
 
-    private static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
-    private static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
 
 
     public static void SetCell(int x,int y,int value)
