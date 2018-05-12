@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
-
+    [SerializeField] private Text[] _testTexts = new Text[16];
     [SerializeField] private Transform _gamePanelTransform;
     [SerializeField] private GameObject _cellPrefab;
 
@@ -21,6 +21,13 @@ public class GameView : MonoBehaviour
 
     private void RefreshField(object sender, EventArgs e)
     {
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            for (int j = 0; j < Config.FieldWidth; j++)
+            {
+                _testTexts[i * 4 + j].text = (GameModel.GameField[i, j]??new Cell(0)).value.ToString();
+            }
+        }
        /* for (int i = 0; i < Config.FieldHeight; i++)
         {
             for (int j = 0; j < Config.FieldWidth; j++)

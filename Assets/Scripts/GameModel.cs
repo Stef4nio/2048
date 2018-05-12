@@ -15,7 +15,7 @@ public static class GameModel {
         GameField[y, x] = CellFactory.CreateCell(value);
         GameField[y, x].x = x;
         GameField[y, x].y = y;
-        EventSystem.ModelModifiedInvoke(null);
+        //EventSystem.ModelModifiedInvoke(null);
     }
 
     public static bool DoesCellExist(int x, int y)
@@ -49,7 +49,7 @@ public static class GameModel {
                 GameField[rowPosition, i].y = rowPosition;
             }
         }
-        EventSystem.ModelModifiedInvoke(null);
+        //EventSystem.ModelModifiedInvoke(null);
     }
 
     public static void SetColumn(Cell[] column, int columnPosition)
@@ -63,7 +63,7 @@ public static class GameModel {
                 GameField[i, columnPosition].y = i;
             }
         }
-        EventSystem.ModelModifiedInvoke(null);
+        //EventSystem.ModelModifiedInvoke(null);
     }
 
     public static Cell[] GetColumn(int columnPosition)

@@ -12,6 +12,7 @@ public class GameLogics:MonoBehaviour{
         EventSystem.OnSwipe += OnSwipe;
         AddRandomCell();
         AddRandomCell();
+        EventSystem.ModelModifiedInvoke(this);
     }
 
     private void OnSwipe(object sender, InputEventArg e)
@@ -28,14 +29,14 @@ public class GameLogics:MonoBehaviour{
             case Directions.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i),true),i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i),false),i);
                 }
                 break;
 
             case Directions.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), false), i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), true), i);
                 }
                 break;
 
@@ -57,6 +58,7 @@ public class GameLogics:MonoBehaviour{
         {
             AddRandomCell();
         }
+        EventSystem.ModelModifiedInvoke(this);
     }
 
     private void AddRandomCell()
