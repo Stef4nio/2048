@@ -81,7 +81,7 @@ public class GameLogics:MonoBehaviour{
 
     private Cell[] Compressor (Cell[] row, bool isReverse)
     {
-        int changes = 0;
+        int changes;
         if (isReverse)
         {
             Array.Reverse(row);

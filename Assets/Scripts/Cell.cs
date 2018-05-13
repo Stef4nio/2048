@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Cell
 {
+    public int id;
     public int value = 0;
     public int offset = 0;
     public int x = 0;
@@ -11,8 +12,9 @@ public class Cell
     public bool isNew = false;
     public bool isMultiply = false;
 
-    public Cell(int val)
+    public Cell(int val,int _id)
     {
+        id = _id;
         isNew = true;
         value = val;
     }

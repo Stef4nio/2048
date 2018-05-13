@@ -10,6 +10,8 @@ public class CellView : MonoBehaviour
 {
     [SerializeField]
     private Text _text;
+    [SerializeField]
+    private Text _IdText;
 
     public Cell CellData;
 
@@ -51,6 +53,7 @@ public class CellView : MonoBehaviour
     public void ChangeText()
     {
         SetText(CellData.value.ToString());
+        _IdText.text = CellData.id.ToString();
     }
 
 
@@ -64,7 +67,7 @@ public class CellView : MonoBehaviour
 
     public void Move()
     {
-        transform.DOLocalMove(new Vector3(CellData.x*(Width + Config.CellViewSpacing), CellData.y*(Height + Config.CellViewSpacing)), 1f);
+        transform.DOLocalMove(new Vector3(CellData.x * (Width + Config.CellViewSpacing), -CellData.y * (Height + Config.CellViewSpacing)),1f);
         CellData.offset = 0;
         if (CellData.isMultiply)
         {

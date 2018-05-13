@@ -10,11 +10,11 @@ public static class GameModel {
     public static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
 
 
-    public static void SetCell(int x,int y,int value)
+    public static void SetCell(int _x,int _y,int value)
     {
-        GameField[y, x] = CellFactory.CreateCell(value);
-        GameField[y, x].x = x;
-        GameField[y, x].y = y;
+        GameField[_y, _x] = CellFactory.CreateCell(value);
+        GameField[_y, _x].x = _x;
+        GameField[_y, _x].y = _y;
         //EventSystem.ModelModifiedInvoke(null);
     }
 
@@ -92,7 +92,7 @@ public static class GameModel {
         {
             for (int j = 0; j < Config.FieldWidth; j++)
             {
-                if ((PreviousMoveField[i, j]??new Cell(0)).value != (GameField[i, j]??new Cell(0)).value)
+                if ((PreviousMoveField[i, j]??new Cell(0,0)).value != (GameField[i, j]??new Cell(0,0)).value)
                 {
                     return false;
                 }
