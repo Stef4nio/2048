@@ -84,11 +84,11 @@ public class GameView : MonoBehaviour
 
                 if (cell.offset > 0)
                 {
-                    if (Field[cell.y, cell.x] != null && Field[cell.y, cell.x].CellData == null)
+                    /*if (Field[cell.y, cell.x] != null && Field[cell.y, cell.x].CellData == null)
                     {
                         Field[cell.y, cell.x].Kill();
                         Field[cell.y, cell.x] = null;
-                    }
+                    }*/
                     var currCellView = GetCellViewByData(cell);
                     Field[cell.y, cell.x] = currCellView;
                     Field[cell.y, cell.x].Move();
@@ -131,7 +131,7 @@ public class GameView : MonoBehaviour
             foreach (var cellData in GameModel.GameField)
             {
                 if(cellData == null)continue;
-                if (cellView.CellData == cellData)
+                if (cellView.CellData.id == cellData.id)
                 {
                     isDataAvailable = true;
                 }
@@ -139,7 +139,8 @@ public class GameView : MonoBehaviour
 
             if (!isDataAvailable)
             {
-                cellView.CellData = null;
+                Field[cellView.CellData.y, cellView.CellData.x].Kill();
+                Field[cellView.CellData.y, cellView.CellData.x] = null;
             }
         }
     }
