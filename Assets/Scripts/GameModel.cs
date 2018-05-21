@@ -100,4 +100,41 @@ public static class GameModel {
         }
         return true;
     }
+
+    public static List<Cell> GetKilledCells()
+    {
+        List<Cell> killedCells = new List<Cell>();
+        foreach (var previousCell in PreviousMoveField)
+        {
+            if (previousCell == null)
+            {
+                continue;
+            }
+            int rejects = 0;
+            foreach (var cell in GameField)
+            {
+                if (cell == null)
+                {
+                    continue;
+                }
+
+                if (previousCell.id != cell.id)
+                {
+                    rejects++;
+                }
+            }
+
+            if (rejects == Config.FieldHeight * Config.FieldWidth)
+            {
+                killedCells.Add(previousCell);
+            }
+        }
+
+        if (killedCells.Count == 0)
+        {
+            return null;
+        }
+
+        return killedCells;
+    }
 }

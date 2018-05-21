@@ -18,7 +18,8 @@ public class GameView : MonoBehaviour
 	// Use this for initialization
     private void Awake () {
 	    EventSystem.ModelModified += RefreshField;
-	}
+    }
+
 
     private void RefreshField(object sender, EventArgs e)
     {
@@ -124,24 +125,15 @@ public class GameView : MonoBehaviour
 
     private void CheckDataAvailability()
     {
-        bool isDataAvailable = false;
-        foreach (var cellView in Field)
+        List<Cell> killedCells = GameModel.GetKilledCells();
+        if (killedCells == null)
         {
-            if (cellView == null) continue;
-            foreach (var cellData in GameModel.GameField)
-            {
-                if(cellData == null)continue;
-                if (cellView.CellData.id == cellData.id)
-                {
-                    isDataAvailable = true;
-                }
-            }
-
-            if (!isDataAvailable)
-            {
-                Field[cellView.CellData.y, cellView.CellData.x].Kill();
-                Field[cellView.CellData.y, cellView.CellData.x] = null;
-            }
+            return;
+        }
+        foreach (var cell in killedCells)
+        {
+            //Clear this cellView from Field[] here!!!
+            GetCellViewByData(cell).Kill();
         }
     }
 }

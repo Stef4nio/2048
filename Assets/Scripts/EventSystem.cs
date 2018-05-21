@@ -10,21 +10,25 @@ public static class EventSystem {
 
     public static void OnSwipeInvoke(object sender, InputEventArg arg)
     {
-        OnSwipe.Invoke(null, arg);
+        if (OnSwipe != null)
+        {
+            OnSwipe.Invoke(null, arg);
+        }
     }
 
     public static void ModelModifiedInvoke(object sender)
     {
-        ModelModified.Invoke(null, EventArgs.Empty);
+        if (ModelModified != null)
+        {
+            ModelModified.Invoke(null, EventArgs.Empty);
+        }
     }
-
-    
-
 }
 
-public class InputEventArg : System.EventArgs
+public class InputEventArg : EventArgs
 {
     public Directions CurrDirection;
 }
+
 
 

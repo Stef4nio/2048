@@ -17,6 +17,7 @@ public class CellView : MonoBehaviour
 
     private RectTransform _rectTransform;
 
+
     public int Width
     {
         get

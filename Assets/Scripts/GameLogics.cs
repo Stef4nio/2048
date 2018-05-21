@@ -61,6 +61,15 @@ public class GameLogics:MonoBehaviour{
         EventSystem.ModelModifiedInvoke(this);
     }
 
+
+    private void SetPreviousTurn()
+    {
+        foreach (var cell in GameModel.GameField)
+        {
+            GameModel.SetCellToPrevious(cell.x,cell.y,cell);
+        }
+    }
+
     private void AddRandomCell()
     {
         int rndX = 0;
