@@ -98,7 +98,7 @@ public class GameLogics:MonoBehaviour{
         do
         {
             changes = 0;
-            for (int i = 1; i < row.Length; i++)
+            for (int i = row.Length-1; i > 0 ; i--)
             {
                 if (row[i] != null && row[i - 1] == null)
                 {

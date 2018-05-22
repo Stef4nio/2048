@@ -133,6 +133,16 @@ public class GameView : MonoBehaviour
         foreach (var cell in killedCells)
         {
             //Clear this cellView from Field[] here!!!
+            for (int i = 0; i < Config.FieldHeight; i++)
+            {
+                for (int j = 0; j < Config.FieldWidth; j++)
+                {
+                    if (Field[i, j].CellData.id == cell.id)
+                    {
+                        Field[i, j] = null;
+                    }
+                }
+            }
             GetCellViewByData(cell).Kill();
         }
     }
