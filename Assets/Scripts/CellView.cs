@@ -13,7 +13,22 @@ public class CellView : MonoBehaviour
     [SerializeField]
     private Text _IdText;
 
-    public Cell CellData;
+    private Cell _cellData;
+
+    public Cell CellData
+    {
+        get { return _cellData; }
+    }
+
+    public void SetCellData(Cell cellData)
+    {
+        _cellData = cellData;
+
+        UpdateText();
+        SetPosition(new Vector3(_cellData.x * (Width + Config.CellViewSpacing),
+            -_cellData.y * (Height + Config.CellViewSpacing)));
+
+    }
 
     private RectTransform _rectTransform;
 
@@ -51,10 +66,10 @@ public class CellView : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void ChangeText()
+    public void UpdateText()
     {
-        SetText(CellData.value.ToString());
-        _IdText.text = CellData.id.ToString();
+        SetText(_cellData.value.ToString());
+        _IdText.text = _cellData.id.ToString();
     }
 
 
@@ -66,14 +81,28 @@ public class CellView : MonoBehaviour
         }
     }
 
-    public void Move()
+    public void Move(Action onComplete)
     {
-        transform.DOLocalMove(new Vector3(CellData.x * (Width + Config.CellViewSpacing), -CellData.y * (Height + Config.CellViewSpacing)),1f);
-        CellData.offset = 0;
-        if (CellData.isMultiply)
+        
+        var prevCellData = GameModel.GetPreviousCellById(_cellData.id);
+        Debug.Log("MOVE: " + prevCellData.ToString() + " ==> " +  _cellData.ToString());
+
+        transform.DOLocalMove(new Vector3((prevCellData.x+_cellData.offsetX) * (Width + Config.CellViewSpacing),
+            -(prevCellData.y+_cellData.offsetY) * (Height + Config.CellViewSpacing)), Config.MovingTime).onComplete = () =>
         {
-            ChangeText();
-            CellData.isMultiply = false;
+            _cellData.offsetX = 0;
+            _cellData.offsetY = 0;
+            if (onComplete != null)
+            {
+                onComplete();
+            }
+        };
+
+
+        if (_cellData.isMultiply)
+        {
+            UpdateText();
+            _cellData.isMultiply = false;
         }
     }
 

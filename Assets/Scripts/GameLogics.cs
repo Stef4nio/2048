@@ -5,7 +5,16 @@ using Assets.Scripts;
 using UnityEngine;
 
 public class GameLogics:MonoBehaviour{
-    System.Random rand = new System.Random();
+    System.Random _rand;
+
+    private void Awake()
+    {
+        var seed = Environment.TickCount;
+        
+        seed = 5;
+        _rand = new System.Random(seed);
+        Debug.Log("SEED=" + seed);
+    }
 
     private void Start()
     {
@@ -13,44 +22,40 @@ public class GameLogics:MonoBehaviour{
         AddRandomCell();
         AddRandomCell();
         EventSystem.ModelModifiedInvoke(this);
+        
     }
 
     private void OnSwipe(object sender, InputEventArg e)
     {
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            for (int j = 0; j < Config.FieldWidth; j++)
-            {
-                GameModel.SetCellToPrevious(j,i, GameModel.GetCell(j, i));
-            }
-        }
+        GameModel.SavePreviousState();
+
         switch(e.CurrDirection)
         {
             case Directions.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i),false),i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection),i);
                 }
                 break;
 
             case Directions.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), true), i);
+                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection), i);
                 }
                 break;
 
             case Directions.Left:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    GameModel.SetRow(Compressor(GameModel.GetRow(i), false), i);
+                    GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
                 }
                 break;
 
             case Directions.Right:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    GameModel.SetRow(Compressor(GameModel.GetRow(i), true), i);
+                    GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
                 }
                 break;
         }
@@ -58,67 +63,113 @@ public class GameLogics:MonoBehaviour{
         {
             AddRandomCell();
         }
+
+
+
+        GameModel.State = GameState.Moving;
         EventSystem.ModelModifiedInvoke(this);
     }
 
-
-    private void SetPreviousTurn()
-    {
-        foreach (var cell in GameModel.GameField)
-        {
-            GameModel.SetCellToPrevious(cell.x,cell.y,cell);
-        }
-    }
 
     private void AddRandomCell()
     {
         int rndX = 0;
         int rndY = 0;
         bool isSet = false;
-        int rndValue = rand.Next(100) <= 80 ? 2 : 4;
+        int rndValue = _rand.Next(100) <= 80 ? 2 : 4;
         while (!isSet)
         {
-            rndX = rand.Next(Config.FieldWidth);
-            rndY = rand.Next(Config.FieldHeight);
+            rndX = _rand.Next(Config.FieldWidth);
+            rndY = _rand.Next(Config.FieldHeight);
             if(!GameModel.DoesCellExist(rndX,rndY))
             {
                 isSet = true;
-                GameModel.SetCell(rndX, rndY, rndValue);
+                GameModel.CreateAndSetCell(rndX, rndY, rndValue);
             }
         }
     }
 
-    private Cell[] Compressor (Cell[] row, bool isReverse)
+    private Cell[] Compressor (Cell[] row, Directions directions)
     {
         int changes;
-        if (isReverse)
+        if (directions==Directions.Down || directions == Directions.Right)
         {
             Array.Reverse(row);
         }
+
         do
         {
             changes = 0;
-            for (int i = row.Length-1; i > 0 ; i--)
+            for (int i = 1; i < row.Length; i++)
             {
                 if (row[i] != null && row[i - 1] == null)
                 {
+                    switch (directions)
+                    {
+                        case Directions.Up:
+                            row[i].offsetY--;
+                            break;
+                        case Directions.Down:
+                            row[i].offsetY++;
+                            break;
+                        case Directions.Left:
+                            row[i].offsetX--;
+                            break;
+                        case Directions.Right:
+                            row[i].offsetX++;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException("directions", directions, null);
+                    }
+
                     row[i - 1] = row[i];
                     row[i] = null;
-                    row[i - 1].offset++;
+
+                   
                     changes++;
+                    continue;
                 }
-                if (row[i] != null && row[i - 1] != null && !(row[i].isMultiply || row[i - 1].isMultiply) && row[i - 1].value == row[i].value)
+
+                if (row[i] != null && row[i - 1] != null && 
+                    !(row[i].isMultiply || row[i - 1].isMultiply) && 
+                    row[i - 1].value == row[i].value)
                 {
-                    row[i].value *= 2;
-                    row[i - 1] = row[i];
+                    row[i - 1].isReadyToDestroy = true;
+                    row[i].isReadyToDestroy = true;
+                    Debug.Log("READY TO DESTROY: "+ row[i].ToString());
+                    Debug.Log("READY TO DESTROY: "+ row[i - 1].ToString());
+                    var newCell = CellFactory.CreateCell(row[i].value *= 2);
+                    GameModel.RegisterCell(newCell);
+
+                    newCell.isMultiply = true;
+
+                    switch (directions)
+                    {
+                        case Directions.Up:
+                            row[i].offsetY--;
+                            break;
+                        case Directions.Down:
+                            row[i].offsetY++;
+                            break;
+                        case Directions.Left:
+                            row[i].offsetX--;
+                            break;
+                        case Directions.Right:
+                            row[i].offsetX++;
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException("directions", directions, null);
+                    }
+
+                    row[i - 1] = newCell;
                     row[i] = null;
-                    row[i - 1].isMultiply = true;
-                    row[i - 1].offset++;
+
                     changes++;
                 }
             }
         } while (changes != 0);
-        if (isReverse)
+
+        if (directions == Directions.Down || directions == Directions.Right)
         {
             Array.Reverse(row);
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 public static class EventSystem {
 
     public static event EventHandler<InputEventArg> OnSwipe;
-    public static event EventHandler ModelModified;
+    public static event EventHandler OnModelModified;
 
     public static void OnSwipeInvoke(object sender, InputEventArg arg)
     {
@@ -18,9 +18,9 @@ public static class EventSystem {
 
     public static void ModelModifiedInvoke(object sender)
     {
-        if (ModelModified != null)
+        if (OnModelModified != null)
         {
-            ModelModified.Invoke(null, EventArgs.Empty);
+            OnModelModified.Invoke(null, EventArgs.Empty);
         }
     }
 }

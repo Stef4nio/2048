@@ -10,6 +10,11 @@ namespace Assets.Scripts
         public const int FieldWidth = 4;
         public const int FieldHeight = 4;
         public const int CellViewSpacing = 13;
-        public static Directions CurrentDirection;
+        public const float MovingTime = 0.3f;
     }
 }
+
+
+
+
+//TODO restore iddle state when no movement

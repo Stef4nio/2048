@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using DG.Tweening;
 using UnityEngine;
@@ -13,141 +14,85 @@ public class GameView : MonoBehaviour
     [SerializeField] private Transform _gamePanelTransform;
     [SerializeField] private GameObject _cellPrefab;
 
-    private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
+    //private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
 
-	// Use this for initialization
+    private List<CellView> _cellViews = new List<CellView>();
+    private int _movingCellsAmount;
+
+
+    // Use this for initialization
     private void Awake () {
-	    EventSystem.ModelModified += RefreshField;
+	    EventSystem.OnModelModified += RefreshField;
     }
 
 
-    private void RefreshField(object sender, EventArgs e)
+    private void RefreshField(object sender=null, EventArgs e = null)
     {
-        CheckDataAvailability();
-        for (var i = 0; i < Config.FieldHeight; i++)
+        //CheckDataAvailability();
+        DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+
+        _movingCellsAmount = 0;
+        foreach (Cell cell in GameModel.AllCells)
         {
-            for (var j = 0; j < Config.FieldWidth; j++)
+            if (GameModel.State == GameState.Idle)
             {
-                _testTexts[i * 4 + j].text = (GameModel.GameField[i, j] ?? new Cell(0, 0)).value.ToString();
-                _IDsTexts[i * 4 + j].text =
-                    GameModel.GameField[i, j] != null ?GameModel.GameField[i, j].id.ToString() : "N/A";
-            }
-        }
-        /* for (int i = 0; i < Config.FieldHeight; i++)
-         {
-             for (int j = 0; j < Config.FieldWidth; j++)
-             {
-                 Cell currentCell = GameModel.GetCell(j, i);
-                 if (Field[i, j] == null && currentCell != null)
-                 {
-                     var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
-                     cellView.CellData = currentCell;
-                     cellView.ChangeText();
-                     cellView.SetPosition(new Vector3(cellView.CellData.x * (cellView.Width+Config.CellViewSpacing), cellView.CellData.y * (cellView.Height + Config.CellViewSpacing)));
-                     Field[i, j] = cellView;
-                 }
-                 else if (Field[i, j] != null && currentCell == null)
-                 {
-                     Field[i, j].Kill();
-                     Field[i, j] = null;
-                 }
-                 else if(Field[i, j] != null && currentCell != null)
-                 {
-                     Field[i, j].ChangeText();
-                 }
-
-
-                 //immitate that animations are done
-                 if (currentCell != null)
-                 {
-                     currentCell.isMultiply = false;
-                     currentCell.offset = 0;
-                 }
-             }
-         }*/
-
-        foreach (var cell in GameModel.GameField)
-        {
-            if (cell == null)
-            {
-                continue;
-            }
                 if (cell.isNew)
                 {
                     var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
                     cell.isNew = false;
-                    cellView.CellData = cell;
-                    cellView.ChangeText();
-                    cellView.SetPosition(new Vector3(cellView.CellData.x * (cellView.Width + Config.CellViewSpacing),
-                        -cellView.CellData.y* (cellView.Height + Config.CellViewSpacing)));
-                    Field[cellView.CellData.y,cellView.CellData.x] = cellView;
+                    cellView.SetCellData(cell);
+                    _cellViews.Add(cellView);
                 }
+            }
 
-                if (cell.offset > 0)
+
+            if (GameModel.State == GameState.Moving)
+            {
+                if (cell.offsetX != 0 ||
+                    cell.offsetY != 0)
                 {
-                    /*if (Field[cell.y, cell.x] != null && Field[cell.y, cell.x].CellData == null)
-                    {
-                        Field[cell.y, cell.x].Kill();
-                        Field[cell.y, cell.x] = null;
-                    }*/
-                    var currCellView = GetCellViewByData(cell);
-                    Field[cell.y, cell.x] = currCellView;
-                    Field[cell.y, cell.x].Move();
+
+                    var currCellView = GetCellViewById(cell.id);
+                    _movingCellsAmount++;
+                    currCellView.Move(OnMovementFinished);
                 }
-           
-        }
+            }
 
+        }
 
     }
 
-    private CellView GetCellViewByData(Cell data)
+    private void OnMovementFinished()
     {
-        foreach (var View in Field)
+        _movingCellsAmount--;
+        if (_movingCellsAmount <= 0)
         {
-            if (View == null)
+            _movingCellsAmount = 0;
+            GameModel.State = GameState.Idle;
+            RefreshField();
+
+            for (int i = _cellViews.Count-1; i >= 0; i--)
             {
-                continue;
-            }
-
-            if (View.CellData == data)
-            {
-                return View;
-            }
-        }
-
-        return null;
-    }
-
-    // Update is called once per frame
-    private void Update () {
-		
-	}
-
-    private void CheckDataAvailability()
-    {
-        List<Cell> killedCells = GameModel.GetKilledCells();
-        if (killedCells == null)
-        {
-            return;
-        }
-        foreach (var cell in killedCells)
-        {
-            //Clear this cellView from Field[] here!!!
-            for (int i = 0; i < Config.FieldHeight; i++)
-            {
-                for (int j = 0; j < Config.FieldWidth; j++)
+                var cellView = _cellViews[i];
+                if (cellView.CellData.isReadyToDestroy)
                 {
-                    if (Field[i, j] == null)
-                    {
-                        continue;
-                    }
-                    if (Field[i, j].CellData.id == cell.id)
-                    {
-                        GetCellViewByData(cell).Kill();
-                        Field[i, j] = null;
-                    }
+                    Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString()+"</color>");
+                    GameModel.UnregisterCell(cellView.CellData.id);
+                    cellView.Kill();
+                    _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
                 }
             }
+
+            GameModel.ResetMultiplies();
+
+            DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         }
     }
+
+    private CellView GetCellViewById(int cellId)
+    {
+        return _cellViews.FirstOrDefault(c => c.CellData.id == cellId);
+    }
+
+ 
 }
