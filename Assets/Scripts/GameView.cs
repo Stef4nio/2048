@@ -137,13 +137,17 @@ public class GameView : MonoBehaviour
             {
                 for (int j = 0; j < Config.FieldWidth; j++)
                 {
+                    if (Field[i, j] == null)
+                    {
+                        continue;
+                    }
                     if (Field[i, j].CellData.id == cell.id)
                     {
+                        GetCellViewByData(cell).Kill();
                         Field[i, j] = null;
                     }
                 }
             }
-            GetCellViewByData(cell).Kill();
         }
     }
 }

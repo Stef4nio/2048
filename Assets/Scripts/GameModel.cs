@@ -115,6 +115,7 @@ public static class GameModel {
             {
                 if (cell == null)
                 {
+                    rejects++;
                     continue;
                 }
 
