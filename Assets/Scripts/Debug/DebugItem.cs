@@ -18,7 +18,7 @@ public class DebugItem : MonoBehaviour
     private Text _currentValue;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         _currentValue = GetComponent<Text>();
         _currentValue.text = "x";
         _id.text = "x";

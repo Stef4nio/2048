@@ -21,7 +21,7 @@ public class GameLogics:MonoBehaviour{
         EventSystem.OnSwipe += OnSwipe;
         AddRandomCell();
         AddRandomCell();
-        EventSystem.ModelModifiedInvoke(this);
+        EventSystem.ModelModifiedInvoke();
         
     }
 
@@ -59,15 +59,21 @@ public class GameLogics:MonoBehaviour{
                 }
                 break;
         }
+
+        if (GameModel.isGameModelFilledUp() && IsLose())
+        {
+            EventSystem.OnGameOverInvoke();
+        }
+
         if (!GameModel.CompareLastAndCurrentMove())
         {
             AddRandomCell();
+            GameModel.State = GameState.Moving;
         }
 
 
 
-        GameModel.State = GameState.Moving;
-        EventSystem.ModelModifiedInvoke(this);
+        EventSystem.ModelModifiedInvoke();
     }
 
 
@@ -87,6 +93,34 @@ public class GameLogics:MonoBehaviour{
                 GameModel.CreateAndSetCell(rndX, rndY, rndValue);
             }
         }
+    }
+
+
+    private bool IsLose()
+    {
+        Cell[,] tempCells = new Cell[Config.FieldHeight,Config.FieldWidth];
+        tempCells = (Cell[,]) GameModel.GameField.Clone();
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            GameModel.SetColumn(Compressor(GameModel.GetColumn(i),Directions.Up), i);
+        }
+
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            GameModel.SetColumn(Compressor(GameModel.GetColumn(i), Directions.Down), i);
+        }
+
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            GameModel.SetColumn(Compressor(GameModel.GetColumn(i), Directions.Left), i);
+        }
+
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            GameModel.SetColumn(Compressor(GameModel.GetColumn(i),Directions.Right), i);
+        }
+
+        return GameModel.IsEqual(tempCells,GameModel.GameField);
     }
 
     private Cell[] Compressor (Cell[] row, Directions directions)

@@ -101,7 +101,7 @@ public class InputDetecter : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("Swipe right DENIED!");
+                    Debug.Log("Swipe left DENIED!");
                 }
 
             }
@@ -115,7 +115,7 @@ public class InputDetecter : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("Swipe right DENIED!");
+                    Debug.Log("Swipe up DENIED!");
                 }
 
             }
@@ -129,7 +129,7 @@ public class InputDetecter : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("Swipe right DENIED!");
+                    Debug.Log("Swipe down DENIED!");
                 }
 
             }

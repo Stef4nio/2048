@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class GameView : MonoBehaviour
 {
     [SerializeField] private Text[] _testTexts = new Text[16];
+    [SerializeField] private GameOverPanel GameOverPanel;
     [SerializeField] private Text[] _IDsTexts = new Text[16];
     [SerializeField] private Transform _gamePanelTransform;
     [SerializeField] private GameObject _cellPrefab;
@@ -21,10 +22,16 @@ public class GameView : MonoBehaviour
 
 
     // Use this for initialization
-    private void Awake () {
+    private void Awake ()
+    {
 	    EventSystem.OnModelModified += RefreshField;
+        EventSystem.OnGameOver += FinishGame;
     }
 
+    private void FinishGame(object sender, EventArgs e)
+    {
+        GameOverPanel.OnGameLost();
+    }
 
     private void RefreshField(object sender=null, EventArgs e = null)
     {
