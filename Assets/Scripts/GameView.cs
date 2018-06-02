@@ -33,6 +33,7 @@ public class GameView : MonoBehaviour
         GameOverPanel.OnGameLost();
     }
 
+
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();

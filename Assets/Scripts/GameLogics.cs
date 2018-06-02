@@ -25,6 +25,7 @@ public class GameLogics:MonoBehaviour{
         
     }
 
+
     private void OnSwipe(object sender, InputEventArg e)
     {
         GameModel.SavePreviousState();
@@ -76,6 +77,17 @@ public class GameLogics:MonoBehaviour{
         EventSystem.ModelModifiedInvoke();
     }
 
+
+    public void Undo()
+    {
+        for (int i = 0; i < Config.FieldWidth; i++)
+        {
+            GameModel.SetRow(GameModel.GetRowToPrevious(i), i);
+        }
+
+        GameModel.State = GameState.Moving;
+        EventSystem.ModelModifiedInvoke();
+    }
 
     private void AddRandomCell()
     {

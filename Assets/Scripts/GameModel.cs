@@ -51,12 +51,6 @@ public static class GameModel
         return(GameField[y,x]!=null);
     }
 
-
-    public static Cell GetCellFromPrevious(int x, int y)
-    {
-        return GameField[y, x];
-    }
-
     public static void SetRow(Cell[] row, int rowPosition)
     {
         for(int i = 0;i<row.Length;i++)
@@ -66,6 +60,20 @@ public static class GameModel
             {
                 GameField[rowPosition, i].x = i;
                 GameField[rowPosition, i].y = rowPosition;
+            }
+        }
+        //EventSystem.ModelModifiedInvoke(null);
+    }
+
+    public static void SetRowToPrevious(Cell[] row, int rowPosition)
+    {
+        for (int i = 0; i < row.Length; i++)
+        {
+            PreviousMoveField[rowPosition, i] = row[i];
+            if (PreviousMoveField[rowPosition, i] != null)
+            {
+                PreviousMoveField[rowPosition, i].x = i;
+                PreviousMoveField[rowPosition, i].y = rowPosition;
             }
         }
         //EventSystem.ModelModifiedInvoke(null);
@@ -85,12 +93,36 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    public static void SetColumnToPrevious(Cell[] column, int columnPosition)
+    {
+        for (int i = 0; i < column.Length; i++)
+        {
+            PreviousMoveField[i, columnPosition] = column[i];
+            if (PreviousMoveField[i, columnPosition] != null)
+            {
+                PreviousMoveField[i, columnPosition].x = columnPosition;
+                PreviousMoveField[i, columnPosition].y = i;
+            }
+        }
+        //EventSystem.ModelModifiedInvoke(null);
+    }
+
     public static Cell[] GetColumn(int columnPosition)
     {
         Cell[] output = new Cell[Config.FieldHeight];
         for (int i = 0; i < Config.FieldHeight; i++)
         {
             output[i] = GameField[i, columnPosition];
+        }
+        return output;
+    }
+
+    public static Cell[] GetColumnToPrevious(int columnPosition)
+    {
+        Cell[] output = new Cell[Config.FieldHeight];
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            output[i] = PreviousMoveField[i, columnPosition];
         }
         return output;
     }
@@ -104,6 +136,17 @@ public static class GameModel
         }
         return output;
     }
+
+    public static Cell[] GetRowToPrevious(int rowPosition)
+    {
+        Cell[] output = new Cell[Config.FieldWidth];
+        for (int i = 0; i < Config.FieldWidth; i++)
+        {
+            output[i] = PreviousMoveField[rowPosition, i];
+        }
+        return output;
+    }
+
 
     public static bool CompareLastAndCurrentMove()
     {
