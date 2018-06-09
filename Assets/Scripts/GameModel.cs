@@ -93,6 +93,34 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    internal static void Undo()
+    {
+        for (int i = 0; i < Config.FieldHeight; i++)
+        {
+            for (int j = 0; j < Config.FieldWidth; j++)
+            {
+                if (GameField[i, j] != null)
+                {
+                    AllCells.Find(c => c.id == GameField[i, j].id).isReadyToDestroy = true;
+                    Debug.Log("READY TO DESTROY: " + GameField[i, j].ToString());
+                }
+
+                GameField[i, j] = GetCellFromPrevious(j,i);
+                if (GameField[i, j] != null)
+                {
+                    RegisterCell(GameField[i, j]);
+                    GameField[i, j].isNew = true;
+                }
+            }
+        }
+
+    }
+
+    public static Cell GetCellFromPrevious(int x, int y)
+    {
+        return PreviousMoveField[y, x];
+    }
+
     public static void SetColumnToPrevious(Cell[] column, int columnPosition)
     {
         for (int i = 0; i < column.Length; i++)
@@ -182,7 +210,7 @@ public static class GameModel
         return true;
     }
 
-    public static List<Cell> GetKilledCells()
+    /*public static List<Cell> GetKilledCells()
     {
         List<Cell> killedCells = new List<Cell>();
         foreach (var previousCell in PreviousMoveField)
@@ -218,7 +246,7 @@ public static class GameModel
         }
 
         return killedCells;
-    }
+    }*/
 
     public static void SavePreviousState()
     {
@@ -227,6 +255,11 @@ public static class GameModel
             for (int i = 0; i < Config.FieldWidth; i++)
             {
                 PreviousMoveField[j, i] = GameField[j, i]!=null ? GameField[j, i].Clone() : null;
+                //IDs of cells in current and previous state cannot be the same
+                /*if (PreviousMoveField[i, j] != null)
+                {
+                    PreviousMoveField[i, j].id += 100;
+                }*/
             }
         }
 

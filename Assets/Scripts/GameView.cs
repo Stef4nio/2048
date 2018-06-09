@@ -65,8 +65,26 @@ public class GameView : MonoBehaviour
                     currCellView.Move(OnMovementFinished);
                 }
             }
-
         }
+
+    }
+
+
+    public void Undo()
+    {
+        GameModel.Undo();
+        for (int i = 0; i < GameModel.AllCells.Count; i++)
+        {
+            if (GameModel.AllCells[i].isReadyToDestroy)
+            {
+                CellView cellView = GetCellViewById(GameModel.AllCells[i].id);
+                Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString() + "</color>");
+                GameModel.UnregisterCell(cellView.CellData.id);
+                cellView.Kill();
+                _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
+            }
+        }
+        RefreshField();
 
     }
 
