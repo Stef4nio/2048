@@ -19,9 +19,14 @@ public static class GameModel
     public static GameState State = GameState.Idle;
 
     public static List<Cell> AllCells = new List<Cell>();
-
+    public static int GameScore = 0;
+    public static int GameHighScore = 0;
+    public static int PreviousGameScore = 0;
+    public static bool isUndone = false;
     public static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
     public static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public static Cell[,] TemporaryMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+
 
 
     public static Cell CreateAndSetCell(int _x,int _y,int value)
@@ -40,10 +45,18 @@ public static class GameModel
         AllCells.Add(cell);
     }
 
-    public static void UnregisterCell(int id)
+    public static void UnregisterCell(int id, bool isUndo = false)
     {
-        int amount = AllCells.RemoveAll(c => c.id == id);
-        Debug.Log("From AllCells removed "+amount+" elements");
+        int amount = 0;
+        if (isUndo)
+        {
+            amount = AllCells.RemoveAll(c => c.id == id&&c.isReadyToDestroy);
+        }
+        else
+        {
+            amount = AllCells.RemoveAll(c => c.id == id);
+        }
+        Debug.Log("From AllCells removed " + amount + " elements");
     }
 
     public static bool DoesCellExist(int x, int y)
@@ -95,13 +108,14 @@ public static class GameModel
 
     internal static void Undo()
     {
+        GameScore = PreviousGameScore;
         for (int i = 0; i < Config.FieldHeight; i++)
         {
             for (int j = 0; j < Config.FieldWidth; j++)
             {
                 if (GameField[i, j] != null)
                 {
-                    AllCells.Find(c => c.id == GameField[i, j].id).isReadyToDestroy = true;
+                    AllCells.Find(c => c == GameField[i, j]).isReadyToDestroy = true;
                     Debug.Log("READY TO DESTROY: " + GameField[i, j].ToString());
                 }
 
@@ -145,16 +159,6 @@ public static class GameModel
         return output;
     }
 
-    public static Cell[] GetColumnToPrevious(int columnPosition)
-    {
-        Cell[] output = new Cell[Config.FieldHeight];
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            output[i] = PreviousMoveField[i, columnPosition];
-        }
-        return output;
-    }
-
     public static Cell[] GetRow(int rowPosition)
     {
         Cell[] output = new Cell[Config.FieldWidth];
@@ -164,19 +168,9 @@ public static class GameModel
         }
         return output;
     }
+ 
 
-    public static Cell[] GetRowToPrevious(int rowPosition)
-    {
-        Cell[] output = new Cell[Config.FieldWidth];
-        for (int i = 0; i < Config.FieldWidth; i++)
-        {
-            output[i] = PreviousMoveField[rowPosition, i];
-        }
-        return output;
-    }
-
-
-    public static bool CompareLastAndCurrentMove()
+    public static bool AreLastAndCurrentMoveEqual()
     {
         for (int i = 0; i < Config.FieldHeight; i++)
         {
@@ -186,6 +180,13 @@ public static class GameModel
                 {
                     return false;
                 }
+            }
+        }
+        for (int j = 0; j < Config.FieldHeight; j++)
+        {
+            for (int i = 0; i < Config.FieldWidth; i++)
+            {
+                PreviousMoveField[j, i] = TemporaryMoveField[j, i] != null ? TemporaryMoveField[j, i].Clone() : null;
             }
         }
         return true;
@@ -210,60 +211,26 @@ public static class GameModel
         return true;
     }
 
-    /*public static List<Cell> GetKilledCells()
-    {
-        List<Cell> killedCells = new List<Cell>();
-        foreach (var previousCell in PreviousMoveField)
-        {
-            if (previousCell == null)
-            {
-                continue;
-            }
-            int rejects = 0;
-            foreach (var cell in GameField)
-            {
-                if (cell == null)
-                {
-                    rejects++;
-                    continue;
-                }
-
-                if (previousCell.id != cell.id)
-                {
-                    rejects++;
-                }
-            }
-
-            if (rejects == Config.FieldHeight * Config.FieldWidth)
-            {
-                killedCells.Add(previousCell);
-            }
-        }
-
-        if (killedCells.Count == 0)
-        {
-            return null;
-        }
-
-        return killedCells;
-    }*/
 
     public static void SavePreviousState()
     {
+        PreviousGameScore = GameScore;
         for (int j = 0; j < Config.FieldHeight; j++)
         {
             for (int i = 0; i < Config.FieldWidth; i++)
             {
-                PreviousMoveField[j, i] = GameField[j, i]!=null ? GameField[j, i].Clone() : null;
-                //IDs of cells in current and previous state cannot be the same
-                /*if (PreviousMoveField[i, j] != null)
-                {
-                    PreviousMoveField[i, j].id += 100;
-                }*/
+                TemporaryMoveField[j, i] = PreviousMoveField[j, i] != null ? PreviousMoveField[j, i].Clone() : null;
+            }
+        }
+        for (int j = 0; j < Config.FieldHeight; j++)
+        {
+            for (int i = 0; i < Config.FieldWidth; i++)
+            {
+                PreviousMoveField[j, i] = GameField[j, i] != null ? GameField[j, i].Clone() : null;
             }
         }
 
-        DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
+        //DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
     }
 
     public static bool isGameModelFilledUp()

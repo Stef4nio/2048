@@ -66,10 +66,11 @@ public class GameLogics:MonoBehaviour{
             EventSystem.OnGameOverInvoke();
         }
 
-        if (!GameModel.CompareLastAndCurrentMove())
+        if (!GameModel.AreLastAndCurrentMoveEqual())
         {
             AddRandomCell();
             GameModel.State = GameState.Moving;
+            GameModel.isUndone = false;
         }
 
 
@@ -95,6 +96,16 @@ public class GameLogics:MonoBehaviour{
         }
     }
 
+
+    public void Undo()
+    {
+        if (!GameModel.isUndone)
+        {
+            GameModel.Undo();
+            EventSystem.OnUndoInvoke();
+            GameModel.isUndone = true;
+        }        
+    }
 
     private bool IsLose()
     {
@@ -197,7 +208,7 @@ public class GameLogics:MonoBehaviour{
 
                     row[i - 1] = newCell;
                     row[i] = null;
-
+                    GameModel.GameScore += row[i - 1].value;
                     changes++;
                 }
             }
@@ -206,6 +217,11 @@ public class GameLogics:MonoBehaviour{
         if (directions == Directions.Down || directions == Directions.Right)
         {
             Array.Reverse(row);
+        }
+
+        if (GameModel.GameScore > GameModel.GameHighScore)
+        {
+            GameModel.GameHighScore = GameModel.GameScore;
         }
         return row;
     }

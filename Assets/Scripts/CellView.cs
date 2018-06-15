@@ -25,8 +25,8 @@ public class CellView : MonoBehaviour
         _cellData = cellData;
 
         UpdateText();
-        SetPosition(new Vector3(_cellData.x * (Width + Config.CellViewSpacing),
-            -_cellData.y * (Height + Config.CellViewSpacing)));
+        SetPosition(new Vector3(Config.PaddingX + _cellData.x * (Width + Config.CellViewSpacing),
+            -Config.PaddingX-_cellData.y * (Height + Config.CellViewSpacing)));
 
     }
 
@@ -87,8 +87,8 @@ public class CellView : MonoBehaviour
         var prevCellData = GameModel.GetPreviousCellById(_cellData.id);
         Debug.Log("MOVE: " + prevCellData.ToString() + " ==> " +  _cellData.ToString());
 
-        transform.DOLocalMove(new Vector3((prevCellData.x+_cellData.offsetX) * (Width + Config.CellViewSpacing),
-            -(prevCellData.y+_cellData.offsetY) * (Height + Config.CellViewSpacing)), Config.MovingTime).onComplete = () =>
+        transform.DOLocalMove(new Vector3((prevCellData.x+_cellData.offsetX) * (Width + Config.CellViewSpacing) + Config.PaddingX,
+            -(prevCellData.y+_cellData.offsetY) * (Height + Config.CellViewSpacing) - Config.PaddingX), Config.MovingTime).onComplete = () =>
         {
             _cellData.offsetX = 0;
             _cellData.offsetY = 0;

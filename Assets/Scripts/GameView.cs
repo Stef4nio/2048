@@ -9,11 +9,13 @@ using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
-    [SerializeField] private Text[] _testTexts = new Text[16];
     [SerializeField] private GameOverPanel GameOverPanel;
-    [SerializeField] private Text[] _IDsTexts = new Text[16];
     [SerializeField] private Transform _gamePanelTransform;
     [SerializeField] private GameObject _cellPrefab;
+    [SerializeField] private Button _undoButton;
+    [SerializeField] private Text _scoreText;
+    [SerializeField] private Text _HighScoreText;
+
 
     //private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
 
@@ -26,6 +28,33 @@ public class GameView : MonoBehaviour
     {
 	    EventSystem.OnModelModified += RefreshField;
         EventSystem.OnGameOver += FinishGame;
+        EventSystem.OnUndo += Undo;
+        _scoreText.text = "0";
+    }
+
+    private void Undo(object sender, EventArgs e)
+    {
+        if (GameModel.State == GameState.Idle)
+        {
+            for (int i = 0; i < GameModel.AllCells.Count; i++)
+            {
+                if (GameModel.AllCells[i].isReadyToDestroy)
+                {
+                    CellView cellView = GetCellViewById(GameModel.AllCells[i].id);
+                    Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString() + "</color>");
+                    GameModel.UnregisterCell(cellView.CellData.id, true);
+                    cellView.Kill();
+                    i--;
+                    _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
+                }
+            }
+
+            RefreshField();
+        }
+        else
+        {
+            Debug.Log("Undo DENIED!");
+        }
     }
 
     private void FinishGame(object sender, EventArgs e)
@@ -37,8 +66,9 @@ public class GameView : MonoBehaviour
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();
-        DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
-
+        //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+        _scoreText.text = GameModel.GameScore.ToString();
+        _HighScoreText.text = GameModel.GameHighScore.ToString();
         _movingCellsAmount = 0;
         foreach (Cell cell in GameModel.AllCells)
         {
@@ -70,23 +100,7 @@ public class GameView : MonoBehaviour
     }
 
 
-    public void Undo()
-    {
-        GameModel.Undo();
-        for (int i = 0; i < GameModel.AllCells.Count; i++)
-        {
-            if (GameModel.AllCells[i].isReadyToDestroy)
-            {
-                CellView cellView = GetCellViewById(GameModel.AllCells[i].id);
-                Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString() + "</color>");
-                GameModel.UnregisterCell(cellView.CellData.id);
-                cellView.Kill();
-                _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
-            }
-        }
-        RefreshField();
-
-    }
+   
 
     private void OnMovementFinished()
     {
@@ -111,7 +125,7 @@ public class GameView : MonoBehaviour
 
             GameModel.ResetMultiplies();
 
-            DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+           //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         }
     }
 

@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 83cf95491b45786499a58a154d60a7c6
+timeCreated: 1528912029
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Clear Sans
+  fontNames:
+  - Clear Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 12f1fb16f8416454197e3fd9e0a45b61, type: 3}
+  - {fileID: 12800000, guid: 431e57c9743146c41ab6ced739e4ea77, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
