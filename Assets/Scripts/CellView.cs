@@ -6,14 +6,15 @@ using Assets.Scripts;
 using DG;
 using DG.Tweening;
 
+[RequireComponent(typeof(Image))]
 public class CellView : MonoBehaviour
 {
     [SerializeField]
     private Text _text;
     [SerializeField]
     private Text _IdText;
-
     private Cell _cellData;
+    private Sequence _multiplication;
 
     public Cell CellData
     {
@@ -55,6 +56,11 @@ public class CellView : MonoBehaviour
         _text.text = text;
     }
 
+    private void SetTextColor(Color color)
+    {
+        _text.color = color;
+    }
+
     public void SetPosition(Vector2 pos)
     {
         GetRectTransform();
@@ -69,6 +75,16 @@ public class CellView : MonoBehaviour
     public void UpdateText()
     {
         SetText(_cellData.value.ToString());
+        if (_cellData.value > 4)
+        {
+            SetTextColor(Color.white);
+        }
+        else
+        {
+            Color myColor;
+            ColorUtility.TryParseHtmlString("#5A5A5AFF", out myColor);
+            SetTextColor(myColor);
+        }
         _IdText.text = _cellData.id.ToString();
     }
 
@@ -105,5 +121,21 @@ public class CellView : MonoBehaviour
             _cellData.isMultiply = false;
         }
     }
+
+    public void AnimateSpawn()
+    {
+        transform.localScale = new Vector3(0.1f, 0.1f);
+        transform.DOScale(new Vector3(1, 1), Config.SpawningTime);
+    }
+
+    public void AnimateMultiplication()
+    {
+        _multiplication.Append(transform.DOScale(new Vector3(1*Config.MultiplyAnimationScaleMultiplier, 1 * Config.MultiplyAnimationScaleMultiplier), Config.MultiplicationTime));
+        _multiplication.AppendInterval(Config.MultiplicationTime);
+        _multiplication.Append(transform.DOScale(new Vector3(1, 1), Config.MultiplicationTime));
+        _multiplication.Play();
+    }
+
+
 
 }

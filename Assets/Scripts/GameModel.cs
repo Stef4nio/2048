@@ -9,19 +9,21 @@ using UnityEngine;
 public enum GameState
 {
     Idle,
-    Moving
+    Moving,
+    Pause,
+    GameOver
 }
 
 public static class GameModel
 {
 
-
+    //TODO: save all the info here in playerPrefs
     public static GameState State = GameState.Idle;
 
     public static List<Cell> AllCells = new List<Cell>();
     public static int GameScore = 0;
     public static int GameHighScore = 0;
-    public static int PreviousGameScore = 0;
+    public static int PreviousScore = 0;
     public static bool isUndone = false;
     public static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
     public static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
@@ -29,9 +31,9 @@ public static class GameModel
 
 
 
-    public static Cell CreateAndSetCell(int _x,int _y,int value)
+    public static Cell CreateAndSetCell(int _x,int _y,int value,bool doAnimate)
     {
-        GameField[_y, _x] = CellFactory.CreateCell(value);
+        GameField[_y, _x] = CellFactory.CreateCell(value,doAnimate);
         GameField[_y, _x].x = _x;
         GameField[_y, _x].y = _y;
 
@@ -108,7 +110,7 @@ public static class GameModel
 
     internal static void Undo()
     {
-        GameScore = PreviousGameScore;
+        GameScore = PreviousScore;
         for (int i = 0; i < Config.FieldHeight; i++)
         {
             for (int j = 0; j < Config.FieldWidth; j++)
@@ -149,6 +151,18 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    public static void Restart()
+    {
+        GameHighScore = 0;
+        GameScore = 0;
+        isUndone = false;
+        State = GameState.Idle;
+        GameField = new Cell[Config.FieldHeight,Config.FieldWidth];
+        PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+        TemporaryMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+        AllCells.Clear();
+    }
+
     public static Cell[] GetColumn(int columnPosition)
     {
         Cell[] output = new Cell[Config.FieldHeight];
@@ -176,7 +190,7 @@ public static class GameModel
         {
             for (int j = 0; j < Config.FieldWidth; j++)
             {
-                if ((PreviousMoveField[i, j]??new Cell(0,0)).value != (GameField[i, j]??new Cell(0,0)).value)
+                if ((PreviousMoveField[i, j]??new Cell(0,0,false)).value != (GameField[i, j]??new Cell(0,0,false)).value)
                 {
                     return false;
                 }
@@ -192,29 +206,11 @@ public static class GameModel
         return true;
     }
 
-    public static bool IsEqual(Cell[,] array1, Cell[,] array2)
-    {
-        for (int i = 0; i < array1.GetLength(0); i++)
-        {
-            for (int j = 0; j < array1.GetLength(1); j++)
-            {
-                if (array1[i, j] == null || array2[i, j] == null)
-                {
-                    continue;
-                }
-                if (array1[i, j].id != array2[i, j].id)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
 
     public static void SavePreviousState()
     {
-        PreviousGameScore = GameScore;
+        PreviousScore = GameScore;
         for (int j = 0; j < Config.FieldHeight; j++)
         {
             for (int i = 0; i < Config.FieldWidth; i++)
@@ -233,7 +229,7 @@ public static class GameModel
         //DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
     }
 
-    public static bool isGameModelFilledUp()
+    public static bool IsGameModelFilledUp()
     {
         int _filledCells = 0;
         foreach (var cell in GameField)

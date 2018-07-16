@@ -15,6 +15,8 @@ public class GameView : MonoBehaviour
     [SerializeField] private Button _undoButton;
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _HighScoreText;
+    [SerializeField] private Sprite[]  _uiCellBackgroundSprites = new Sprite[12];
+
 
 
     //private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
@@ -27,15 +29,36 @@ public class GameView : MonoBehaviour
     private void Awake ()
     {
 	    EventSystem.OnModelModified += RefreshField;
-        EventSystem.OnGameOver += FinishGame;
-        EventSystem.OnUndo += Undo;
+       // EventSystem.OnGameOver += FinishGame;
+        GetComponent<InputDetecter>().OnYesButtonClick += OnAnswerButtonClick;
+        GetComponent<InputDetecter>().OnUndoButtonClick += Undo;
         _scoreText.text = "0";
     }
 
-    private void Undo(object sender, EventArgs e)
+
+   /*/ private void OnGameOverRestartButtonClick(object sender, EventArgs e)
     {
+        Restart();
+        GameOverPanel.gameObject.SetActive(false);
+    }*/
+
+    private void OnAnswerButtonClick(object sender, EventArgs e)
+    {
+        Restart();
+        GameOverPanel.Disable();
+    }
+
+    public void Undo(object sender, EventArgs e)
+    {
+        if (GameModel.State == GameState.GameOver)
+        {
+            GameOverPanel.Disable();
+            GameModel.State = GameState.Idle;
+        }
         if (GameModel.State == GameState.Idle)
         {
+            
+            EventSystem.OnUndoInvoke();
             for (int i = 0; i < GameModel.AllCells.Count; i++)
             {
                 if (GameModel.AllCells[i].isReadyToDestroy)
@@ -57,8 +80,9 @@ public class GameView : MonoBehaviour
         }
     }
 
-    private void FinishGame(object sender, EventArgs e)
+    public void FinishGame(/*object sender = null, EventArgs e = null*/)
     {
+        GameModel.State = GameState.GameOver;
         GameOverPanel.OnGameLost();
     }
 
@@ -78,6 +102,18 @@ public class GameView : MonoBehaviour
                 {
                     var cellView = Instantiate(_cellPrefab, _gamePanelTransform).GetComponent<CellView>();
                     cell.isNew = false;
+                    if (cell.doAnimate)
+                    {
+                        cellView.AnimateSpawn();
+                    }
+
+                    int spriteNumber = Convert.ToInt32(Math.Log(cell.value, 2))-1;
+                    if (spriteNumber > 10)
+                    {
+                        spriteNumber = 11;
+                    }
+                    cellView.GetComponent<Image>().sprite =
+                        _uiCellBackgroundSprites[spriteNumber];
                     cellView.SetCellData(cell);
                     _cellViews.Add(cellView);
                 }
@@ -100,6 +136,24 @@ public class GameView : MonoBehaviour
     }
 
 
+    public void Restart()
+    {
+        if (GameModel.State != GameState.Moving)
+        {
+            foreach (var cellView in _cellViews)
+            {
+                cellView.Kill();
+            }
+
+            _cellViews.Clear();
+            EventSystem.OnRestartInvoke();
+            //RefreshField();
+        }
+        else
+        {
+            Debug.Log("Restart DENIED!!!");
+        }
+    }
    
 
     private void OnMovementFinished()
@@ -123,11 +177,20 @@ public class GameView : MonoBehaviour
                 }
             }
 
+            foreach (var cellView in _cellViews)
+            {
+                if (cellView.CellData.isMultiply)
+                {
+                    cellView.AnimateMultiplication();
+                }
+            }
             GameModel.ResetMultiplies();
+            EventSystem.OnMovementFinishedInvoke();
 
-           //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+            //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         }
     }
+
 
     private CellView GetCellViewById(int cellId)
     {

@@ -9,6 +9,9 @@ public static class EventSystem {
     public static event EventHandler OnModelModified;
     public static event EventHandler OnGameOver;
     public static event EventHandler OnUndo;
+    public static event EventHandler OnRestart;
+    public static event EventHandler OnMovementFinished;
+    public static event EventHandler<InputEventArg> OnCurrentSwipeDirectionChanged;
 
 
     public static void OnSwipeInvoke(object sender, InputEventArg arg)
@@ -16,6 +19,14 @@ public static class EventSystem {
         if (OnSwipe != null)
         {
             OnSwipe.Invoke(null, arg);
+        }
+    }
+
+    public static void OnCurrentSwipeDirectionChangedInvoke(InputEventArg arg, object sender = null)
+    {
+        if (OnCurrentSwipeDirectionChanged != null)
+        {
+            OnCurrentSwipeDirectionChanged.Invoke(sender,arg);
         }
     }
 
@@ -42,11 +53,27 @@ public static class EventSystem {
             OnUndo.Invoke(null, EventArgs.Empty);
         }
     }
+
+    public static void OnRestartInvoke(object sender = null)
+    {
+        if (OnRestart != null)
+        {
+            OnRestart.Invoke(null, EventArgs.Empty);
+        }
+    }
+
+    public static void OnMovementFinishedInvoke(object sender = null)
+    {
+        if (OnMovementFinished != null)
+        {
+            OnMovementFinished.Invoke(null, EventArgs.Empty);
+        }
+    }
 }
 
 public class InputEventArg : EventArgs
 {
-    public Directions CurrDirection;
+    public Direction CurrDirection;
 }
 
 

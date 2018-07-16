@@ -3,28 +3,61 @@ using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(InputDetecter))]
 public class GameLogics:MonoBehaviour{
     System.Random _rand;
+    private List<Direction> Swipes = new List<Direction>();
+
 
     private void Awake()
     {
         var seed = Environment.TickCount;
-        
+        GetComponent<InputDetecter>().OnPopupButtonClick += OnRestartButtonClick;
+        GetComponent<InputDetecter>().OnNoButtonClick += OnAnswerButtonClick;
+        GetComponent<InputDetecter>().OnYesButtonClick += OnAnswerButtonClick;
+
         seed = 5;
         _rand = new System.Random(seed);
         Debug.Log("SEED=" + seed);
     }
 
-    private void Start()
+    private void OnAnswerButtonClick(object sender, EventArgs e)
     {
-        EventSystem.OnSwipe += OnSwipe;
-        AddRandomCell();
-        AddRandomCell();
-        EventSystem.ModelModifiedInvoke();
-        
+        EnableControls();
     }
 
+
+    private void Start()
+    {
+        EventSystem.OnCurrentSwipeDirectionChanged += OnSwipe;
+        EventSystem.OnRestart += OnRestart;
+        EventSystem.OnUndo += OnUndo;
+        Init();       
+    }
+
+    private void OnRestartButtonClick(object sender,EventArgs e)
+    {
+        if (GameModel.State != GameState.GameOver)
+        {
+            DisableControls();
+        }
+    }
+
+    private void OnRestart(object sender = null, EventArgs e = null)
+    {
+        GameModel.Restart();
+        Init();
+    }
+
+    public void Init()
+    {
+        AddRandomCell();
+        AddRandomCell();
+        Swipes.Clear();
+        EventSystem.ModelModifiedInvoke();
+    }
 
     private void OnSwipe(object sender, InputEventArg e)
     {
@@ -32,38 +65,33 @@ public class GameLogics:MonoBehaviour{
 
         switch(e.CurrDirection)
         {
-            case Directions.Up:
+            case Direction.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
                     GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection),i);
                 }
                 break;
 
-            case Directions.Down:
+            case Direction.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
                     GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection), i);
                 }
                 break;
 
-            case Directions.Left:
+            case Direction.Left:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
                     GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
                 }
                 break;
 
-            case Directions.Right:
+            case Direction.Right:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
                     GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
                 }
                 break;
-        }
-
-        if (GameModel.isGameModelFilledUp() && IsLose())
-        {
-            EventSystem.OnGameOverInvoke();
         }
 
         if (!GameModel.AreLastAndCurrentMoveEqual())
@@ -73,7 +101,15 @@ public class GameLogics:MonoBehaviour{
             GameModel.isUndone = false;
         }
 
+        if (GameModel.GameScore > GameModel.GameHighScore)
+        {
+            GameModel.GameHighScore = GameModel.GameScore;
+        }
 
+        if (GameModel.IsGameModelFilledUp() && IsLose())
+        {
+            EventSystem.OnGameOverInvoke();
+        }
 
         EventSystem.ModelModifiedInvoke();
     }
@@ -91,53 +127,100 @@ public class GameLogics:MonoBehaviour{
             if(!GameModel.DoesCellExist(rndX,rndY))
             {
                 isSet = true;
-                GameModel.CreateAndSetCell(rndX, rndY, rndValue);
+                GameModel.CreateAndSetCell(rndX, rndY, rndValue,true);
             }
         }
     }
 
+    public void DisableControls()
+    {
+        GameModel.State = GameState.Pause;
+    }
 
-    public void Undo()
+    public void EnableControls()
+    {
+        GameModel.State = GameState.Idle;
+    }
+
+    private void OnUndo(object sender = null, EventArgs e = null)
     {
         if (!GameModel.isUndone)
         {
             GameModel.Undo();
-            EventSystem.OnUndoInvoke();
             GameModel.isUndone = true;
         }        
     }
 
     private bool IsLose()
     {
-        Cell[,] tempCells = new Cell[Config.FieldHeight,Config.FieldWidth];
-        tempCells = (Cell[,]) GameModel.GameField.Clone();
+        Cell[,] tempCells =(Cell[,]) GameModel.GameField.Clone();
         for (int i = 0; i < Config.FieldHeight; i++)
         {
-            GameModel.SetColumn(Compressor(GameModel.GetColumn(i),Directions.Up), i);
+            for (int j = 0; j < Config.FieldWidth; j++)
+            {
+                int _currValue = tempCells[i, j].value;
+                try
+                {
+                    if (tempCells[i - 1, j].value == _currValue)
+                    {
+                        return false;
+                    }
+                }catch{}
+                try
+                {
+                    if (tempCells[i + 1, j].value == _currValue)
+                    {
+                        return false;
+                    }
+                } catch{}
+                try
+                {
+                    if (tempCells[i, j - 1].value == _currValue)
+                    {
+                        return false;
+                    }
+                }catch{}
+                try
+                {
+                    if (tempCells[i, j + 1].value == _currValue)
+                    {
+                        return false;
+                    }
+                }catch {}
+            }
         }
-
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            GameModel.SetColumn(Compressor(GameModel.GetColumn(i), Directions.Down), i);
-        }
-
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            GameModel.SetColumn(Compressor(GameModel.GetColumn(i), Directions.Left), i);
-        }
-
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            GameModel.SetColumn(Compressor(GameModel.GetColumn(i),Directions.Right), i);
-        }
-
-        return GameModel.IsEqual(tempCells,GameModel.GameField);
+        return true;
     }
 
-    private Cell[] Compressor (Cell[] row, Directions directions)
+    public bool IsEqual(Cell[,] array1, Cell[,] array2)
+    {
+        for (int i = 0; i < array1.GetLength(0); i++)
+        {
+            for (int j = 0; j < array1.GetLength(1); j++)
+            {
+                if (array1[i, j] == null && array2[i, j] == null)
+                {
+                    continue;
+                }
+
+                if (array1[i, j] == null ^ array2[i, j] == null)
+                {
+                    return false;
+                }
+
+                if (array1[i, j].id != array2[i, j].id)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private Cell[] Compressor (Cell[] row, Direction direction)
     {
         int changes;
-        if (directions==Directions.Down || directions == Directions.Right)
+        if (direction==Direction.Down || direction == Direction.Right)
         {
             Array.Reverse(row);
         }
@@ -149,22 +232,22 @@ public class GameLogics:MonoBehaviour{
             {
                 if (row[i] != null && row[i - 1] == null)
                 {
-                    switch (directions)
+                    switch (direction)
                     {
-                        case Directions.Up:
+                        case Direction.Up:
                             row[i].offsetY--;
                             break;
-                        case Directions.Down:
+                        case Direction.Down:
                             row[i].offsetY++;
                             break;
-                        case Directions.Left:
+                        case Direction.Left:
                             row[i].offsetX--;
                             break;
-                        case Directions.Right:
+                        case Direction.Right:
                             row[i].offsetX++;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException("directions", directions, null);
+                            throw new ArgumentOutOfRangeException("direction", direction, null);
                     }
 
                     row[i - 1] = row[i];
@@ -183,27 +266,27 @@ public class GameLogics:MonoBehaviour{
                     row[i].isReadyToDestroy = true;
                     Debug.Log("READY TO DESTROY: "+ row[i].ToString());
                     Debug.Log("READY TO DESTROY: "+ row[i - 1].ToString());
-                    var newCell = CellFactory.CreateCell(row[i].value *= 2);
+                    var newCell = CellFactory.CreateCell(row[i].value *= 2,false);
                     GameModel.RegisterCell(newCell);
 
                     newCell.isMultiply = true;
 
-                    switch (directions)
+                    switch (direction)
                     {
-                        case Directions.Up:
+                        case Direction.Up:
                             row[i].offsetY--;
                             break;
-                        case Directions.Down:
+                        case Direction.Down:
                             row[i].offsetY++;
                             break;
-                        case Directions.Left:
+                        case Direction.Left:
                             row[i].offsetX--;
                             break;
-                        case Directions.Right:
+                        case Direction.Right:
                             row[i].offsetX++;
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException("directions", directions, null);
+                            throw new ArgumentOutOfRangeException("direction", direction, null);
                     }
 
                     row[i - 1] = newCell;
@@ -214,15 +297,12 @@ public class GameLogics:MonoBehaviour{
             }
         } while (changes != 0);
 
-        if (directions == Directions.Down || directions == Directions.Right)
+        if (direction == Direction.Down || direction == Direction.Right)
         {
             Array.Reverse(row);
         }
 
-        if (GameModel.GameScore > GameModel.GameHighScore)
-        {
-            GameModel.GameHighScore = GameModel.GameScore;
-        }
+
         return row;
     }
     

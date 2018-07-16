@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,22 +11,39 @@ public class GameOverPanel : MonoBehaviour
 {
 
     [SerializeField] private Text _gameOverText;
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start ()
 	{
-	    GetComponent<Image>().enabled = false;
-	    _gameOverText.enabled = false;
+	    Disable();
 	}
 
     public void OnGameLost()
     {
-        GetComponent<Image>().enabled = true;
-        _gameOverText.enabled = true;
-        _gameOverText.text = "Unfortunately, but you lost...";
+       Enable();
+        _gameOverText.text = "You lost";
     }
 
-	// Update is called once per frame
-	void Update () {
+    public void Enable()
+    {
+        transform.gameObject.SetActive(true);
+        GetComponent<Image>().DOFade(0.64f, Config.FadeTime);
+        _gameOverText.DOFade(1, Config.FadeTime);
+    }
+
+    public void Disable()
+    {
+        transform.gameObject.SetActive(false);
+        Color tempColor = GetComponent<Image>().color;
+        tempColor.a = 0f;
+        GetComponent<Image>().color = tempColor;
+        tempColor = _gameOverText.color;
+        tempColor.a = 0f;
+        _gameOverText.color = tempColor;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
