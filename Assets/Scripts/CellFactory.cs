@@ -6,7 +6,12 @@ public static class CellFactory
 {
 
     //TODO:save current ID to playerPrefs
-    private static int currentID = 0;
+    public static int currentID { get; private set; }
+
+    public static void Load(int _currentID)
+    {
+        currentID = _currentID;
+    }
 
     public static Cell CreateCell(int value,bool doAnimate)
     {

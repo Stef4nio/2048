@@ -42,6 +42,11 @@ public class GameView : MonoBehaviour
         GameOverPanel.gameObject.SetActive(false);
     }*/
 
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     private void OnAnswerButtonClick(object sender, EventArgs e)
     {
         Restart();
@@ -90,7 +95,7 @@ public class GameView : MonoBehaviour
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();
-        //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+        DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         _scoreText.text = GameModel.GameScore.ToString();
         _HighScoreText.text = GameModel.GameHighScore.ToString();
         _movingCellsAmount = 0;
@@ -187,7 +192,7 @@ public class GameView : MonoBehaviour
             GameModel.ResetMultiplies();
             EventSystem.OnMovementFinishedInvoke();
 
-            //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+            DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         }
     }
 

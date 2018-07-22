@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(InputDetecter))]
 public class GameLogics:MonoBehaviour{
     System.Random _rand;
-    private List<Direction> Swipes = new List<Direction>();
 
 
     private void Awake()
@@ -34,7 +34,9 @@ public class GameLogics:MonoBehaviour{
         EventSystem.OnCurrentSwipeDirectionChanged += OnSwipe;
         EventSystem.OnRestart += OnRestart;
         EventSystem.OnUndo += OnUndo;
-        Init();       
+        //PlayerPrefs.DeleteAll();
+        GameModel.LoadInfo(JsonConvert.DeserializeObject<InfoContainer>(PlayerPrefs.GetString(Config.PlayerInfoKey)));
+        Init();    
     }
 
     private void OnRestartButtonClick(object sender,EventArgs e)
@@ -55,7 +57,6 @@ public class GameLogics:MonoBehaviour{
     {
         AddRandomCell();
         AddRandomCell();
-        Swipes.Clear();
         EventSystem.ModelModifiedInvoke();
     }
 
@@ -305,5 +306,14 @@ public class GameLogics:MonoBehaviour{
 
         return row;
     }
-    
+
+    private void OnApplicationQuit()
+    {
+        string info = JsonConvert.SerializeObject(GameModel.SaveInfo());
+        Debug.Log(info);
+        PlayerPrefs.SetString(Config.PlayerInfoKey,info);
+    }
+
+
+
 }

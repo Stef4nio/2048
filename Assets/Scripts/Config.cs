@@ -18,6 +18,7 @@ namespace Assets.Scripts
         public const float PaddingX = 135.5f;
         public const float PaddingY = 135.5f;
         public const float MinSwipeLenght = 0.5f;
+        public const string PlayerInfoKey = "PlayerInfo";
     }
 }
 
