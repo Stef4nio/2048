@@ -9,6 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(InputDetecter))]
 public class GameLogics:MonoBehaviour{
     System.Random _rand;
+    private bool isAlreadyWon;
 
 
     private void Awake()
@@ -18,7 +19,7 @@ public class GameLogics:MonoBehaviour{
         GetComponent<InputDetecter>().OnNoButtonClick += OnAnswerButtonClick;
         GetComponent<InputDetecter>().OnYesButtonClick += OnAnswerButtonClick;
 
-        seed = 5;
+        //seed = 5;
         _rand = new System.Random(seed);
         Debug.Log("SEED=" + seed);
     }
@@ -35,8 +36,15 @@ public class GameLogics:MonoBehaviour{
         EventSystem.OnRestart += OnRestart;
         EventSystem.OnUndo += OnUndo;
         //PlayerPrefs.DeleteAll();
-        GameModel.LoadInfo(JsonConvert.DeserializeObject<InfoContainer>(PlayerPrefs.GetString(Config.PlayerInfoKey)));
-        Init();    
+        InfoContainer container =
+            JsonConvert.DeserializeObject<InfoContainer>(PlayerPrefs.GetString(Config.PlayerInfoKey));
+        GameModel.LoadInfo(container);
+        Init();
+        isAlreadyWon = container.IsAlreadyWon;
+        if (container.IsGameover)
+        {
+            EventSystem.OnGameOverInvoke();
+        }
     }
 
     private void OnRestartButtonClick(object sender,EventArgs e)
@@ -45,6 +53,7 @@ public class GameLogics:MonoBehaviour{
         {
             DisableControls();
         }
+        saveInfo();
     }
 
     private void OnRestart(object sender = null, EventArgs e = null)
@@ -55,8 +64,11 @@ public class GameLogics:MonoBehaviour{
 
     public void Init()
     {
-        AddRandomCell();
-        AddRandomCell();
+        if (GameModel.AllCells.Count == 0)
+        {
+            AddRandomCell();
+            AddRandomCell();
+        }
         EventSystem.ModelModifiedInvoke();
     }
 
@@ -106,13 +118,27 @@ public class GameLogics:MonoBehaviour{
         {
             GameModel.GameHighScore = GameModel.GameScore;
         }
+        saveInfo();
+        EventSystem.ModelModifiedInvoke();
 
-        if (GameModel.IsGameModelFilledUp() && IsLose())
+        if (isWon() && !isAlreadyWon)
         {
-            EventSystem.OnGameOverInvoke();
+            Win();
+        }
+        if (GameModel.IsGameModelFilledUp())
+        {
+            if (IsLose())
+            {
+                EventSystem.OnGameOverInvoke();
+            }
         }
 
-        EventSystem.ModelModifiedInvoke();
+    }
+
+    private void Win()
+    {
+        EventSystem.OnWinInvoke();
+        isAlreadyWon = true;
     }
 
     private void AddRandomCell()
@@ -150,6 +176,11 @@ public class GameLogics:MonoBehaviour{
             GameModel.Undo();
             GameModel.isUndone = true;
         }        
+    }
+
+    private bool isWon()
+    {
+        return GameModel.AllCells.Find(c => c.value == 2048) != null;
     }
 
     private bool IsLose()
@@ -307,9 +338,9 @@ public class GameLogics:MonoBehaviour{
         return row;
     }
 
-    private void OnApplicationQuit()
+    private void saveInfo()
     {
-        string info = JsonConvert.SerializeObject(GameModel.SaveInfo());
+        string info = JsonConvert.SerializeObject(GameModel.SaveInfo(isAlreadyWon));
         Debug.Log(info);
         PlayerPrefs.SetString(Config.PlayerInfoKey,info);
     }

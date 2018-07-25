@@ -10,12 +10,18 @@ using UnityEngine.UI;
 public class GameView : MonoBehaviour
 {
     [SerializeField] private GameOverPanel GameOverPanel;
+    [SerializeField] private WinPanel WinPanel;
     [SerializeField] private Transform _gamePanelTransform;
     [SerializeField] private GameObject _cellPrefab;
     [SerializeField] private Button _undoButton;
+    [SerializeField] private Button _restartButton;
     [SerializeField] private Text _scoreText;
     [SerializeField] private Text _HighScoreText;
     [SerializeField] private Sprite[]  _uiCellBackgroundSprites = new Sprite[12];
+    [SerializeField] private Sprite _restartButtonNormalStateSprite;
+    [SerializeField] private Sprite _restartButtonNormalHoverStateSprite;
+    [SerializeField] private Sprite _restartButtonEmphasizedStateSprite;
+    [SerializeField] private Sprite _restartButtonEmphasizedHoverStateSprite;
 
 
 
@@ -23,29 +29,54 @@ public class GameView : MonoBehaviour
 
     private List<CellView> _cellViews = new List<CellView>();
     private int _movingCellsAmount;
+    private bool isWon = false;
 
 
     // Use this for initialization
     private void Awake ()
     {
 	    EventSystem.OnModelModified += RefreshField;
-       // EventSystem.OnGameOver += FinishGame;
+        EventSystem.OnGameOver += FinishGame;
+        EventSystem.OnWin += OnGameWon;
+        GetComponent<InputDetecter>().OnWinContinueClick += ContinuePlaying;
         GetComponent<InputDetecter>().OnYesButtonClick += OnAnswerButtonClick;
         GetComponent<InputDetecter>().OnUndoButtonClick += Undo;
         _scoreText.text = "0";
+        SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
+        _restartButton.GetComponent<Button>().spriteState = state;
+        _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
     }
 
-
-   /*/ private void OnGameOverRestartButtonClick(object sender, EventArgs e)
+    private void ContinuePlaying(object sender, EventArgs e)
     {
-        Restart();
-        GameOverPanel.gameObject.SetActive(false);
-    }*/
-
-    public void Exit()
-    {
-        Application.Quit();
+        WinPanel.Disable();
+        SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
+        _restartButton.GetComponent<Button>().spriteState = state;
+        _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
+        GameModel.State = GameState.Idle;
     }
+
+    private void OnGameWon(object sender, EventArgs e)
+    {
+        isWon = true;
+    }
+
+    public void WinGame()
+    {
+        GameModel.State = GameState.Win;
+        SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
+        _restartButton.GetComponent<Button>().spriteState = state;
+        _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
+        WinPanel.OnWin();
+        isWon = false;
+    }
+
+    /*/ private void OnGameOverRestartButtonClick(object sender, EventArgs e)
+     {
+         Restart();
+         GameOverPanel.gameObject.SetActive(false);
+     }*/
+
 
     private void OnAnswerButtonClick(object sender, EventArgs e)
     {
@@ -53,11 +84,23 @@ public class GameView : MonoBehaviour
         GameOverPanel.Disable();
     }
 
+
     public void Undo(object sender, EventArgs e)
     {
         if (GameModel.State == GameState.GameOver)
         {
             GameOverPanel.Disable();
+            SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
+            _restartButton.GetComponent<Button>().spriteState = state;
+            _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
+            GameModel.State = GameState.Idle;
+        }
+        if (GameModel.State == GameState.Win)
+        {
+            WinPanel.Disable();
+            SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
+            _restartButton.GetComponent<Button>().spriteState = state;
+            _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
             GameModel.State = GameState.Idle;
         }
         if (GameModel.State == GameState.Idle)
@@ -85,9 +128,21 @@ public class GameView : MonoBehaviour
         }
     }
 
-    public void FinishGame(/*object sender = null, EventArgs e = null*/)
+    public void ArtificialFinishGame()
     {
         GameModel.State = GameState.GameOver;
+        SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
+        _restartButton.GetComponent<Button>().spriteState = state;
+        _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
+        GameOverPanel.OnGameLost();
+    }
+
+    private void FinishGame(object sender, EventArgs e)
+    {
+        GameModel.State = GameState.GameOver;
+        SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
+        _restartButton.GetComponent<Button>().spriteState = state;
+        _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
         GameOverPanel.OnGameLost();
     }
 
@@ -95,7 +150,7 @@ public class GameView : MonoBehaviour
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();
-        DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+        //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         _scoreText.text = GameModel.GameScore.ToString();
         _HighScoreText.text = GameModel.GameHighScore.ToString();
         _movingCellsAmount = 0;
@@ -143,6 +198,8 @@ public class GameView : MonoBehaviour
 
     public void Restart()
     {
+        SpriteState state = new SpriteState();
+
         if (GameModel.State != GameState.Moving)
         {
             foreach (var cellView in _cellViews)
@@ -151,8 +208,19 @@ public class GameView : MonoBehaviour
             }
 
             _cellViews.Clear();
+
+            state.highlightedSprite = _restartButtonNormalHoverStateSprite;
+            _restartButton.GetComponent<Button>().spriteState = state;
+            _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
             EventSystem.OnRestartInvoke();
-            //RefreshField();
+            
+        }
+        else if(GameModel.State == GameState.Win)
+        {
+            WinPanel.Disable();
+            state.highlightedSprite = _restartButtonNormalHoverStateSprite;
+            _restartButton.GetComponent<Button>().spriteState = state;
+            _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
         }
         else
         {
@@ -191,8 +259,11 @@ public class GameView : MonoBehaviour
             }
             GameModel.ResetMultiplies();
             EventSystem.OnMovementFinishedInvoke();
-
-            DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
+            if (isWon)
+            {
+                WinGame();
+            }
+            //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
         }
     }
 

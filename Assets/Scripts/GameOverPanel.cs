@@ -13,7 +13,7 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private Text _gameOverText;
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
 	{
 	    Disable();
 	}

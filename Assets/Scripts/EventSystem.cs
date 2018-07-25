@@ -8,6 +8,7 @@ public static class EventSystem {
     public static event EventHandler<InputEventArg> OnSwipe;
     public static event EventHandler OnModelModified;
     public static event EventHandler OnGameOver;
+    public static event EventHandler OnWin;
     public static event EventHandler OnUndo;
     public static event EventHandler OnRestart;
     public static event EventHandler OnMovementFinished;
@@ -43,6 +44,14 @@ public static class EventSystem {
         if (OnGameOver != null)
         {
             OnGameOver.Invoke(null, EventArgs.Empty);
+        }
+    }
+
+    public static void OnWinInvoke(object sender = null)
+    {
+        if (OnWin != null)
+        {
+            OnWin.Invoke(null, EventArgs.Empty);
         }
     }
 

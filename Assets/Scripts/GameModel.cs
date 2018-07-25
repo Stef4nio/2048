@@ -11,7 +11,8 @@ public enum GameState
     Idle,
     Moving,
     Pause,
-    GameOver
+    GameOver,
+    Win
 }
 
 public static class GameModel
@@ -35,24 +36,29 @@ public static class GameModel
     {
         if (info != null)
         {
-            foreach (var cell in info.AllCells)
-            {
-                AllCells.Add(cell);
-            }
+            AllCells = info.AllCells.ToList();
             GameScore = info.GameScore;
             GameHighScore = info.GameHighScore;
             PreviousScore = info.PreviousScore;
-            isUndone = info.isUndone;
+            isUndone = info.IsUndone;
             GameField = info.GameField ?? new Cell[Config.FieldHeight, Config.FieldWidth];
             PreviousMoveField = info.PreviousMoveField ?? new Cell[Config.FieldHeight, Config.FieldWidth];
             TemporaryMoveField = info.TemporaryMoveField ?? new Cell[Config.FieldHeight, Config.FieldWidth];
-            CellFactory.Load(info.currentID);
-            foreach (var cell in GameField)
+            CellFactory.Load(info.CurrentId);
+            for (int i = 0; i < Config.FieldHeight; i++)
             {
-                if (cell != null)
+                for (int j = 0; j < Config.FieldWidth; j++)
                 {
-                    cell.isNew = true;
+                    if (GameField[i, j] != null)
+                    {
+                        GameField[i, j] = AllCells.Find(c => GameField[i, j].id == c.id);
+                    }
                 }
+            }
+
+            foreach (var cell in AllCells)
+            {
+                cell.isNew = true;
             }
         }
         //GarbageCollect();
@@ -88,17 +94,6 @@ public static class GameModel
             amount = AllCells.RemoveAll(c => c.id == id);
         }
         Debug.Log("From AllCells removed " + amount + " elements");
-    }
-
-    private static void GarbageCollect()
-    {
-        foreach (var cell in AllCells)
-        {
-            if (Array.IndexOf(GameField, cell) == -1)
-            {
-                AllCells.Remove(cell);
-            }
-        }
     }
 
     public static bool DoesCellExist(int x, int y)
@@ -193,7 +188,6 @@ public static class GameModel
 
     public static void Restart()
     {
-        GameHighScore = 0;
         GameScore = 0;
         isUndone = false;
         State = GameState.Idle;
@@ -266,7 +260,7 @@ public static class GameModel
             }
         }
 
-        DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
+        //DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
     }
 
     public static bool IsGameModelFilledUp()
@@ -298,9 +292,9 @@ public static class GameModel
         //return PreviousMoveField.Cast<Cell>().FirstOrDefault(c => c.id == id);
     }
 
-    public static InfoContainer SaveInfo()
+    public static InfoContainer SaveInfo(bool isAlreadyWon)
     {
-        return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID);
+        return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID,(State == GameState.GameOver), isAlreadyWon);
     }
 
 
@@ -318,26 +312,30 @@ public static class GameModel
 [Serializable]
 public class InfoContainer
 {
+    public bool IsGameover;
+    public bool IsAlreadyWon;
     public Cell[] AllCells ;
     public int GameScore ;
     public int GameHighScore ;
     public int PreviousScore ;
-    public bool isUndone ;
-    public int currentID ;
+    public bool IsUndone ;
+    public int CurrentId ;
     public Cell[,] GameField ;
     public Cell[,] PreviousMoveField ;
     public Cell[,] TemporaryMoveField ;
 
-    public InfoContainer(List<Cell> _allCells,int _GameScore, int _GameHighScore, int _PreviousScore, bool _isUndone, Cell[,] _GameField, Cell[,] _PreviousMoveField, Cell[,] _TemporaryMoveField, int _currentId)
+    public InfoContainer(List<Cell> _allCells,int _GameScore, int _GameHighScore, int _PreviousScore, bool _isUndone, Cell[,] _GameField, Cell[,] _PreviousMoveField, Cell[,] _TemporaryMoveField, int _currentId, bool _isGameover, bool _isAlreadyWon)
     {
         AllCells = (_allCells??new List<Cell>()).ToArray();
         GameScore = _GameScore;
         GameHighScore = _GameHighScore;
         PreviousScore = _PreviousScore;
-        isUndone = _isUndone;
+        IsUndone = _isUndone;
         GameField = _GameField;
         PreviousMoveField = _PreviousMoveField;
         TemporaryMoveField = _TemporaryMoveField;
-        currentID = _currentId;
+        CurrentId = _currentId;
+        IsGameover = _isGameover;
+        IsAlreadyWon = _isAlreadyWon;
     }
 }

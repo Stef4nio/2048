@@ -25,11 +25,13 @@ public class InputDetecter : MonoBehaviour {
     [SerializeField] private Button _restartYesButton;
     [SerializeField] private Button _restartNoButton;
     [SerializeField] private Button _undoButton;
+    [SerializeField] private Button _winContinueButton;
     [SerializeField] private Image _confirmationPopupPanel;
     public event EventHandler OnPopupButtonClick;
     public event EventHandler OnYesButtonClick;
     public event EventHandler OnNoButtonClick;
     public event EventHandler OnUndoButtonClick;
+    public event EventHandler OnWinContinueClick;
 
 
     // Use this for initialization
@@ -62,7 +64,11 @@ public class InputDetecter : MonoBehaviour {
             }
         });
 
-
+        _winContinueButton.onClick.AddListener(() => {
+            if (OnWinContinueClick != null)
+            {
+                OnWinContinueClick.Invoke(null,null);
+            }});
     }
 
     // Update is called once per frame
