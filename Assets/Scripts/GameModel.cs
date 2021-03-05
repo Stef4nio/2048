@@ -294,7 +294,9 @@ public static class GameModel
 
     public static InfoContainer SaveInfo(bool isAlreadyWon)
     {
-        return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID,(State == GameState.GameOver), isAlreadyWon);
+        return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,
+            GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID,
+            (State == GameState.GameOver), isAlreadyWon);
     }
 
 

@@ -1,0 +1,54 @@
+@startuml
+enum GameState {
+    Idle,
+    Moving,
+    Pause,
+    GameOver,
+    Win,
+}
+class GameModel <<static>> {
+    + {static} State : GameState
+    + {static} AllCells : List<Cell>
+    + {static} GameScore : int = 0
+    + {static} GameHighScore : int = 0
+    + {static} PreviousScore : int = 0
+    + {static} isUndone : bool = false
+    + {static} GameField : Cell[,]
+    + {static} PreviousMoveField : Cell[,]
+    + {static} TemporaryMoveField : Cell[,]
+    + {static} LoadInfo(info:InfoContainer) : void
+    + {static} CreateAndSetCell(_x:int, _y:int, value:int, doAnimate:bool) : Cell
+    + {static} RegisterCell(cell:Cell) : void
+    + {static} UnregisterCell(id:int, isUndo:bool) : void
+    + {static} DoesCellExist(x:int, y:int) : bool
+    + {static} SetRow(row:Cell[], rowPosition:int) : void
+    + {static} SetRowToPrevious(row:Cell[], rowPosition:int) : void
+    + {static} SetColumn(column:Cell[], columnPosition:int) : void
+    <<internal>> {static} Undo() : void
+    + {static} GetCellFromPrevious(x:int, y:int) : Cell
+    + {static} SetColumnToPrevious(column:Cell[], columnPosition:int) : void
+    + {static} Restart() : void
+    + {static} GetColumn(columnPosition:int) : Cell[]
+    + {static} GetRow(rowPosition:int) : Cell[]
+    + {static} AreLastAndCurrentMoveEqual() : bool
+    + {static} SavePreviousState() : void
+    + {static} IsGameModelFilledUp() : bool
+    + {static} GetPreviousCellById(id:int) : Cell
+    + {static} SaveInfo(isAlreadyWon:bool) : InfoContainer
+    + {static} ResetMultiplies() : void
+}
+class InfoContainer {
+    + IsGameover : bool
+    + IsAlreadyWon : bool
+    + AllCells : Cell[]
+    + GameScore : int
+    + GameHighScore : int
+    + PreviousScore : int
+    + IsUndone : bool
+    + CurrentId : int
+    + GameField : Cell[,]
+    + PreviousMoveField : Cell[,]
+    + TemporaryMoveField : Cell[,]
+    + InfoContainer(_allCells:List<Cell>, _GameScore:int, _GameHighScore:int, _PreviousScore:int, _isUndone:bool, _GameField:Cell[,], _PreviousMoveField:Cell[,], _TemporaryMoveField:Cell[,], _currentId:int, _isGameover:bool, _isAlreadyWon:bool)
+}
+@enduml

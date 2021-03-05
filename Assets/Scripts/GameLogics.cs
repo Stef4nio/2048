@@ -178,11 +178,13 @@ public class GameLogics:MonoBehaviour{
         }        
     }
 
+    //TODO move to gamemodel
     private bool isWon()
     {
         return GameModel.AllCells.Find(c => c.value == 2048) != null;
     }
 
+    //TODO move to gamemodel
     private bool IsLose()
     {
         Cell[,] tempCells =(Cell[,]) GameModel.GameField.Clone();
@@ -224,6 +226,7 @@ public class GameLogics:MonoBehaviour{
         return true;
     }
 
+    //TODO move to gamemodel or even overload the operator or write extension method
     public bool IsEqual(Cell[,] array1, Cell[,] array2)
     {
         for (int i = 0; i < array1.GetLength(0); i++)
@@ -249,6 +252,7 @@ public class GameLogics:MonoBehaviour{
         return true;
     }
 
+    //TODO: get this thing the fuck out of here and even put it in another file
     private Cell[] Compressor (Cell[] row, Direction direction)
     {
         int changes;

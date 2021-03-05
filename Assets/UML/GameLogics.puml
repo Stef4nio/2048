@@ -1,0 +1,24 @@
+@startuml
+class GameLogics {
+    _rand : System.Random
+    - isAlreadyWon : bool
+    - Awake() : void
+    - OnAnswerButtonClick(sender:object, e:EventArgs) : void
+    - Start() : void
+    - OnRestartButtonClick(sender:object, e:EventArgs) : void
+    - OnRestart(sender:object, e:EventArgs) : void
+    + Init() : void
+    - OnSwipe(sender:object, e:InputEventArg) : void
+    - Win() : void
+    - AddRandomCell() : void
+    + DisableControls() : void
+    + EnableControls() : void
+    - OnUndo(sender:object, e:EventArgs) : void
+    - isWon() : bool
+    - IsLose() : bool
+    + IsEqual(array1:Cell[,], array2:Cell[,]) : bool
+    - Compressor(row:Cell[], direction:Direction) : Cell[]
+    - saveInfo() : void
+}
+MonoBehaviour <|-- GameLogics
+@enduml

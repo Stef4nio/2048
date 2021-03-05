@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\stef4\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\stef4\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_2048.-338194735.00" t="ExcludeRecursive" />
+    <e p="C:\WORKSPACES\WORKSPACE(For Unity)\2048" t="IncludeRecursive">
+      <e p="2048.sln" t="IncludeFlat" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Demigiant" t="Include">
+          <e p="DOTween" t="Include">
+            <e p="DOTween43.xml" t="Include" />
+            <e p="DOTween46.xml" t="Include" />
+            <e p="DOTween50.xml" t="Include" />
+            <e p="Examples" t="Include">
+              <e p="Basics.cs" t="Include" />
+              <e p="Sequences.cs" t="Include" />
+            </e>
+            <e p="readme.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Fonts" t="Include">
+          <e p="Apache License.txt" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Cell.cs" t="Include" />
+          <e p="CellFactory.cs" t="Include" />
+          <e p="CellView.cs" t="Include" />
+          <e p="Config.cs" t="Include" />
+          <e p="ConfirmationPopupPanel.cs" t="Include" />
+          <e p="Debug" t="Include">
+            <e p="DebugGrid.cs" t="Include" />
+            <e p="DebugItem.cs" t="Include" />
+            <e p="DebugPanel.cs" t="Include" />
+          </e>
+          <e p="EventSystem.cs" t="Include" />
+          <e p="GameLogics.cs" t="Include" />
+          <e p="GameModel.cs" t="Include" />
+          <e p="GameOverPanel.cs" t="Include" />
+          <e p="GameView.cs" t="Include" />
+          <e p="InputDetecter.cs" t="Include" />
+          <e p="SwipeManager.cs" t="Include" />
+        </e>
+        <e p="Sprites" t="Include">
+          <e p="readme.txt" t="Include" />
+        </e>
+        <e p="UnityPackages" t="Include">
+          <e p="JsonNetSample" t="Include">
+            <e p="JsonNetSample.cs" t="Include" />
+          </e>
+        </e>
+        <e p="WinPanel.cs" t="Include" />
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

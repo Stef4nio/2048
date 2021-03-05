@@ -1,0 +1,7 @@
+@startuml
+class CellFactory <<static>> {
+    + {static} currentID : int <<get>>
+    + {static} Load(_currentID:int) : void
+    + {static} CreateCell(value:int, doAnimate:bool) : Cell
+}
+@enduml

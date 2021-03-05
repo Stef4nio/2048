@@ -1,0 +1,33 @@
+@startuml
+class GameView {
+    - GameOverPanel : GameOverPanel
+    - WinPanel : WinPanel
+    - _gamePanelTransform : Transform
+    - _cellPrefab : GameObject
+    - _undoButton : Button
+    - _restartButton : Button
+    - _scoreText : Text
+    - _HighScoreText : Text
+    - _uiCellBackgroundSprites : Sprite[]
+    - _restartButtonNormalStateSprite : Sprite
+    - _restartButtonNormalHoverStateSprite : Sprite
+    - _restartButtonEmphasizedStateSprite : Sprite
+    - _restartButtonEmphasizedHoverStateSprite : Sprite
+    - _cellViews : List<CellView>
+    - _movingCellsAmount : int
+    - isWon : bool = false
+    - Awake() : void
+    - ContinuePlaying(sender:object, e:EventArgs) : void
+    - OnGameWon(sender:object, e:EventArgs) : void
+    + WinGame() : void
+    - OnAnswerButtonClick(sender:object, e:EventArgs) : void
+    + Undo(sender:object, e:EventArgs) : void
+    + ArtificialFinishGame() : void
+    - FinishGame(sender:object, e:EventArgs) : void
+    - RefreshField(sender:object, e:EventArgs) : void
+    + Restart() : void
+    - OnMovementFinished() : void
+    - GetCellViewById(cellId:int) : CellView
+}
+MonoBehaviour <|-- GameView
+@enduml

@@ -1,0 +1,11 @@
+@startuml
+class GameOverPanel {
+    - _gameOverText : Text
+    Awake() : void
+    + OnGameLost() : void
+    + Enable() : void
+    + Disable() : void
+    Update() : void
+}
+MonoBehaviour <|-- GameOverPanel
+@enduml

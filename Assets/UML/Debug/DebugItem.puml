@@ -1,0 +1,12 @@
+@startuml
+class DebugItem {
+    - _id : Text
+    - _pos : Text
+    - _offset : Text
+    - _status : Text
+    - _currentValue : Text
+    Awake() : void
+    + SetValue(cell:Cell) : void
+}
+MonoBehaviour <|-- DebugItem
+@enduml

@@ -1,0 +1,17 @@
+@startuml
+class Cell {
+    + id : int
+    + value : int = 0
+    + offsetX : int = 0
+    + offsetY : int = 0
+    + x : int = 0
+    + y : int = 0
+    + isNew : bool = false
+    + isMultiply : bool = false
+    + isReadyToDestroy : bool = false
+    + doAnimate : bool = false
+    + Cell(val:int, _id:int, DoAnimate:bool)
+    + Clone() : Cell
+    + <<override>> ToString() : string
+}
+@enduml

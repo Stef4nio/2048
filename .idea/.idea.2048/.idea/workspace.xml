@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9a2ae16f-9003-4972-999d-50aa33bf52f1" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameView.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <changedPaths>
+      <option value="$PROJECT_DIR$/Assets/Scripts/InputDetecter.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/GameModel.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scripts/GameLogics.cs" />
+    </changedPaths>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="69" />
+    <option name="y" value="27" />
+    <option name="width" value="1400" />
+    <option name="height" value="820" />
+  </component>
+  <component name="ProjectId" id="1pDgYEtJfZgQT0LpaDwmBue0axf" />
+  <component name="ProjectView">
+    <navigator currentView="UnityExplorer" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="UnityExplorer">
+        <option name="show-hidden-items" value="false" />
+      </pane>
+      <pane id="SolutionExplorer">
+        <option name="show-all-files" value="false" />
+      </pane>
+      <pane id="FileSystemExplorer" />
+    </panes>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="D:/STEF/WORKSPACE(For unity)/2048/Build/2048.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="D:\STEF\WORKSPACE(For unity)\2048\Build" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Attach to Unity Editor.Attach to Unity Editor" />
+      <item itemvalue="Attach to Unity Editor.Attach to Unity Editor &amp; Play" />
+      <item itemvalue="Standalone Player.Standalone Player" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9a2ae16f-9003-4972-999d-50aa33bf52f1" name="Default Changelist" comment="" />
+      <created>1548085799154</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548085799154</updated>
+      <workItem from="1548085806261" duration="796000" />
+      <workItem from="1614723139388" duration="2815000" />
+      <workItem from="1615917148142" duration="3085000" />
+      <workItem from="1616262837699" duration="610000" />
+      <workItem from="1616543091401" duration="4953000" />
+      <workItem from="1616755281555" duration="2669000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="796000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="NuGet" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Unity" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Unit Tests" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Errors In Solution" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Unit Tests Coverage" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/GameView.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="146" column="5" lean-forward="true" selection-start-line="146" selection-start-column="5" selection-end-line="146" selection-end-column="5" />
+          <folding>
+            <marker date="1532542874000" expanded="false" signature="6:174" ph="..." />
+            <marker date="1532542874000" expanded="true" signature="213:9726" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="1291:1952" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="2014:2357" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="2413:2447" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="2474:2845" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="2851:3012" ph="/* private void OnGameOverRestartButtonClick(object sender, EventArgs e) ... */" />
+            <marker date="1532542874000" expanded="true" signature="3079:3143" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="3194:4866" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="3251:3627" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="3673:4044" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="4091:4788" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="4217:4749" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="4291:4735" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="4801:4860" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="4906:5269" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="5326:5689" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="5761:7329" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="5776:5871" ph="/* CheckDataAvailability(); ... */" />
+            <marker date="1532542874000" expanded="true" signature="6077:7322" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="6138:6946" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="6184:6932" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="6389:6482" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="6609:6696" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7001:7312" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7095:7298" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7357:8355" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7460:7925" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7519:7580" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="7975:8272" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="8285:8349" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="8398:9586" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="8471:9580" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="8650:9108" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="8766:9094" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="9158:9326" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="9222:9312" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="9442:9497" ph="{...}" />
+            <marker date="1532542874000" expanded="true" signature="9637:9721" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

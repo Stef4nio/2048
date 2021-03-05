@@ -1,0 +1,12 @@
+@startuml
+class DebugPanel {
+    - {static} _instance : DebugPanel
+    - _debugGridBefore : DebugGrid
+    - _debugGridCurrent : DebugGrid
+    - Awake() : void
+    + {static} Instance : DebugPanel <<get>>
+    + PrintGridBefore(cells:Cell[,]) : void
+    + PrintGridCurrent(cells:Cell[,]) : void
+}
+MonoBehaviour <|-- DebugPanel
+@enduml

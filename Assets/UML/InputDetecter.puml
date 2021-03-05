@@ -1,0 +1,29 @@
+@startuml
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+    None,
+}
+class InputDetecter {
+    _swipeStart : Vector2
+    _deltaSwipe : Vector2
+    _swipeEnd : Vector2
+    - _restartPopupButton : Button
+    - _restartYesButton : Button
+    - _restartNoButton : Button
+    - _undoButton : Button
+    - _winContinueButton : Button
+    - _confirmationPopupPanel : Image
+    +  <<event>> OnPopupButtonClick : EventHandler 
+    +  <<event>> OnYesButtonClick : EventHandler 
+    +  <<event>> OnNoButtonClick : EventHandler 
+    +  <<event>> OnUndoButtonClick : EventHandler 
+    +  <<event>> OnWinContinueClick : EventHandler 
+    Start() : void
+    Update() : void
+    - Swipe() : void
+}
+MonoBehaviour <|-- InputDetecter
+@enduml

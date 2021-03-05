@@ -1,0 +1,23 @@
+@startuml
+class CellView {
+    - _text : Text
+    - _IdText : Text
+    - _cellData : Cell
+    - _multiplication : Sequence
+    + CellData : Cell <<get>>
+    + SetCellData(cellData:Cell) : void
+    - _rectTransform : RectTransform
+    + Width : int <<get>>
+    + Height : int <<get>>
+    - SetText(text:string) : void
+    - SetTextColor(color:Color) : void
+    + SetPosition(pos:Vector2) : void
+    <<internal>> Kill() : void
+    + UpdateText() : void
+    - GetRectTransform() : void
+    + Move(onComplete:Action) : void
+    + AnimateSpawn() : void
+    + AnimateMultiplication() : void
+}
+MonoBehaviour <|-- CellView
+@enduml

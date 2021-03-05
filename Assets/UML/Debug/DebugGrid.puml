@@ -1,0 +1,7 @@
+@startuml
+class DebugGrid {
+    - _items : DebugItem[]
+    + Print(cells:Cell[,]) : void
+}
+MonoBehaviour <|-- DebugGrid
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+class EventSystem <<static>> {
+    + {static}  <<event>> OnSwipe : EventHandler<InputEventArg> 
+    + {static}  <<event>> OnModelModified : EventHandler 
+    + {static}  <<event>> OnGameOver : EventHandler 
+    + {static}  <<event>> OnWin : EventHandler 
+    + {static}  <<event>> OnUndo : EventHandler 
+    + {static}  <<event>> OnRestart : EventHandler 
+    + {static}  <<event>> OnMovementFinished : EventHandler 
+    + {static}  <<event>> OnCurrentSwipeDirectionChanged : EventHandler<InputEventArg> 
+    + {static} OnSwipeInvoke(sender:object, arg:InputEventArg) : void
+    + {static} OnCurrentSwipeDirectionChangedInvoke(arg:InputEventArg, sender:object) : void
+    + {static} ModelModifiedInvoke(sender:object) : void
+    + {static} OnGameOverInvoke(sender:object) : void
+    + {static} OnWinInvoke(sender:object) : void
+    + {static} OnUndoInvoke(sender:object) : void
+    + {static} OnRestartInvoke(sender:object) : void
+    + {static} OnMovementFinishedInvoke(sender:object) : void
+}
+class InputEventArg {
+    + CurrDirection : Direction
+}
+EventArgs <|-- InputEventArg
+@enduml

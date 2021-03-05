@@ -1,0 +1,16 @@
+@startuml
+class Config <<static>> {
+    + <<const>> FieldWidth : int = 4
+    + <<const>> FieldHeight : int = 4
+    + <<const>> CellViewSpacing : int = 28
+    + <<const>> MovingTime : float = 0.15f
+    + <<const>> SpawningTime : float = 0.2f
+    + <<const>> MultiplicationTime : float = 0.3f
+    + <<const>> MultiplyAnimationScaleMultiplier : float = 2f
+    + <<const>> FadeTime : float = 0.3f
+    + <<const>> PaddingX : float = 135.5f
+    + <<const>> PaddingY : float = 135.5f
+    + <<const>> MinSwipeLenght : float = 0.5f
+    + <<const>> PlayerInfoKey : string = "PlayerInfo"
+}
+@enduml

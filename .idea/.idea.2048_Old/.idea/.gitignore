@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.2048_Old.iml
+/contentModel.xml
+# Datasource local storage ignored files
+/../../../../../../../:\WORKSPACES\WORKSPACE(For Unity)\2048_Old\.idea\.idea.2048_Old\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

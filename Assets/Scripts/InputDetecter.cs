@@ -78,7 +78,7 @@ public class InputDetecter : MonoBehaviour {
 
     private void Swipe()
     {
-
+    //TODO use preprocessor directives ano not comments
         /*if (Input.touches.Length > 0)
         {
             Touch t = new Touch();

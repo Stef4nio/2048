@@ -1,0 +1,10 @@
+@startuml
+class SwipeManager {
+    - CurrentSwipeDirection : Direction
+    - UpcomingSwipeDirection : Direction
+    Awake() : void
+    - OnMovementFinished(sender:object, e:EventArgs) : void
+    - OnSwipe(sender:object, e:InputEventArg) : void
+}
+MonoBehaviour <|-- SwipeManager
+@enduml

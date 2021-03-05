@@ -1,0 +1,18 @@
+@startuml
+class ConfirmationPopupPanel {
+    - _text : Text
+    - _yesButtonText : Text
+    - _noButtonText : Text
+    - _yesButton : Button
+    - _restartButton : Button
+    - _gameView : GameObject
+    Awake() : void
+    - OnAnswerButtonClick(sender:object, e:EventArgs) : void
+    Start() : void
+    - OnRestartButtonClick(sender:object, e:EventArgs) : void
+    + Enable() : void
+    + Disable() : void
+    Update() : void
+}
+MonoBehaviour <|-- ConfirmationPopupPanel
+@enduml
