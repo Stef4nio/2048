@@ -7,5 +7,6 @@ public class MainGameInstaller : MonoInstaller
     {
         Container.Bind<GameModel>().To<GameModel>().AsSingle();
         Container.Bind<EventSystem>().To<EventSystem>().AsSingle();
+        Container.Bind<CellFactory>().To<CellFactory>().AsSingle();
     }
 }

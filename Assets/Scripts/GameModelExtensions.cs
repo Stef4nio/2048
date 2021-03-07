@@ -26,5 +26,21 @@
             }
             return true;
         }
+
+        public static GameLogic2048.Direction ToGameLogicDirection(this Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return GameLogic2048.Direction.Up;
+                case Direction.Down:
+                    return GameLogic2048.Direction.Down;
+                case Direction.Left:
+                    return GameLogic2048.Direction.Left;
+                case Direction.Right:
+                    return GameLogic2048.Direction.Right;
+            }
+            return GameLogic2048.Direction.None;
+        }
     }
 }

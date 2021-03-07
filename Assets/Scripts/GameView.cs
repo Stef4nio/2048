@@ -117,13 +117,12 @@ public class GameView : MonoBehaviour
                 {
                     CellView cellView = GetCellViewById(_model.AllCells[i].id);
                     Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString() + "</color>");
-                    _model.UnregisterCell(cellView.CellData.id, true);
+                    //_model.UnregisterCell(cellView.CellData.id, true);
                     cellView.Kill();
-                    i--;
                     _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
                 }
             }
-
+            _model.FinalizeUndo();
             RefreshField();
         }
         else
@@ -186,8 +185,7 @@ public class GameView : MonoBehaviour
 
             if (_model.State == GameState.Moving)
             {
-                if (cell.offsetX != 0 ||
-                    cell.offsetY != 0)
+                if (cell.offsetX != 0 || cell.offsetY != 0)
                 {
 
                     var currCellView = GetCellViewById(cell.id);

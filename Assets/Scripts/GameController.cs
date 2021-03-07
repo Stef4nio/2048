@@ -5,6 +5,7 @@ using Assets.Scripts;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using GameLogic2048;
 using Zenject;
 
 [RequireComponent(typeof(InputDetecter))]
@@ -16,6 +17,8 @@ public class GameController:MonoBehaviour{
     private GameModel _model;
     [Inject] 
     private EventSystem _eventSystem;
+    [Inject] 
+    private CellFactory _cellFactory;
 
 
     private void Awake()
@@ -81,38 +84,48 @@ public class GameController:MonoBehaviour{
     private void OnSwipe(object sender, InputEventArg e)
     {
         _model.SavePreviousState();
-
+        int deltaScore = 0;
         switch(e.CurrDirection)
         {
             case Direction.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    _model.SetColumn(Compressor(_model.GetColumn(i), e.CurrDirection),i);
+                    _model.SetColumn(GameLogic<ModelCell,CellFactory>.
+                        Compressor(_model.GetColumn(i),_cellFactory,
+                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
                 }
                 break;
 
             case Direction.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    _model.SetColumn(Compressor(_model.GetColumn(i), e.CurrDirection), i);
+                    _model.SetColumn(GameLogic<ModelCell,CellFactory>.
+                        Compressor(_model.GetColumn(i),_cellFactory,
+                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
                 }
                 break;
 
             case Direction.Left:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    _model.SetRow(Compressor(_model.GetRow(i), e.CurrDirection), i);
+                    _model.SetRow(GameLogic<ModelCell,CellFactory>.
+                        Compressor(_model.GetRow(i),_cellFactory,
+                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
                 }
                 break;
 
             case Direction.Right:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    _model.SetRow(Compressor(_model.GetRow(i), e.CurrDirection), i);
+                    _model.SetRow(GameLogic<ModelCell,CellFactory>.
+                        Compressor(_model.GetRow(i),_cellFactory,
+                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
                 }
                 break;
         }
 
+        _model.GameScore += deltaScore;
+        
         if (!_model.AreLastAndCurrentMoveEqual())
         {
             AddRandomCell();
@@ -179,7 +192,7 @@ public class GameController:MonoBehaviour{
     {
         if (!_model.isUndone)
         {
-            _model.Undo();
+            _model.PrepareForUndo();
         }        
     }
     
@@ -239,7 +252,7 @@ public class GameController:MonoBehaviour{
                     row[i].isReadyToDestroy = true;
                     Debug.Log("READY TO DESTROY: "+ row[i].ToString());
                     Debug.Log("READY TO DESTROY: "+ row[i - 1].ToString());
-                    var newCell = CellFactory.CreateCell(row[i].value *= 2,false);
+                    var newCell = _cellFactory.CreateCell(row[i].value *= 2,false);
                     _model.RegisterCell(newCell);
 
                     newCell.isMultiply = true;

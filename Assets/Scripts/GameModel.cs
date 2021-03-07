@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngineInternal;
 using GameLogic2048;
+using Zenject;
 
 
 public enum GameState
@@ -31,6 +32,9 @@ public class GameModel
     public ModelCell[,] PreviousMoveField = new ModelCell[Config.FieldHeight, Config.FieldWidth];
     public ModelCell[,] TemporaryMoveField = new ModelCell[Config.FieldHeight, Config.FieldWidth];
 
+    [Inject] 
+    private CellFactory _cellFactory;
+
 
 
     public void LoadInfo(InfoContainer info)
@@ -45,7 +49,7 @@ public class GameModel
             GameField = info.GameField ?? new ModelCell[Config.FieldHeight, Config.FieldWidth];
             PreviousMoveField = info.PreviousMoveField ?? new ModelCell[Config.FieldHeight, Config.FieldWidth];
             TemporaryMoveField = info.TemporaryMoveField ?? new ModelCell[Config.FieldHeight, Config.FieldWidth];
-            CellFactory.Load(info.CurrentId);
+            _cellFactory.Load(info.CurrentId);
             for (int i = 0; i < Config.FieldHeight; i++)
             {
                 for (int j = 0; j < Config.FieldWidth; j++)
@@ -69,7 +73,7 @@ public class GameModel
 
     public ModelCell CreateAndSetCell(int _x,int _y,int value,bool doAnimate)
     {
-        GameField[_y, _x] = CellFactory.CreateCell(value,doAnimate);
+        GameField[_y, _x] = _cellFactory.CreateCell(value,doAnimate);
         GameField[_y, _x].x = _x;
         GameField[_y, _x].y = _y;
 
@@ -80,7 +84,10 @@ public class GameModel
 
     public void RegisterCell(ModelCell cell)
     {
-        AllCells.Add(cell);
+        if (!AllCells.Contains(cell)&&cell!=null)
+        {
+            AllCells.Add(cell);
+        }
     }
 
     public void UnregisterCell(int id, bool isUndo = false)
@@ -103,7 +110,8 @@ public class GameModel
     }
 
     public void SetRow(ModelCell[] row, int rowPosition)
-    {
+    {        
+        row.ToList().ForEach(RegisterCell);
         for(int i = 0;i<row.Length;i++)
         {
             GameField[rowPosition, i] = row[i];
@@ -132,6 +140,7 @@ public class GameModel
 
     public void SetColumn(ModelCell[] column, int columnPosition)
     {
+        column.ToList().ForEach(RegisterCell);
         for (int i = 0; i < column.Length; i++)
         {
             GameField[i, columnPosition] = column[i];
@@ -144,7 +153,7 @@ public class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
-    internal void Undo()
+    internal void PrepareForUndo()
     {
         GameScore = PreviousScore;
         for (int i = 0; i < Config.FieldHeight; i++)
@@ -153,7 +162,7 @@ public class GameModel
             {
                 if (GameField[i, j] != null)
                 {
-                    AllCells.Find(c => c == GameField[i, j]).isReadyToDestroy = true;
+                    AllCells.Find(c => Equals(c, GameField[i, j])).isReadyToDestroy = true;
                     Debug.Log("READY TO DESTROY: " + GameField[i, j].ToString());
                 }
 
@@ -168,6 +177,20 @@ public class GameModel
         isUndone = true;
     }
 
+    private void ClearReadyToDestroyCells()
+    {
+        AllCells.RemoveAll(x => x.isReadyToDestroy);
+    }
+
+    internal void FinalizeUndo()
+    {
+        ClearReadyToDestroyCells();
+        foreach (var modelCell in GameField)
+        {
+            RegisterCell(modelCell);
+        }
+    }
+    
     public ModelCell GetCellFromPrevious(int x, int y)
     {
         return PreviousMoveField[y, x];
@@ -296,7 +319,7 @@ public class GameModel
     public InfoContainer SaveInfo(bool isAlreadyWon)
     {
         return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,
-            GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID,
+            GameField,PreviousMoveField,TemporaryMoveField,_cellFactory.currentID,
             (State == GameState.GameOver), isAlreadyWon);
     }
 
@@ -313,50 +336,12 @@ public class GameModel
 
     public bool IsWon()
     {
-        //return GameLogic2048.GameLogic.IsWon(AllCells);
-        //todo: fix
-        return false;
+        return GameLogic<ModelCell,CellFactory>.IsWon(AllCells);
     }
 
     public bool IsLose()
     {
-        //Cell[,] tempCells =(Cell[,]) GameField.Clone();
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            for (int j = 0; j < Config.FieldWidth; j++)
-            {
-                int currValue = GameField[i, j].value;
-                try
-                {
-                    if (GameField[i - 1, j].value == currValue)
-                    {
-                        return false;
-                    }
-                }catch{}
-                try
-                {
-                    if (GameField[i + 1, j].value == currValue)
-                    {
-                        return false;
-                    }
-                } catch{}
-                try
-                {
-                    if (GameField[i, j - 1].value == currValue)
-                    {
-                        return false;
-                    }
-                }catch{}
-                try
-                {
-                    if (GameField[i, j + 1].value == currValue)
-                    {
-                        return false;
-                    }
-                }catch {}
-            }
-        }
-        return true;
+        return GameLogic<ModelCell,CellFactory>.IsLose(GameField,Config.FieldHeight,Config.FieldWidth);
     }
 }
 
