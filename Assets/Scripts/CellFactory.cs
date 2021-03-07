@@ -13,8 +13,8 @@ public static class CellFactory
         currentID = _currentID;
     }
 
-    public static Cell CreateCell(int value,bool doAnimate)
+    public static ModelCell CreateCell(int value,bool doAnimate)
     {
-        return new Cell(value, currentID++,doAnimate);
+        return new ModelCell(value, currentID++,doAnimate);
     }
 }

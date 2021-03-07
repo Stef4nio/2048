@@ -25,12 +25,12 @@ public class DebugPanel : MonoBehaviour
         }
     }
 
-    public void PrintGridBefore(Cell[,] cells)
+    public void PrintGridBefore(ModelCell[,] cells)
     {
         _debugGridBefore.Print(cells);
     }
 
-    public void PrintGridCurrent(Cell[,] cells)
+    public void PrintGridCurrent(ModelCell[,] cells)
     {
         _debugGridCurrent.Print(cells);
     }

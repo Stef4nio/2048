@@ -11,18 +11,20 @@ public class SwipeManager:MonoBehaviour
 
     [Inject]
     private GameModel _model;
+    [Inject] 
+    private EventSystem _eventSystem;
     
     void Awake()
     {
-        EventSystem.OnSwipe += OnSwipe;
-        EventSystem.OnMovementFinished += OnMovementFinished;
+        _eventSystem.OnSwipe += OnSwipe;
+        _eventSystem.OnMovementFinished += OnMovementFinished;
     }
 
     private void OnMovementFinished(object sender, EventArgs e)
     {
         CurrentSwipeDirection = UpcomingSwipeDirection;
         UpcomingSwipeDirection = Direction.None;
-        EventSystem.OnCurrentSwipeDirectionChangedInvoke(new InputEventArg{CurrDirection = CurrentSwipeDirection});
+        _eventSystem.OnCurrentSwipeDirectionChangedInvoke(new InputEventArg{CurrDirection = CurrentSwipeDirection});
         CurrentSwipeDirection = Direction.None;
     }
 
@@ -31,7 +33,7 @@ public class SwipeManager:MonoBehaviour
         if (_model.State == GameState.Idle)
         {
             CurrentSwipeDirection = e.CurrDirection;
-            EventSystem.OnCurrentSwipeDirectionChangedInvoke(new InputEventArg { CurrDirection = CurrentSwipeDirection });
+            _eventSystem.OnCurrentSwipeDirectionChangedInvoke(new InputEventArg { CurrDirection = CurrentSwipeDirection });
         }
         else if (_model.State == GameState.Moving)
         {

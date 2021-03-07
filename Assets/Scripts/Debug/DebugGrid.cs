@@ -9,7 +9,7 @@ public class DebugGrid : MonoBehaviour
     private DebugItem[] _items;
 
 
-    public void Print(Cell[,] cells)
+    public void Print(ModelCell[,] cells)
     {
         
         for (var j = 0; j < cells.GetLength(0); j++)

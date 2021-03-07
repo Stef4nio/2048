@@ -14,16 +14,16 @@ public class CellView : MonoBehaviour
     private Text _text;
     [SerializeField]
     private Text _IdText;
-    private Cell _cellData;
+    private ModelCell _cellData;
     private Sequence _multiplication;
     
 
-    public Cell CellData
+    public ModelCell CellData
     {
         get { return _cellData; }
     }
 
-    public void SetCellData(Cell cellData)
+    public void SetCellData(ModelCell cellData)
     {
         _cellData = cellData;
 
@@ -99,7 +99,7 @@ public class CellView : MonoBehaviour
         }
     }
 
-    public void Move(Action onComplete, Cell previousState)
+    public void Move(Action onComplete, ModelCell previousState)
     {
         //var previousState = _model.GetPreviousCellById(_cellData.id);
         Debug.Log("MOVE: " + previousState.ToString() + " ==> " +  _cellData.ToString());

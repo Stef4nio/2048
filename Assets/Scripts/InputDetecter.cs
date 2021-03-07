@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public enum Direction
 {
@@ -27,6 +28,10 @@ public class InputDetecter : MonoBehaviour {
     [SerializeField] private Button _undoButton;
     [SerializeField] private Button _winContinueButton;
     [SerializeField] private Image _confirmationPopupPanel;
+    
+    [Inject] 
+    private EventSystem _eventSystem;
+    
     public event EventHandler OnPopupButtonClick;
     public event EventHandler OnYesButtonClick;
     public event EventHandler OnNoButtonClick;
@@ -139,7 +144,7 @@ public class InputDetecter : MonoBehaviour {
                 Debug.Log("Swipe right");
                /* if (GameModel.State == GameState.Idle)
                 {*/
-                    EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Right });
+               _eventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Right });
                 /*}
                 else
                 {
@@ -153,7 +158,7 @@ public class InputDetecter : MonoBehaviour {
                 Debug.Log("Swipe left");
                 /*if (GameModel.State == GameState.Idle)
                 {*/
-                    EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Left });
+                _eventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Left });
                 /*}
                 else
                 {
@@ -167,7 +172,7 @@ public class InputDetecter : MonoBehaviour {
                 Debug.Log("Swipe up");
                 /*if (GameModel.State == GameState.Idle)
                 {*/
-                    EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Up });
+                _eventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Up });
                /* }
                 else
                 {
@@ -181,7 +186,7 @@ public class InputDetecter : MonoBehaviour {
                 Debug.Log("Swipe down");
                 /*if (GameModel.State == GameState.Idle)
                 {*/
-                    EventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Down });
+                _eventSystem.OnSwipeInvoke(this, new InputEventArg() { CurrDirection = Direction.Down });
                 /*}
                 else
                 {

@@ -24,7 +24,7 @@ public class DebugItem : MonoBehaviour
         _id.text = "x";
     }
 
-    public void SetValue(Cell cell)
+    public void SetValue(ModelCell cell)
     {
         _currentValue.text = (cell!=null) ? cell.value.ToString() : "null";
         _id.text = (cell!=null) ? cell.id.ToString() : "null";

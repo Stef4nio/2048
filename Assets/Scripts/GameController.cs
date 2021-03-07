@@ -8,12 +8,14 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(InputDetecter))]
-public class GameLogics:MonoBehaviour{
+public class GameController:MonoBehaviour{
     System.Random _rand;
     private bool isAlreadyWon;
     
     [Inject]
     private GameModel _model;
+    [Inject] 
+    private EventSystem _eventSystem;
 
 
     private void Awake()
@@ -36,9 +38,9 @@ public class GameLogics:MonoBehaviour{
 
     private void Start()
     {
-        EventSystem.OnCurrentSwipeDirectionChanged += OnSwipe;
-        EventSystem.OnRestart += OnRestart;
-        EventSystem.OnUndo += OnUndo;
+        _eventSystem.OnCurrentSwipeDirectionChanged += OnSwipe;
+        _eventSystem.OnRestart += OnRestart;
+        _eventSystem.OnUndo += OnUndo;
         //PlayerPrefs.DeleteAll();
         InfoContainer container =
             JsonConvert.DeserializeObject<InfoContainer>(PlayerPrefs.GetString(Config.PlayerInfoKey));
@@ -47,7 +49,7 @@ public class GameLogics:MonoBehaviour{
         isAlreadyWon = container.IsAlreadyWon;
         if (container.IsGameover)
         {
-            EventSystem.OnGameOverInvoke();
+            _eventSystem.OnGameOverInvoke();
         }
     }
 
@@ -73,7 +75,7 @@ public class GameLogics:MonoBehaviour{
             AddRandomCell();
             AddRandomCell();
         }
-        EventSystem.ModelModifiedInvoke();
+        _eventSystem.ModelModifiedInvoke();
     }
 
     private void OnSwipe(object sender, InputEventArg e)
@@ -123,17 +125,17 @@ public class GameLogics:MonoBehaviour{
             _model.GameHighScore = _model.GameScore;
         }
         saveInfo();
-        EventSystem.ModelModifiedInvoke();
+        _eventSystem.ModelModifiedInvoke();
 
-        if (isWon() && !isAlreadyWon)
+        if (_model.IsWon() && !isAlreadyWon)
         {
             Win();
         }
         if (_model.IsGameModelFilledUp())
         {
-            if (IsLose())
+            if (_model.IsLose())
             {
-                EventSystem.OnGameOverInvoke();
+                _eventSystem.OnGameOverInvoke();
             }
         }
 
@@ -141,7 +143,7 @@ public class GameLogics:MonoBehaviour{
 
     private void Win()
     {
-        EventSystem.OnWinInvoke();
+        _eventSystem.OnWinInvoke();
         isAlreadyWon = true;
     }
 
@@ -178,86 +180,17 @@ public class GameLogics:MonoBehaviour{
         if (!_model.isUndone)
         {
             _model.Undo();
-            _model.isUndone = true;
         }        
     }
+    
 
-    //TODO move to gamemodel
-    private bool isWon()
+    public bool IsEqual(ModelCell[,] array1, ModelCell[,] array2)
     {
-        return _model.AllCells.Find(c => c.value == 2048) != null;
-    }
-
-    //TODO move to gamemodel
-    private bool IsLose()
-    {
-        Cell[,] tempCells =(Cell[,]) _model.GameField.Clone();
-        for (int i = 0; i < Config.FieldHeight; i++)
-        {
-            for (int j = 0; j < Config.FieldWidth; j++)
-            {
-                int _currValue = tempCells[i, j].value;
-                try
-                {
-                    if (tempCells[i - 1, j].value == _currValue)
-                    {
-                        return false;
-                    }
-                }catch{}
-                try
-                {
-                    if (tempCells[i + 1, j].value == _currValue)
-                    {
-                        return false;
-                    }
-                } catch{}
-                try
-                {
-                    if (tempCells[i, j - 1].value == _currValue)
-                    {
-                        return false;
-                    }
-                }catch{}
-                try
-                {
-                    if (tempCells[i, j + 1].value == _currValue)
-                    {
-                        return false;
-                    }
-                }catch {}
-            }
-        }
-        return true;
-    }
-
-    //TODO move to gamemodel or even overload the operator or write extension method
-    public bool IsEqual(Cell[,] array1, Cell[,] array2)
-    {
-        for (int i = 0; i < array1.GetLength(0); i++)
-        {
-            for (int j = 0; j < array1.GetLength(1); j++)
-            {
-                if (array1[i, j] == null && array2[i, j] == null)
-                {
-                    continue;
-                }
-
-                if (array1[i, j] == null ^ array2[i, j] == null)
-                {
-                    return false;
-                }
-
-                if (array1[i, j].id != array2[i, j].id)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return array1.IsEqual(array2);
     }
 
     //TODO: get this thing the fuck out of here and even put it in another file
-    private Cell[] Compressor (Cell[] row, Direction direction)
+    private ModelCell[] Compressor (ModelCell[] row, Direction direction)
     {
         int changes;
         if (direction==Direction.Down || direction == Direction.Right)

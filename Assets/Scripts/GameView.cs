@@ -26,6 +26,8 @@ public class GameView : MonoBehaviour
 
     [Inject]
     private GameModel _model;
+    [Inject] 
+    private EventSystem _eventSystem;
 
     //private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
 
@@ -37,9 +39,9 @@ public class GameView : MonoBehaviour
     // Use this for initialization
     private void Awake ()
     {
-	    EventSystem.OnModelModified += RefreshField;
-        EventSystem.OnGameOver += FinishGame;
-        EventSystem.OnWin += OnGameWon;
+        _eventSystem.OnModelModified += RefreshField;
+        _eventSystem.OnGameOver += FinishGame;
+        _eventSystem.OnWin += OnGameWon;
         GetComponent<InputDetecter>().OnWinContinueClick += ContinuePlaying;
         GetComponent<InputDetecter>().OnYesButtonClick += OnAnswerButtonClick;
         GetComponent<InputDetecter>().OnUndoButtonClick += Undo;
@@ -108,7 +110,7 @@ public class GameView : MonoBehaviour
         if (_model.State == GameState.Idle)
         {
             
-            EventSystem.OnUndoInvoke();
+            _eventSystem.OnUndoInvoke();
             for (int i = 0; i < _model.AllCells.Count; i++)
             {
                 if (_model.AllCells[i].isReadyToDestroy)
@@ -156,7 +158,7 @@ public class GameView : MonoBehaviour
         _scoreText.text = _model.GameScore.ToString();
         _HighScoreText.text = _model.GameHighScore.ToString();
         _movingCellsAmount = 0;
-        foreach (Cell cell in _model.AllCells)
+        foreach (ModelCell cell in _model.AllCells)
         {
             if (_model.State == GameState.Idle)
             {
@@ -214,7 +216,7 @@ public class GameView : MonoBehaviour
             state.highlightedSprite = _restartButtonNormalHoverStateSprite;
             _restartButton.GetComponent<Button>().spriteState = state;
             _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
-            EventSystem.OnRestartInvoke();
+            _eventSystem.OnRestartInvoke();
             
         }
         else if(_model.State == GameState.Win)
@@ -260,7 +262,7 @@ public class GameView : MonoBehaviour
                 }
             }
             _model.ResetMultiplies();
-            EventSystem.OnMovementFinishedInvoke();
+            _eventSystem.OnMovementFinishedInvoke();
             if (isWon)
             {
                 WinGame();

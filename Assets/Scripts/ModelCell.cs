@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cell
+public class ModelCell
 {
     public int id;
     public int value = 0;
@@ -15,7 +15,8 @@ public class Cell
     public bool isReadyToDestroy = false;
     public bool doAnimate = false;
 
-    public Cell(int val,int _id, bool DoAnimate)
+    
+    public ModelCell(int val,int _id, bool DoAnimate)
     {
         id = _id;
         isNew = true;
@@ -23,9 +24,9 @@ public class Cell
         doAnimate = DoAnimate;
     }
 
-    public Cell Clone()
+    public ModelCell Clone()
     {
-        var clone = new Cell(0,0,false);
+        var clone = new ModelCell(0,0,false);
         clone.id = id;
         clone.value = value;
         clone.offsetX = offsetX;

@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EventSystem {
+public class EventSystem {
 
-    public static event EventHandler<InputEventArg> OnSwipe;
-    public static event EventHandler OnModelModified;
-    public static event EventHandler OnGameOver;
-    public static event EventHandler OnWin;
-    public static event EventHandler OnUndo;
-    public static event EventHandler OnRestart;
-    public static event EventHandler OnMovementFinished;
-    public static event EventHandler<InputEventArg> OnCurrentSwipeDirectionChanged;
+    public event EventHandler<InputEventArg> OnSwipe;
+    public event EventHandler OnModelModified;
+    public event EventHandler OnGameOver;
+    public event EventHandler OnWin;
+    public event EventHandler OnUndo;
+    public event EventHandler OnRestart;
+    public event EventHandler OnMovementFinished;
+    public event EventHandler<InputEventArg> OnCurrentSwipeDirectionChanged;
 
 
-    public static void OnSwipeInvoke(object sender, InputEventArg arg)
+    public void OnSwipeInvoke(object sender, InputEventArg arg)
     {
         if (OnSwipe != null)
         {
@@ -23,7 +23,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnCurrentSwipeDirectionChangedInvoke(InputEventArg arg, object sender = null)
+    public void OnCurrentSwipeDirectionChangedInvoke(InputEventArg arg, object sender = null)
     {
         if (OnCurrentSwipeDirectionChanged != null)
         {
@@ -31,7 +31,7 @@ public static class EventSystem {
         }
     }
 
-    public static void ModelModifiedInvoke(object sender = null)
+    public void ModelModifiedInvoke(object sender = null)
     {
         if (OnModelModified != null)
         {
@@ -39,7 +39,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnGameOverInvoke(object sender = null)
+    public void OnGameOverInvoke(object sender = null)
     {
         if (OnGameOver != null)
         {
@@ -47,7 +47,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnWinInvoke(object sender = null)
+    public void OnWinInvoke(object sender = null)
     {
         if (OnWin != null)
         {
@@ -55,7 +55,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnUndoInvoke(object sender = null)
+    public void OnUndoInvoke(object sender = null)
     {
         if (OnUndo != null)
         {
@@ -63,7 +63,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnRestartInvoke(object sender = null)
+    public void OnRestartInvoke(object sender = null)
     {
         if (OnRestart != null)
         {
@@ -71,7 +71,7 @@ public static class EventSystem {
         }
     }
 
-    public static void OnMovementFinishedInvoke(object sender = null)
+    public void OnMovementFinishedInvoke(object sender = null)
     {
         if (OnMovementFinished != null)
         {
