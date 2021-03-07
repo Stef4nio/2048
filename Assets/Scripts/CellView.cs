@@ -5,6 +5,7 @@ using System;
 using Assets.Scripts;
 using DG;
 using DG.Tweening;
+using Zenject;
 
 [RequireComponent(typeof(Image))]
 public class CellView : MonoBehaviour
@@ -15,6 +16,7 @@ public class CellView : MonoBehaviour
     private Text _IdText;
     private Cell _cellData;
     private Sequence _multiplication;
+    
 
     public Cell CellData
     {
@@ -97,14 +99,13 @@ public class CellView : MonoBehaviour
         }
     }
 
-    public void Move(Action onComplete)
+    public void Move(Action onComplete, Cell previousState)
     {
-        
-        var prevCellData = GameModel.GetPreviousCellById(_cellData.id);
-        Debug.Log("MOVE: " + prevCellData.ToString() + " ==> " +  _cellData.ToString());
+        //var previousState = _model.GetPreviousCellById(_cellData.id);
+        Debug.Log("MOVE: " + previousState.ToString() + " ==> " +  _cellData.ToString());
 
-        transform.DOLocalMove(new Vector3((prevCellData.x+_cellData.offsetX) * (Width + Config.CellViewSpacing) + Config.PaddingX,
-            -(prevCellData.y+_cellData.offsetY) * (Height + Config.CellViewSpacing) - Config.PaddingX), Config.MovingTime).onComplete = () =>
+        transform.DOLocalMove(new Vector3((previousState.x+_cellData.offsetX) * (Width + Config.CellViewSpacing) + Config.PaddingX,
+            -(previousState.y+_cellData.offsetY) * (Height + Config.CellViewSpacing) - Config.PaddingX), Config.MovingTime).onComplete = () =>
         {
             _cellData.offsetX = 0;
             _cellData.offsetY = 0;

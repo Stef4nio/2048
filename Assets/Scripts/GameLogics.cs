@@ -5,11 +5,15 @@ using Assets.Scripts;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 [RequireComponent(typeof(InputDetecter))]
 public class GameLogics:MonoBehaviour{
     System.Random _rand;
     private bool isAlreadyWon;
+    
+    [Inject]
+    private GameModel _model;
 
 
     private void Awake()
@@ -38,7 +42,7 @@ public class GameLogics:MonoBehaviour{
         //PlayerPrefs.DeleteAll();
         InfoContainer container =
             JsonConvert.DeserializeObject<InfoContainer>(PlayerPrefs.GetString(Config.PlayerInfoKey));
-        GameModel.LoadInfo(container);
+        _model.LoadInfo(container);
         Init();
         isAlreadyWon = container.IsAlreadyWon;
         if (container.IsGameover)
@@ -49,7 +53,7 @@ public class GameLogics:MonoBehaviour{
 
     private void OnRestartButtonClick(object sender,EventArgs e)
     {
-        if (GameModel.State != GameState.GameOver)
+        if (_model.State != GameState.GameOver)
         {
             DisableControls();
         }
@@ -58,13 +62,13 @@ public class GameLogics:MonoBehaviour{
 
     private void OnRestart(object sender = null, EventArgs e = null)
     {
-        GameModel.Restart();
+        _model.Restart();
         Init();
     }
 
     public void Init()
     {
-        if (GameModel.AllCells.Count == 0)
+        if (_model.AllCells.Count == 0)
         {
             AddRandomCell();
             AddRandomCell();
@@ -74,49 +78,49 @@ public class GameLogics:MonoBehaviour{
 
     private void OnSwipe(object sender, InputEventArg e)
     {
-        GameModel.SavePreviousState();
+        _model.SavePreviousState();
 
         switch(e.CurrDirection)
         {
             case Direction.Up:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection),i);
+                    _model.SetColumn(Compressor(_model.GetColumn(i), e.CurrDirection),i);
                 }
                 break;
 
             case Direction.Down:
                 for (int i = 0; i < Config.FieldHeight; i++)
                 {
-                    GameModel.SetColumn(Compressor(GameModel.GetColumn(i), e.CurrDirection), i);
+                    _model.SetColumn(Compressor(_model.GetColumn(i), e.CurrDirection), i);
                 }
                 break;
 
             case Direction.Left:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
+                    _model.SetRow(Compressor(_model.GetRow(i), e.CurrDirection), i);
                 }
                 break;
 
             case Direction.Right:
                 for (int i = 0; i < Config.FieldWidth; i++)
                 {
-                    GameModel.SetRow(Compressor(GameModel.GetRow(i), e.CurrDirection), i);
+                    _model.SetRow(Compressor(_model.GetRow(i), e.CurrDirection), i);
                 }
                 break;
         }
 
-        if (!GameModel.AreLastAndCurrentMoveEqual())
+        if (!_model.AreLastAndCurrentMoveEqual())
         {
             AddRandomCell();
-            GameModel.State = GameState.Moving;
-            GameModel.isUndone = false;
+            _model.State = GameState.Moving;
+            _model.isUndone = false;
         }
 
-        if (GameModel.GameScore > GameModel.GameHighScore)
+        if (_model.GameScore > _model.GameHighScore)
         {
-            GameModel.GameHighScore = GameModel.GameScore;
+            _model.GameHighScore = _model.GameScore;
         }
         saveInfo();
         EventSystem.ModelModifiedInvoke();
@@ -125,7 +129,7 @@ public class GameLogics:MonoBehaviour{
         {
             Win();
         }
-        if (GameModel.IsGameModelFilledUp())
+        if (_model.IsGameModelFilledUp())
         {
             if (IsLose())
             {
@@ -151,43 +155,43 @@ public class GameLogics:MonoBehaviour{
         {
             rndX = _rand.Next(Config.FieldWidth);
             rndY = _rand.Next(Config.FieldHeight);
-            if(!GameModel.DoesCellExist(rndX,rndY))
+            if(!_model.DoesCellExist(rndX,rndY))
             {
                 isSet = true;
-                GameModel.CreateAndSetCell(rndX, rndY, rndValue,true);
+                _model.CreateAndSetCell(rndX, rndY, rndValue,true);
             }
         }
     }
 
     public void DisableControls()
     {
-        GameModel.State = GameState.Pause;
+        _model.State = GameState.Pause;
     }
 
     public void EnableControls()
     {
-        GameModel.State = GameState.Idle;
+        _model.State = GameState.Idle;
     }
 
     private void OnUndo(object sender = null, EventArgs e = null)
     {
-        if (!GameModel.isUndone)
+        if (!_model.isUndone)
         {
-            GameModel.Undo();
-            GameModel.isUndone = true;
+            _model.Undo();
+            _model.isUndone = true;
         }        
     }
 
     //TODO move to gamemodel
     private bool isWon()
     {
-        return GameModel.AllCells.Find(c => c.value == 2048) != null;
+        return _model.AllCells.Find(c => c.value == 2048) != null;
     }
 
     //TODO move to gamemodel
     private bool IsLose()
     {
-        Cell[,] tempCells =(Cell[,]) GameModel.GameField.Clone();
+        Cell[,] tempCells =(Cell[,]) _model.GameField.Clone();
         for (int i = 0; i < Config.FieldHeight; i++)
         {
             for (int j = 0; j < Config.FieldWidth; j++)
@@ -303,7 +307,7 @@ public class GameLogics:MonoBehaviour{
                     Debug.Log("READY TO DESTROY: "+ row[i].ToString());
                     Debug.Log("READY TO DESTROY: "+ row[i - 1].ToString());
                     var newCell = CellFactory.CreateCell(row[i].value *= 2,false);
-                    GameModel.RegisterCell(newCell);
+                    _model.RegisterCell(newCell);
 
                     newCell.isMultiply = true;
 
@@ -327,7 +331,7 @@ public class GameLogics:MonoBehaviour{
 
                     row[i - 1] = newCell;
                     row[i] = null;
-                    GameModel.GameScore += row[i - 1].value;
+                    _model.GameScore += row[i - 1].value;
                     changes++;
                 }
             }
@@ -344,7 +348,7 @@ public class GameLogics:MonoBehaviour{
 
     private void saveInfo()
     {
-        string info = JsonConvert.SerializeObject(GameModel.SaveInfo(isAlreadyWon));
+        string info = JsonConvert.SerializeObject(_model.SaveInfo(isAlreadyWon));
         Debug.Log(info);
         PlayerPrefs.SetString(Config.PlayerInfoKey,info);
     }

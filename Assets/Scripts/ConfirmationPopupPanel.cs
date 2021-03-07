@@ -5,6 +5,7 @@ using Assets.Scripts;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 [RequireComponent(typeof(Image))]
 public class ConfirmationPopupPanel : MonoBehaviour
@@ -17,6 +18,8 @@ public class ConfirmationPopupPanel : MonoBehaviour
     [SerializeField] private Button _restartButton;
     [SerializeField] private GameObject _gameView;
 
+    [Inject]
+    private GameModel _model;
 
     void Awake()
     {
@@ -48,7 +51,7 @@ public class ConfirmationPopupPanel : MonoBehaviour
     private void OnRestartButtonClick(object sender, EventArgs e)
     {
         Enable();
-        if (GameModel.State == GameState.GameOver)
+        if (_model.State == GameState.GameOver)
         {
             _yesButton.onClick.Invoke();
         }

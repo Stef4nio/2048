@@ -15,24 +15,24 @@ public enum GameState
     Win
 }
 
-public static class GameModel
+public class GameModel
 {
 
     //TODO: save all the info here in playerPrefs
-    public static GameState State = GameState.Idle;
+    public GameState State = GameState.Idle;
 
-    public static List<Cell> AllCells = new List<Cell>();
-    public static int GameScore = 0;
-    public static int GameHighScore = 0;
-    public static int PreviousScore = 0;
-    public static bool isUndone = false;
-    public static Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
-    public static Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
-    public static Cell[,] TemporaryMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public List<Cell> AllCells = new List<Cell>();
+    public int GameScore = 0;
+    public int GameHighScore = 0;
+    public int PreviousScore = 0;
+    public bool isUndone = false;
+    public Cell[,] GameField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public Cell[,] PreviousMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
+    public Cell[,] TemporaryMoveField = new Cell[Config.FieldHeight, Config.FieldWidth];
 
 
 
-    public static void LoadInfo(InfoContainer info)
+    public void LoadInfo(InfoContainer info)
     {
         if (info != null)
         {
@@ -66,7 +66,7 @@ public static class GameModel
 
 
 
-    public static Cell CreateAndSetCell(int _x,int _y,int value,bool doAnimate)
+    public Cell CreateAndSetCell(int _x,int _y,int value,bool doAnimate)
     {
         GameField[_y, _x] = CellFactory.CreateCell(value,doAnimate);
         GameField[_y, _x].x = _x;
@@ -77,12 +77,12 @@ public static class GameModel
         return GameField[_y, _x];
     }
 
-    public static void RegisterCell(Cell cell)
+    public void RegisterCell(Cell cell)
     {
         AllCells.Add(cell);
     }
 
-    public static void UnregisterCell(int id, bool isUndo = false)
+    public void UnregisterCell(int id, bool isUndo = false)
     {
         int amount = 0;
         if (isUndo)
@@ -96,12 +96,12 @@ public static class GameModel
         Debug.Log("From AllCells removed " + amount + " elements");
     }
 
-    public static bool DoesCellExist(int x, int y)
+    public bool DoesCellExist(int x, int y)
     {
         return(GameField[y,x]!=null);
     }
 
-    public static void SetRow(Cell[] row, int rowPosition)
+    public void SetRow(Cell[] row, int rowPosition)
     {
         for(int i = 0;i<row.Length;i++)
         {
@@ -115,7 +115,7 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
-    public static void SetRowToPrevious(Cell[] row, int rowPosition)
+    public void SetRowToPrevious(Cell[] row, int rowPosition)
     {
         for (int i = 0; i < row.Length; i++)
         {
@@ -129,7 +129,7 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
-    public static void SetColumn(Cell[] column, int columnPosition)
+    public void SetColumn(Cell[] column, int columnPosition)
     {
         for (int i = 0; i < column.Length; i++)
         {
@@ -143,7 +143,7 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
-    internal static void Undo()
+    internal void Undo()
     {
         GameScore = PreviousScore;
         for (int i = 0; i < Config.FieldHeight; i++)
@@ -167,12 +167,12 @@ public static class GameModel
 
     }
 
-    public static Cell GetCellFromPrevious(int x, int y)
+    public Cell GetCellFromPrevious(int x, int y)
     {
         return PreviousMoveField[y, x];
     }
 
-    public static void SetColumnToPrevious(Cell[] column, int columnPosition)
+    public void SetColumnToPrevious(Cell[] column, int columnPosition)
     {
         for (int i = 0; i < column.Length; i++)
         {
@@ -186,7 +186,7 @@ public static class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
-    public static void Restart()
+    public void Restart()
     {
         GameScore = 0;
         isUndone = false;
@@ -197,7 +197,7 @@ public static class GameModel
         AllCells.Clear();
     }
 
-    public static Cell[] GetColumn(int columnPosition)
+    public Cell[] GetColumn(int columnPosition)
     {
         Cell[] output = new Cell[Config.FieldHeight];
         for (int i = 0; i < Config.FieldHeight; i++)
@@ -207,7 +207,7 @@ public static class GameModel
         return output;
     }
 
-    public static Cell[] GetRow(int rowPosition)
+    public Cell[] GetRow(int rowPosition)
     {
         Cell[] output = new Cell[Config.FieldWidth];
         for (int i = 0; i < Config.FieldWidth; i++)
@@ -218,7 +218,7 @@ public static class GameModel
     }
  
 
-    public static bool AreLastAndCurrentMoveEqual()
+    public bool AreLastAndCurrentMoveEqual()
     {
         for (int i = 0; i < Config.FieldHeight; i++)
         {
@@ -242,7 +242,7 @@ public static class GameModel
 
 
 
-    public static void SavePreviousState()
+    public void SavePreviousState()
     {
         PreviousScore = GameScore;
         for (int j = 0; j < Config.FieldHeight; j++)
@@ -263,7 +263,7 @@ public static class GameModel
         //DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
     }
 
-    public static bool IsGameModelFilledUp()
+    public bool IsGameModelFilledUp()
     {
         int _filledCells = 0;
         foreach (var cell in GameField)
@@ -277,7 +277,7 @@ public static class GameModel
         return (_filledCells == Config.FieldHeight * Config.FieldWidth);
     }
 
-    public static Cell GetPreviousCellById(int id)
+    public Cell GetPreviousCellById(int id)
     {
 
         foreach (Cell cell in PreviousMoveField)
@@ -292,7 +292,7 @@ public static class GameModel
         //return PreviousMoveField.Cast<Cell>().FirstOrDefault(c => c.id == id);
     }
 
-    public static InfoContainer SaveInfo(bool isAlreadyWon)
+    public InfoContainer SaveInfo(bool isAlreadyWon)
     {
         return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,
             GameField,PreviousMoveField,TemporaryMoveField,CellFactory.currentID,
@@ -300,7 +300,7 @@ public static class GameModel
     }
 
 
-    public static void ResetMultiplies()
+    public void ResetMultiplies()
     {
         foreach (var cell in AllCells)
         {

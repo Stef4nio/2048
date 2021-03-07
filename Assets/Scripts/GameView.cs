@@ -6,6 +6,7 @@ using Assets.Scripts;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class GameView : MonoBehaviour
 {
@@ -23,7 +24,8 @@ public class GameView : MonoBehaviour
     [SerializeField] private Sprite _restartButtonEmphasizedStateSprite;
     [SerializeField] private Sprite _restartButtonEmphasizedHoverStateSprite;
 
-
+    [Inject]
+    private GameModel _model;
 
     //private CellView[,] Field = new CellView[Config.FieldHeight, Config.FieldWidth];
 
@@ -53,7 +55,7 @@ public class GameView : MonoBehaviour
         SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
         _restartButton.GetComponent<Button>().spriteState = state;
         _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
-        GameModel.State = GameState.Idle;
+        _model.State = GameState.Idle;
     }
 
     private void OnGameWon(object sender, EventArgs e)
@@ -63,7 +65,7 @@ public class GameView : MonoBehaviour
 
     public void WinGame()
     {
-        GameModel.State = GameState.Win;
+        _model.State = GameState.Win;
         SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
         _restartButton.GetComponent<Button>().spriteState = state;
         _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
@@ -87,33 +89,33 @@ public class GameView : MonoBehaviour
 
     public void Undo(object sender, EventArgs e)
     {
-        if (GameModel.State == GameState.GameOver)
+        if (_model.State == GameState.GameOver)
         {
             GameOverPanel.Disable();
             SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
             _restartButton.GetComponent<Button>().spriteState = state;
             _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
-            GameModel.State = GameState.Idle;
+            _model.State = GameState.Idle;
         }
-        if (GameModel.State == GameState.Win)
+        if (_model.State == GameState.Win)
         {
             WinPanel.Disable();
             SpriteState state = new SpriteState {pressedSprite = _restartButtonNormalHoverStateSprite};
             _restartButton.GetComponent<Button>().spriteState = state;
             _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
-            GameModel.State = GameState.Idle;
+            _model.State = GameState.Idle;
         }
-        if (GameModel.State == GameState.Idle)
+        if (_model.State == GameState.Idle)
         {
             
             EventSystem.OnUndoInvoke();
-            for (int i = 0; i < GameModel.AllCells.Count; i++)
+            for (int i = 0; i < _model.AllCells.Count; i++)
             {
-                if (GameModel.AllCells[i].isReadyToDestroy)
+                if (_model.AllCells[i].isReadyToDestroy)
                 {
-                    CellView cellView = GetCellViewById(GameModel.AllCells[i].id);
+                    CellView cellView = GetCellViewById(_model.AllCells[i].id);
                     Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString() + "</color>");
-                    GameModel.UnregisterCell(cellView.CellData.id, true);
+                    _model.UnregisterCell(cellView.CellData.id, true);
                     cellView.Kill();
                     i--;
                     _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
@@ -130,7 +132,7 @@ public class GameView : MonoBehaviour
 
     public void ArtificialFinishGame()
     {
-        GameModel.State = GameState.GameOver;
+        _model.State = GameState.GameOver;
         SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
         _restartButton.GetComponent<Button>().spriteState = state;
         _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
@@ -139,7 +141,7 @@ public class GameView : MonoBehaviour
 
     private void FinishGame(object sender, EventArgs e)
     {
-        GameModel.State = GameState.GameOver;
+        _model.State = GameState.GameOver;
         SpriteState state = new SpriteState {pressedSprite = _restartButtonEmphasizedHoverStateSprite};
         _restartButton.GetComponent<Button>().spriteState = state;
         _restartButton.GetComponent<Button>().image.sprite = _restartButtonEmphasizedStateSprite;
@@ -150,13 +152,13 @@ public class GameView : MonoBehaviour
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();
-        //DebugPanel.Instance.PrintGridCurrent(GameModel.GameField);
-        _scoreText.text = GameModel.GameScore.ToString();
-        _HighScoreText.text = GameModel.GameHighScore.ToString();
+        //DebugPanel.Instance.PrintGridCurrent(_model.GameField);
+        _scoreText.text = _model.GameScore.ToString();
+        _HighScoreText.text = _model.GameHighScore.ToString();
         _movingCellsAmount = 0;
-        foreach (Cell cell in GameModel.AllCells)
+        foreach (Cell cell in _model.AllCells)
         {
-            if (GameModel.State == GameState.Idle)
+            if (_model.State == GameState.Idle)
             {
                 if (cell.isNew)
                 {
@@ -180,7 +182,7 @@ public class GameView : MonoBehaviour
             }
 
 
-            if (GameModel.State == GameState.Moving)
+            if (_model.State == GameState.Moving)
             {
                 if (cell.offsetX != 0 ||
                     cell.offsetY != 0)
@@ -188,7 +190,7 @@ public class GameView : MonoBehaviour
 
                     var currCellView = GetCellViewById(cell.id);
                     _movingCellsAmount++;
-                    currCellView.Move(OnMovementFinished);
+                    currCellView.Move(OnMovementFinished, _model.GetPreviousCellById(cell.id));
                 }
             }
         }
@@ -200,7 +202,7 @@ public class GameView : MonoBehaviour
     {
         SpriteState state = new SpriteState();
 
-        if (GameModel.State != GameState.Moving)
+        if (_model.State != GameState.Moving)
         {
             foreach (var cellView in _cellViews)
             {
@@ -215,7 +217,7 @@ public class GameView : MonoBehaviour
             EventSystem.OnRestartInvoke();
             
         }
-        else if(GameModel.State == GameState.Win)
+        else if(_model.State == GameState.Win)
         {
             WinPanel.Disable();
             state.highlightedSprite = _restartButtonNormalHoverStateSprite;
@@ -235,7 +237,7 @@ public class GameView : MonoBehaviour
         if (_movingCellsAmount <= 0)
         {
             _movingCellsAmount = 0;
-            GameModel.State = GameState.Idle;
+            _model.State = GameState.Idle;
             RefreshField();
 
             for (int i = _cellViews.Count-1; i >= 0; i--)
@@ -244,7 +246,7 @@ public class GameView : MonoBehaviour
                 if (cellView.CellData.isReadyToDestroy)
                 {
                     Debug.Log("<color=\"red\">DESTROY: " + cellView.CellData.ToString()+"</color>");
-                    GameModel.UnregisterCell(cellView.CellData.id);
+                    _model.UnregisterCell(cellView.CellData.id);
                     cellView.Kill();
                     _cellViews.RemoveAll(c => c.CellData.id == cellView.CellData.id);
                 }
@@ -257,7 +259,7 @@ public class GameView : MonoBehaviour
                     cellView.AnimateMultiplication();
                 }
             }
-            GameModel.ResetMultiplies();
+            _model.ResetMultiplies();
             EventSystem.OnMovementFinishedInvoke();
             if (isWon)
             {
