@@ -19,6 +19,10 @@ ExportedObj/
 *.booproj
 *.svd
 
+# GameLogic2048 redundant files
+/GameLogic2048/.idea
+/GameLogic2048/obj
+/GameLogic2048/Properties
 
 # Unity3D generated meta files
 *.pidb.meta

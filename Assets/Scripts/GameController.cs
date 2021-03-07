@@ -85,45 +85,31 @@ public class GameController:MonoBehaviour{
     {
         _model.SavePreviousState();
         int deltaScore = 0;
-        switch(e.CurrDirection)
+        if (e.CurrDirection == Direction.Up || e.CurrDirection == Direction.Down)
         {
-            case Direction.Up:
-                for (int i = 0; i < Config.FieldHeight; i++)
-                {
-                    _model.SetColumn(GameLogic<ModelCell,CellFactory>.
-                        Compressor(_model.GetColumn(i),_cellFactory,
-                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
-                }
-                break;
-
-            case Direction.Down:
-                for (int i = 0; i < Config.FieldHeight; i++)
-                {
-                    _model.SetColumn(GameLogic<ModelCell,CellFactory>.
-                        Compressor(_model.GetColumn(i),_cellFactory,
-                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
-                }
-                break;
-
-            case Direction.Left:
-                for (int i = 0; i < Config.FieldWidth; i++)
-                {
-                    _model.SetRow(GameLogic<ModelCell,CellFactory>.
-                        Compressor(_model.GetRow(i),_cellFactory,
-                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
-                }
-                break;
-
-            case Direction.Right:
-                for (int i = 0; i < Config.FieldWidth; i++)
-                {
-                    _model.SetRow(GameLogic<ModelCell,CellFactory>.
-                        Compressor(_model.GetRow(i),_cellFactory,
-                            e.CurrDirection.ToGameLogicDirection(), out deltaScore),i);
-                }
-                break;
+            for (int i = 0; i < Config.FieldHeight; i++)
+            {
+                ModelCell[] column;
+                column =  GameLogic<ModelCell,CellFactory>.Compressor(_model.GetColumn(i), _cellFactory,
+                    e.CurrDirection.ToGameLogicDirection(), out deltaScore);
+                _model.GameScore += deltaScore;
+                Debug.LogError($"Delta score: {deltaScore}");
+                _model.SetColumn(column,i);
+            }
         }
-
+        else if(e.CurrDirection != Direction.None)
+        {
+            for (int i = 0; i < Config.FieldWidth; i++)
+            {
+                ModelCell[] row;
+                
+                row = GameLogic<ModelCell,CellFactory>.Compressor(_model.GetRow(i), _cellFactory,
+                    e.CurrDirection.ToGameLogicDirection(), out deltaScore);
+                _model.GameScore += deltaScore;
+                Debug.LogError($"Delta score: {deltaScore}");
+                _model.SetRow(row,i);
+            }
+        }
         _model.GameScore += deltaScore;
         
         if (!_model.AreLastAndCurrentMoveEqual())
@@ -194,102 +180,6 @@ public class GameController:MonoBehaviour{
         {
             _model.PrepareForUndo();
         }        
-    }
-    
-
-    public bool IsEqual(ModelCell[,] array1, ModelCell[,] array2)
-    {
-        return array1.IsEqual(array2);
-    }
-
-    //TODO: get this thing the fuck out of here and even put it in another file
-    private ModelCell[] Compressor (ModelCell[] row, Direction direction)
-    {
-        int changes;
-        if (direction==Direction.Down || direction == Direction.Right)
-        {
-            Array.Reverse(row);
-        }
-
-        do
-        {
-            changes = 0;
-            for (int i = 1; i < row.Length; i++)
-            {
-                if (row[i] != null && row[i - 1] == null)
-                {
-                    switch (direction)
-                    {
-                        case Direction.Up:
-                            row[i].offsetY--;
-                            break;
-                        case Direction.Down:
-                            row[i].offsetY++;
-                            break;
-                        case Direction.Left:
-                            row[i].offsetX--;
-                            break;
-                        case Direction.Right:
-                            row[i].offsetX++;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException("direction", direction, null);
-                    }
-
-                    row[i - 1] = row[i];
-                    row[i] = null;
-
-                   
-                    changes++;
-                    continue;
-                }
-
-                if (row[i] != null && row[i - 1] != null && 
-                    !(row[i].isMultiply || row[i - 1].isMultiply) && 
-                    row[i - 1].value == row[i].value)
-                {
-                    row[i - 1].isReadyToDestroy = true;
-                    row[i].isReadyToDestroy = true;
-                    Debug.Log("READY TO DESTROY: "+ row[i].ToString());
-                    Debug.Log("READY TO DESTROY: "+ row[i - 1].ToString());
-                    var newCell = _cellFactory.CreateCell(row[i].value *= 2,false);
-                    _model.RegisterCell(newCell);
-
-                    newCell.isMultiply = true;
-
-                    switch (direction)
-                    {
-                        case Direction.Up:
-                            row[i].offsetY--;
-                            break;
-                        case Direction.Down:
-                            row[i].offsetY++;
-                            break;
-                        case Direction.Left:
-                            row[i].offsetX--;
-                            break;
-                        case Direction.Right:
-                            row[i].offsetX++;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException("direction", direction, null);
-                    }
-
-                    row[i - 1] = newCell;
-                    row[i] = null;
-                    _model.GameScore += row[i - 1].value;
-                    changes++;
-                }
-            }
-        } while (changes != 0);
-
-        if (direction == Direction.Down || direction == Direction.Right)
-        {
-            Array.Reverse(row);
-        }
-
-
-        return row;
     }
 
     private void saveInfo()

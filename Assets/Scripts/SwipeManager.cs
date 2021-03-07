@@ -18,6 +18,8 @@ public class SwipeManager:MonoBehaviour
     {
         _eventSystem.OnSwipe += OnSwipe;
         _eventSystem.OnMovementFinished += OnMovementFinished;
+        
+        PlayerPrefs.DeleteAll();
     }
 
     private void OnMovementFinished(object sender, EventArgs e)

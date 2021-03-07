@@ -1,0 +1,6 @@
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\bin\Debug\GameLogic2048.dll
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\bin\Debug\GameLogic2048.pdb
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\obj\Debug\GameLogic2048.csprojAssemblyReference.cache
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\obj\Debug\GameLogic2048.csproj.CoreCompileInputs.cache
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\obj\Debug\GameLogic2048.dll
+D:\STEF\WORKSPASE(For C#)\GameLogic2048\GameLogic2048\obj\Debug\GameLogic2048.pdb
