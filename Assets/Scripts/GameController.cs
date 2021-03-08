@@ -33,6 +33,11 @@ public class GameController:MonoBehaviour{
         Debug.Log("SEED=" + seed);
     }
 
+    /// <summary>
+    /// If interaction with a popup is finished, unlocks a model
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnAnswerButtonClick(object sender, EventArgs e)
     {
         EnableControls();
@@ -56,6 +61,11 @@ public class GameController:MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Locks the game, when restart popup is shown
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnRestartButtonClick(object sender,EventArgs e)
     {
         if (_model.State != GameState.GameOver)
@@ -65,12 +75,20 @@ public class GameController:MonoBehaviour{
         saveInfo();
     }
 
+    /// <summary>
+    /// Initiates model restart
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnRestart(object sender = null, EventArgs e = null)
     {
         _model.Restart();
         Init();
     }
 
+    /// <summary>
+    /// Inits a gameModel
+    /// </summary>
     public void Init()
     {
         if (_model.AllCells.Count == 0)
@@ -81,6 +99,12 @@ public class GameController:MonoBehaviour{
         _eventSystem.ModelModifiedInvoke();
     }
 
+    /// <summary>
+    /// The leftovers after transferring gameLogic into a .dll file. Soon will be deprecated
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
+    [Obsolete]
     private void OnSwipe(object sender, InputEventArg e)
     {
         _model.SavePreviousState();
@@ -140,12 +164,18 @@ public class GameController:MonoBehaviour{
 
     }
 
+    /// <summary>
+    /// Shows win popup, when player has won
+    /// </summary>
     private void Win()
     {
         _eventSystem.OnWinInvoke();
         isAlreadyWon = true;
     }
 
+    /// <summary>
+    /// Adds a new random cell to the gameModel
+    /// </summary>
     private void AddRandomCell()
     {
         int rndX = 0;
@@ -164,16 +194,27 @@ public class GameController:MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Locks the game
+    /// </summary>
     public void DisableControls()
     {
         _model.State = GameState.Pause;
     }
 
+    /// <summary>
+    /// Unlocks the game
+    /// </summary>
     public void EnableControls()
     {
         _model.State = GameState.Idle;
     }
 
+    /// <summary>
+    /// Initiates undo sequence in gameModel
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnUndo(object sender = null, EventArgs e = null)
     {
         if (!_model.isUndone)
@@ -182,6 +223,9 @@ public class GameController:MonoBehaviour{
         }        
     }
 
+    /// <summary>
+    /// Saves current gameState into playerPrefs
+    /// </summary>
     private void saveInfo()
     {
         string info = JsonConvert.SerializeObject(_model.SaveInfo(isAlreadyWon));

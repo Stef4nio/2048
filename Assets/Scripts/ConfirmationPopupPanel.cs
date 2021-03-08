@@ -48,6 +48,11 @@ public class ConfirmationPopupPanel : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Reacts to a restartButton click and opens a popup
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnRestartButtonClick(object sender, EventArgs e)
     {
         Enable();
@@ -57,6 +62,9 @@ public class ConfirmationPopupPanel : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Shows the popup
+    /// </summary>
     public void Enable()
     {
         transform.gameObject.SetActive(true);
@@ -67,6 +75,9 @@ public class ConfirmationPopupPanel : MonoBehaviour
         GetComponent<Image>().DOFade(0.5f, Config.FadeTime);
     }
 
+    /// <summary>
+    /// Hides the popup
+    /// </summary>
     public void Disable()
     {
         _text.DOFade(0f, Config.FadeTime);

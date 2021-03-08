@@ -51,6 +51,11 @@ public class GameView : MonoBehaviour
         _restartButton.GetComponent<Button>().image.sprite = _restartButtonNormalStateSprite;
     }
 
+    /// <summary>
+    /// Unlocks the game, after winning, allowing the player to continue his game
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ContinuePlaying(object sender, EventArgs e)
     {
         WinPanel.Disable();
@@ -60,11 +65,19 @@ public class GameView : MonoBehaviour
         _model.State = GameState.Idle;
     }
 
+    /// <summary>
+    /// Sets a flag if a game is won
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnGameWon(object sender, EventArgs e)
     {
         isWon = true;
     }
 
+    /// <summary>
+    /// Congratulates the player for winning the game
+    /// </summary>
     public void WinGame()
     {
         _model.State = GameState.Win;
@@ -82,6 +95,11 @@ public class GameView : MonoBehaviour
      }*/
 
 
+    /// <summary>
+    /// Reacts to a user confirming his will to restart a game
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnAnswerButtonClick(object sender, EventArgs e)
     {
         Restart();
@@ -89,6 +107,11 @@ public class GameView : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Starts the undo sequence
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     public void Undo(object sender, EventArgs e)
     {
         if (_model.State == GameState.GameOver)
@@ -131,6 +154,9 @@ public class GameView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// A debug function to prematurely "lose" the game and test game's behaviour
+    /// </summary>
     public void ArtificialFinishGame()
     {
         _model.State = GameState.GameOver;
@@ -140,6 +166,11 @@ public class GameView : MonoBehaviour
         GameOverPanel.OnGameLost();
     }
 
+    /// <summary>
+    /// Finishes a game, showing the player his results and asking him to restart
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void FinishGame(object sender, EventArgs e)
     {
         _model.State = GameState.GameOver;
@@ -150,6 +181,11 @@ public class GameView : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Refreshes models on a scene to correspond the gameModel
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void RefreshField(object sender=null, EventArgs e = null)
     {
         //CheckDataAvailability();
@@ -198,6 +234,9 @@ public class GameView : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Restarts the game
+    /// </summary>
     public void Restart()
     {
         SpriteState state = new SpriteState();
@@ -231,6 +270,9 @@ public class GameView : MonoBehaviour
     }
    
 
+    /// <summary>
+    /// Fixes the game field after moving the cells
+    /// </summary>
     private void OnMovementFinished()
     {
         _movingCellsAmount--;
@@ -269,7 +311,11 @@ public class GameView : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Returns a cellView by its id
+    /// </summary>
+    /// <param name="cellId">An id of a requested cell</param>
+    /// <returns>Requested cell view</returns>
     private CellView GetCellViewById(int cellId)
     {
         return _cellViews.FirstOrDefault(c => c.CellData.id == cellId);

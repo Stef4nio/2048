@@ -1,0 +1,118 @@
+\hypertarget{class_cell_view}{}\doxysection{Cell\+View Class Reference}
+\label{class_cell_view}\index{CellView@{CellView}}
+Inheritance diagram for Cell\+View\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_cell_view}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_cell_view_a5dd11d9cb88b28bcb9ab15919fdef062}{Set\+Cell\+Data}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}} cell\+Data)
+\begin{DoxyCompactList}\small\item\em Sets a new inner model\+Cell \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cell_view_a33a76e05b198ce1c94c7a55a563018f8}\label{class_cell_view_a33a76e05b198ce1c94c7a55a563018f8}} 
+void {\bfseries Set\+Position} (Vector2 pos)
+\item 
+void \mbox{\hyperlink{class_cell_view_ad871244da1e0d3a856434039a57fafd9}{Update\+Text}} ()
+\begin{DoxyCompactList}\small\item\em Updates the text on the scene, according to changes in game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_view_a6d1ea87e62d1ee957d8138bd90e77d6f}{Move}} (Action on\+Complete, \mbox{\hyperlink{class_model_cell}{Model\+Cell}} previous\+State)
+\begin{DoxyCompactList}\small\item\em Sets a movement animation for the cell \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_view_aabf8773652ece77636da1522ee9a77c4}{Animate\+Spawn}} ()
+\begin{DoxyCompactList}\small\item\em Starts a spawn animation \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cell_view_acfc920c56d78d4dae4bdadaf0534738b}{Animate\+Multiplication}} ()
+\begin{DoxyCompactList}\small\item\em Starts a multiplication animation \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{\hyperlink{class_cell_view_a5a99eb63277c330ad44c3c554163121b}{Cell\+Data}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Returns an inner model\+Cell \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_cell_view_abc39392fe6d78942789d5abe65003a27}\label{class_cell_view_abc39392fe6d78942789d5abe65003a27}} 
+int {\bfseries Width}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+\mbox{\Hypertarget{class_cell_view_a6f51febb03612c05e050eba1960401f0}\label{class_cell_view_a6f51febb03612c05e050eba1960401f0}} 
+int {\bfseries Height}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_cell_view_acfc920c56d78d4dae4bdadaf0534738b}\label{class_cell_view_acfc920c56d78d4dae4bdadaf0534738b}} 
+\index{CellView@{CellView}!AnimateMultiplication@{AnimateMultiplication}}
+\index{AnimateMultiplication@{AnimateMultiplication}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{AnimateMultiplication()}{AnimateMultiplication()}}
+{\footnotesize\ttfamily void Cell\+View.\+Animate\+Multiplication (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts a multiplication animation 
+
+\mbox{\Hypertarget{class_cell_view_aabf8773652ece77636da1522ee9a77c4}\label{class_cell_view_aabf8773652ece77636da1522ee9a77c4}} 
+\index{CellView@{CellView}!AnimateSpawn@{AnimateSpawn}}
+\index{AnimateSpawn@{AnimateSpawn}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{AnimateSpawn()}{AnimateSpawn()}}
+{\footnotesize\ttfamily void Cell\+View.\+Animate\+Spawn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts a spawn animation 
+
+\mbox{\Hypertarget{class_cell_view_a6d1ea87e62d1ee957d8138bd90e77d6f}\label{class_cell_view_a6d1ea87e62d1ee957d8138bd90e77d6f}} 
+\index{CellView@{CellView}!Move@{Move}}
+\index{Move@{Move}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily void Cell\+View.\+Move (\begin{DoxyParamCaption}\item[{Action}]{on\+Complete,  }\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}}]{previous\+State }\end{DoxyParamCaption})}
+
+
+
+Sets a movement animation for the cell 
+
+
+\begin{DoxyParams}{Parameters}
+{\em on\+Complete} & A delegate, that allows to add some actions after an animation is finished\\
+\hline
+{\em previous\+State} & A previous state of model\+Cell, to compute an offset\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_cell_view_a5dd11d9cb88b28bcb9ab15919fdef062}\label{class_cell_view_a5dd11d9cb88b28bcb9ab15919fdef062}} 
+\index{CellView@{CellView}!SetCellData@{SetCellData}}
+\index{SetCellData@{SetCellData}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{SetCellData()}{SetCellData()}}
+{\footnotesize\ttfamily void Cell\+View.\+Set\+Cell\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}}]{cell\+Data }\end{DoxyParamCaption})}
+
+
+
+Sets a new inner model\+Cell 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell\+Data} & New model\+Cell\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_cell_view_ad871244da1e0d3a856434039a57fafd9}\label{class_cell_view_ad871244da1e0d3a856434039a57fafd9}} 
+\index{CellView@{CellView}!UpdateText@{UpdateText}}
+\index{UpdateText@{UpdateText}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{UpdateText()}{UpdateText()}}
+{\footnotesize\ttfamily void Cell\+View.\+Update\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Updates the text on the scene, according to changes in game\+Model 
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_cell_view_a5a99eb63277c330ad44c3c554163121b}\label{class_cell_view_a5a99eb63277c330ad44c3c554163121b}} 
+\index{CellView@{CellView}!CellData@{CellData}}
+\index{CellData@{CellData}!CellView@{CellView}}
+\doxysubsubsection{\texorpdfstring{CellData}{CellData}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} Cell\+View.\+Cell\+Data\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Returns an inner model\+Cell 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Cell\+View.\+cs\end{DoxyCompactItemize}

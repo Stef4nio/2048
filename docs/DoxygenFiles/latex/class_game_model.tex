@@ -1,0 +1,418 @@
+\hypertarget{class_game_model}{}\doxysection{Game\+Model Class Reference}
+\label{class_game_model}\index{GameModel@{GameModel}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_game_model_a874d951d95457c7549b2db968ae29533}{Load\+Info}} (\mbox{\hyperlink{class_info_container}{Info\+Container}} info)
+\begin{DoxyCompactList}\small\item\em Loads previous game\+State from player\+Prefs \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{\hyperlink{class_game_model_ad4820e1eaafe08b5e636ae85034c361f}{Create\+And\+Set\+Cell}} (int \+\_\+x, int \+\_\+y, int value, bool do\+Animate)
+\begin{DoxyCompactList}\small\item\em Creates a new cell and adds it to the game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_a1c1fd602902dd391415c52d0d32f5e3d}{Register\+Cell}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}} cell)
+\begin{DoxyCompactList}\small\item\em Adds a cell to a cell\+Registry \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_a96197914daad44a6f82cc00a3413f5b6}{Unregister\+Cell}} (int id, bool is\+Undo=false)
+\begin{DoxyCompactList}\small\item\em Deletes a cell from the registry \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_model_a7c4cdc1b09e354f7dc8918d22960b44a}{Does\+Cell\+Exist}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Checks for existence of a cell in certain coordinates \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_af84da9b0687cd9dc135fcc93947ec8a3}{Set\+Row}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} row, int row\+Position)
+\begin{DoxyCompactList}\small\item\em Sets a whole row to a game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_ae7aa9bb05be09df7198743c3586d05e9}{Set\+Row\+To\+Previous}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} row, int row\+Position)
+\begin{DoxyCompactList}\small\item\em Sets a whole row to a previous game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_a75a3cdc61df2f641e341ef125f597dfd}{Set\+Column}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} column, int column\+Position)
+\begin{DoxyCompactList}\small\item\em Sets a whole column to a game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_a5a747712d8c2fa537153d9f61670d8e6}{Set\+Column\+To\+Previous}} (\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} column, int column\+Position)
+\begin{DoxyCompactList}\small\item\em Sets a whole column to a previous game\+Model \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{\hyperlink{class_game_model_af1a7d27fc20b0ad0c395255a9cda81d5}{Get\+Cell\+From\+Previous}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Returns a cell from previous game\+Model \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_aec1e797d047ed72c2c6ad35b25d66299}{Restart}} ()
+\begin{DoxyCompactList}\small\item\em Resets the model \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_game_model_a2de35bd34d6d1e9b8e5a77ff7cf4deb9}{Get\+Column}} (int column\+Position)
+\begin{DoxyCompactList}\small\item\em Returns a requested column \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_game_model_a7804657f85a0469c0f6d1aa08f77d03c}{Get\+Row}} (int row\+Position)
+\begin{DoxyCompactList}\small\item\em Returns a requested row \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_model_aadc72c2779e963981f7906b8e587cfec}{Are\+Last\+And\+Current\+Move\+Equal}} ()
+\begin{DoxyCompactList}\small\item\em Compare current and previous game\+Models \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_a7f6d3a3d8a0ec1e8e87d6deecad54fe8}{Save\+Previous\+State}} ()
+\begin{DoxyCompactList}\small\item\em Save the last move of a player before making a new one \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_model_a57c2ef398632ebc36a06a273ce65f751}{Is\+Game\+Model\+Filled\+Up}} ()
+\begin{DoxyCompactList}\small\item\em Check if there are empty cells in a game\+Model \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{\hyperlink{class_game_model_af3b20116092b7c4b9b6eeab83298e974}{Get\+Previous\+Cell\+By\+Id}} (int id)
+\begin{DoxyCompactList}\small\item\em Get a cell from previous game\+Model by id \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_info_container}{Info\+Container}} \mbox{\hyperlink{class_game_model_adc62fb385dbd33654b67dc25634a48aa}{Save\+Info}} (bool is\+Already\+Won)
+\begin{DoxyCompactList}\small\item\em Return a class instance, containing all the info about current game state \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_model_aa156b97d620b697172d187542c4f2b77}{Reset\+Multiplies}} ()
+\begin{DoxyCompactList}\small\item\em Resets all the offsets and multiplication marks after compression of the field is finished \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_model_a1143acaf645870f3541f371a34469d30}{Is\+Won}} ()
+\begin{DoxyCompactList}\small\item\em If player has won \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_game_model_a557b325c2f7cd1de7093918a6e16006f}{Is\+Lose}} ()
+\begin{DoxyCompactList}\small\item\em If player has lost \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_game_model_a9eceb4e4bdd1463236da2477a90e559e}\label{class_game_model_a9eceb4e4bdd1463236da2477a90e559e}} 
+Game\+State {\bfseries State} = Game\+State.\+Idle
+\item 
+\mbox{\Hypertarget{class_game_model_a1af1f32105394cfd8a1aba8ec8b91cbf}\label{class_game_model_a1af1f32105394cfd8a1aba8ec8b91cbf}} 
+List$<$ \mbox{\hyperlink{class_model_cell}{Model\+Cell}} $>$ {\bfseries All\+Cells} = new List$<$\mbox{\hyperlink{class_model_cell}{Model\+Cell}}$>$()
+\item 
+\mbox{\Hypertarget{class_game_model_afcde55dc25e7541352d06ae04ad8640d}\label{class_game_model_afcde55dc25e7541352d06ae04ad8640d}} 
+int {\bfseries Game\+Score} = 0
+\item 
+\mbox{\Hypertarget{class_game_model_a1fa59ff6aa59c78208102bd736be1f7b}\label{class_game_model_a1fa59ff6aa59c78208102bd736be1f7b}} 
+int {\bfseries Game\+High\+Score} = 0
+\item 
+\mbox{\Hypertarget{class_game_model_a8f76e4d54bd9fb06483f88fcbfea6506}\label{class_game_model_a8f76e4d54bd9fb06483f88fcbfea6506}} 
+int {\bfseries Previous\+Score} = 0
+\item 
+\mbox{\Hypertarget{class_game_model_af243be9507fc7f90dd8a7da3c607b08e}\label{class_game_model_af243be9507fc7f90dd8a7da3c607b08e}} 
+bool {\bfseries is\+Undone} = false
+\item 
+\mbox{\Hypertarget{class_game_model_a654932f93f8733604c7ee18582c2fad9}\label{class_game_model_a654932f93f8733604c7ee18582c2fad9}} 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[},\mbox{]} {\bfseries Game\+Field} = new \mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}Config.\+Field\+Height, Config.\+Field\+Width\mbox{]}
+\item 
+\mbox{\Hypertarget{class_game_model_a2c73873032157e68f0f230f21bcb6de1}\label{class_game_model_a2c73873032157e68f0f230f21bcb6de1}} 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[},\mbox{]} {\bfseries Previous\+Move\+Field} = new \mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}Config.\+Field\+Height, Config.\+Field\+Width\mbox{]}
+\item 
+\mbox{\Hypertarget{class_game_model_afb9e89ed242e20fc7ca15aaab92dec19}\label{class_game_model_afb9e89ed242e20fc7ca15aaab92dec19}} 
+\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[},\mbox{]} {\bfseries Temporary\+Move\+Field} = new \mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}Config.\+Field\+Height, Config.\+Field\+Width\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_game_model_aadc72c2779e963981f7906b8e587cfec}\label{class_game_model_aadc72c2779e963981f7906b8e587cfec}} 
+\index{GameModel@{GameModel}!AreLastAndCurrentMoveEqual@{AreLastAndCurrentMoveEqual}}
+\index{AreLastAndCurrentMoveEqual@{AreLastAndCurrentMoveEqual}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{AreLastAndCurrentMoveEqual()}{AreLastAndCurrentMoveEqual()}}
+{\footnotesize\ttfamily bool Game\+Model.\+Are\+Last\+And\+Current\+Move\+Equal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Compare current and previous game\+Models 
+
+\begin{DoxyReturn}{Returns}
+True is models are equal, false otherwise
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_ad4820e1eaafe08b5e636ae85034c361f}\label{class_game_model_ad4820e1eaafe08b5e636ae85034c361f}} 
+\index{GameModel@{GameModel}!CreateAndSetCell@{CreateAndSetCell}}
+\index{CreateAndSetCell@{CreateAndSetCell}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{CreateAndSetCell()}{CreateAndSetCell()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} Game\+Model.\+Create\+And\+Set\+Cell (\begin{DoxyParamCaption}\item[{int}]{\+\_\+x,  }\item[{int}]{\+\_\+y,  }\item[{int}]{value,  }\item[{bool}]{do\+Animate }\end{DoxyParamCaption})}
+
+
+
+Creates a new cell and adds it to the game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+x} & X coordinate of a new cell\\
+\hline
+{\em \+\_\+y} & Y coordinate of a new cell\\
+\hline
+{\em value} & Value of a new cell\\
+\hline
+{\em do\+Animate} & Does cell need to be animated at popup\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to a new cell from game\+Model
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a7c4cdc1b09e354f7dc8918d22960b44a}\label{class_game_model_a7c4cdc1b09e354f7dc8918d22960b44a}} 
+\index{GameModel@{GameModel}!DoesCellExist@{DoesCellExist}}
+\index{DoesCellExist@{DoesCellExist}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{DoesCellExist()}{DoesCellExist()}}
+{\footnotesize\ttfamily bool Game\+Model.\+Does\+Cell\+Exist (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Checks for existence of a cell in certain coordinates 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & \\
+\hline
+{\em y} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if cell exists and false otherwise
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_af1a7d27fc20b0ad0c395255a9cda81d5}\label{class_game_model_af1a7d27fc20b0ad0c395255a9cda81d5}} 
+\index{GameModel@{GameModel}!GetCellFromPrevious@{GetCellFromPrevious}}
+\index{GetCellFromPrevious@{GetCellFromPrevious}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{GetCellFromPrevious()}{GetCellFromPrevious()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} Game\+Model.\+Get\+Cell\+From\+Previous (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Returns a cell from previous game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X coordinate of a requested cell\\
+\hline
+{\em y} & Y coordinate of a requested cell\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A cell from the previous game\+Model
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a2de35bd34d6d1e9b8e5a77ff7cf4deb9}\label{class_game_model_a2de35bd34d6d1e9b8e5a77ff7cf4deb9}} 
+\index{GameModel@{GameModel}!GetColumn@{GetColumn}}
+\index{GetColumn@{GetColumn}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{GetColumn()}{GetColumn()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{[}$\,$\mbox{]} Game\+Model.\+Get\+Column (\begin{DoxyParamCaption}\item[{int}]{column\+Position }\end{DoxyParamCaption})}
+
+
+
+Returns a requested column 
+
+
+\begin{DoxyParams}{Parameters}
+{\em column\+Position} & Column coordinate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Requested column
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_af3b20116092b7c4b9b6eeab83298e974}\label{class_game_model_af3b20116092b7c4b9b6eeab83298e974}} 
+\index{GameModel@{GameModel}!GetPreviousCellById@{GetPreviousCellById}}
+\index{GetPreviousCellById@{GetPreviousCellById}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{GetPreviousCellById()}{GetPreviousCellById()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} Game\+Model.\+Get\+Previous\+Cell\+By\+Id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption})}
+
+
+
+Get a cell from previous game\+Model by id 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Id of a requested cell\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Requested cell from previous game\+Model
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a7804657f85a0469c0f6d1aa08f77d03c}\label{class_game_model_a7804657f85a0469c0f6d1aa08f77d03c}} 
+\index{GameModel@{GameModel}!GetRow@{GetRow}}
+\index{GetRow@{GetRow}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{GetRow()}{GetRow()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_model_cell}{Model\+Cell}} \mbox{[}$\,$\mbox{]} Game\+Model.\+Get\+Row (\begin{DoxyParamCaption}\item[{int}]{row\+Position }\end{DoxyParamCaption})}
+
+
+
+Returns a requested row 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row\+Position} & Row coordinate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Requested row
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a57c2ef398632ebc36a06a273ce65f751}\label{class_game_model_a57c2ef398632ebc36a06a273ce65f751}} 
+\index{GameModel@{GameModel}!IsGameModelFilledUp@{IsGameModelFilledUp}}
+\index{IsGameModelFilledUp@{IsGameModelFilledUp}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{IsGameModelFilledUp()}{IsGameModelFilledUp()}}
+{\footnotesize\ttfamily bool Game\+Model.\+Is\+Game\+Model\+Filled\+Up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Check if there are empty cells in a game\+Model 
+
+\begin{DoxyReturn}{Returns}
+True if there are no empty cell, false otherwise
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a557b325c2f7cd1de7093918a6e16006f}\label{class_game_model_a557b325c2f7cd1de7093918a6e16006f}} 
+\index{GameModel@{GameModel}!IsLose@{IsLose}}
+\index{IsLose@{IsLose}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{IsLose()}{IsLose()}}
+{\footnotesize\ttfamily bool Game\+Model.\+Is\+Lose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+If player has lost 
+
+\begin{DoxyReturn}{Returns}
+True if player has lost, false is he hasn\textquotesingle{}t yet
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a1143acaf645870f3541f371a34469d30}\label{class_game_model_a1143acaf645870f3541f371a34469d30}} 
+\index{GameModel@{GameModel}!IsWon@{IsWon}}
+\index{IsWon@{IsWon}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{IsWon()}{IsWon()}}
+{\footnotesize\ttfamily bool Game\+Model.\+Is\+Won (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+If player has won 
+
+\begin{DoxyReturn}{Returns}
+True if player has won, false is he hasn\textquotesingle{}t yet
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a874d951d95457c7549b2db968ae29533}\label{class_game_model_a874d951d95457c7549b2db968ae29533}} 
+\index{GameModel@{GameModel}!LoadInfo@{LoadInfo}}
+\index{LoadInfo@{LoadInfo}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{LoadInfo()}{LoadInfo()}}
+{\footnotesize\ttfamily void Game\+Model.\+Load\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_info_container}{Info\+Container}}}]{info }\end{DoxyParamCaption})}
+
+
+
+Loads previous game\+State from player\+Prefs 
+
+
+\begin{DoxyParams}{Parameters}
+{\em info} & An instance of a class with all required data\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_a1c1fd602902dd391415c52d0d32f5e3d}\label{class_game_model_a1c1fd602902dd391415c52d0d32f5e3d}} 
+\index{GameModel@{GameModel}!RegisterCell@{RegisterCell}}
+\index{RegisterCell@{RegisterCell}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{RegisterCell()}{RegisterCell()}}
+{\footnotesize\ttfamily void Game\+Model.\+Register\+Cell (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}}]{cell }\end{DoxyParamCaption})}
+
+
+
+Adds a cell to a cell\+Registry 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cell} & Cell to add to registry\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_aa156b97d620b697172d187542c4f2b77}\label{class_game_model_aa156b97d620b697172d187542c4f2b77}} 
+\index{GameModel@{GameModel}!ResetMultiplies@{ResetMultiplies}}
+\index{ResetMultiplies@{ResetMultiplies}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{ResetMultiplies()}{ResetMultiplies()}}
+{\footnotesize\ttfamily void Game\+Model.\+Reset\+Multiplies (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Resets all the offsets and multiplication marks after compression of the field is finished 
+
+\mbox{\Hypertarget{class_game_model_aec1e797d047ed72c2c6ad35b25d66299}\label{class_game_model_aec1e797d047ed72c2c6ad35b25d66299}} 
+\index{GameModel@{GameModel}!Restart@{Restart}}
+\index{Restart@{Restart}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{Restart()}{Restart()}}
+{\footnotesize\ttfamily void Game\+Model.\+Restart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Resets the model 
+
+\mbox{\Hypertarget{class_game_model_adc62fb385dbd33654b67dc25634a48aa}\label{class_game_model_adc62fb385dbd33654b67dc25634a48aa}} 
+\index{GameModel@{GameModel}!SaveInfo@{SaveInfo}}
+\index{SaveInfo@{SaveInfo}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SaveInfo()}{SaveInfo()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_info_container}{Info\+Container}} Game\+Model.\+Save\+Info (\begin{DoxyParamCaption}\item[{bool}]{is\+Already\+Won }\end{DoxyParamCaption})}
+
+
+
+Return a class instance, containing all the info about current game state 
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+Already\+Won} & If player has won\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A filled instance with all saved game data
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_game_model_a7f6d3a3d8a0ec1e8e87d6deecad54fe8}\label{class_game_model_a7f6d3a3d8a0ec1e8e87d6deecad54fe8}} 
+\index{GameModel@{GameModel}!SavePreviousState@{SavePreviousState}}
+\index{SavePreviousState@{SavePreviousState}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SavePreviousState()}{SavePreviousState()}}
+{\footnotesize\ttfamily void Game\+Model.\+Save\+Previous\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Save the last move of a player before making a new one 
+
+\mbox{\Hypertarget{class_game_model_a75a3cdc61df2f641e341ef125f597dfd}\label{class_game_model_a75a3cdc61df2f641e341ef125f597dfd}} 
+\index{GameModel@{GameModel}!SetColumn@{SetColumn}}
+\index{SetColumn@{SetColumn}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SetColumn()}{SetColumn()}}
+{\footnotesize\ttfamily void Game\+Model.\+Set\+Column (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]}}]{column,  }\item[{int}]{column\+Position }\end{DoxyParamCaption})}
+
+
+
+Sets a whole column to a game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em column} & An array of cells to be set as a column\\
+\hline
+{\em column\+Position} & A column coordinate\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_a5a747712d8c2fa537153d9f61670d8e6}\label{class_game_model_a5a747712d8c2fa537153d9f61670d8e6}} 
+\index{GameModel@{GameModel}!SetColumnToPrevious@{SetColumnToPrevious}}
+\index{SetColumnToPrevious@{SetColumnToPrevious}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SetColumnToPrevious()}{SetColumnToPrevious()}}
+{\footnotesize\ttfamily void Game\+Model.\+Set\+Column\+To\+Previous (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]}}]{column,  }\item[{int}]{column\+Position }\end{DoxyParamCaption})}
+
+
+
+Sets a whole column to a previous game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em column} & An array of cells to be set as a column\\
+\hline
+{\em column\+Position} & A column coordinate\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_af84da9b0687cd9dc135fcc93947ec8a3}\label{class_game_model_af84da9b0687cd9dc135fcc93947ec8a3}} 
+\index{GameModel@{GameModel}!SetRow@{SetRow}}
+\index{SetRow@{SetRow}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SetRow()}{SetRow()}}
+{\footnotesize\ttfamily void Game\+Model.\+Set\+Row (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]}}]{row,  }\item[{int}]{row\+Position }\end{DoxyParamCaption})}
+
+
+
+Sets a whole row to a game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & An array of cells to be set as a row\\
+\hline
+{\em row\+Position} & A row coordinate\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_ae7aa9bb05be09df7198743c3586d05e9}\label{class_game_model_ae7aa9bb05be09df7198743c3586d05e9}} 
+\index{GameModel@{GameModel}!SetRowToPrevious@{SetRowToPrevious}}
+\index{SetRowToPrevious@{SetRowToPrevious}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{SetRowToPrevious()}{SetRowToPrevious()}}
+{\footnotesize\ttfamily void Game\+Model.\+Set\+Row\+To\+Previous (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_model_cell}{Model\+Cell}}\mbox{[}$\,$\mbox{]}}]{row,  }\item[{int}]{row\+Position }\end{DoxyParamCaption})}
+
+
+
+Sets a whole row to a previous game\+Model 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & An array of cells to be set as a row\\
+\hline
+{\em row\+Position} & A row coordinate\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_game_model_a96197914daad44a6f82cc00a3413f5b6}\label{class_game_model_a96197914daad44a6f82cc00a3413f5b6}} 
+\index{GameModel@{GameModel}!UnregisterCell@{UnregisterCell}}
+\index{UnregisterCell@{UnregisterCell}!GameModel@{GameModel}}
+\doxysubsubsection{\texorpdfstring{UnregisterCell()}{UnregisterCell()}}
+{\footnotesize\ttfamily void Game\+Model.\+Unregister\+Cell (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{bool}]{is\+Undo = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Deletes a cell from the registry 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & Id of the cell to be unregistered\\
+\hline
+{\em is\+Undo} & Need to be true when called from Undo sequence\\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Game\+Model.\+cs\end{DoxyCompactItemize}

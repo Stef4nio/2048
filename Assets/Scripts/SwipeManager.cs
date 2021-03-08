@@ -22,6 +22,11 @@ public class SwipeManager:MonoBehaviour
         PlayerPrefs.DeleteAll();
     }
 
+    /// <summary>
+    /// Notifies the system about finishing current swipe, loading a new one
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnMovementFinished(object sender, EventArgs e)
     {
         CurrentSwipeDirection = UpcomingSwipeDirection;
@@ -30,6 +35,11 @@ public class SwipeManager:MonoBehaviour
         CurrentSwipeDirection = Direction.None;
     }
 
+    /// <summary>
+    /// Reacts to a swipe and notifies the system about it
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="e">Standard eventArgs parameter</param>
     private void OnSwipe(object sender, InputEventArg e)
     {
         if (_model.State == GameState.Idle)

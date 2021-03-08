@@ -37,6 +37,10 @@ public class GameModel
 
 
 
+    /// <summary>
+    /// Loads previous gameState from playerPrefs
+    /// </summary>
+    /// <param name="info">An instance of a class with all required data</param>
     public void LoadInfo(InfoContainer info)
     {
         if (info != null)
@@ -71,6 +75,14 @@ public class GameModel
 
 
 
+    /// <summary>
+    /// Creates a new cell and adds it to the gameModel
+    /// </summary>
+    /// <param name="_x">X coordinate of a new cell</param>
+    /// <param name="_y">Y coordinate of a new cell</param>
+    /// <param name="value">Value of a new cell</param>
+    /// <param name="doAnimate">Does cell need to be animated at popup</param>
+    /// <returns>Reference to a new cell from gameModel</returns>
     public ModelCell CreateAndSetCell(int _x,int _y,int value,bool doAnimate)
     {
         GameField[_y, _x] = _cellFactory.CreateCell(value,doAnimate);
@@ -82,6 +94,10 @@ public class GameModel
         return GameField[_y, _x];
     }
 
+    /// <summary>
+    /// Adds a cell to a cellRegistry
+    /// </summary>
+    /// <param name="cell">Cell to add to registry</param>
     public void RegisterCell(ModelCell cell)
     {
         if (!AllCells.Contains(cell)&&cell!=null)
@@ -90,6 +106,11 @@ public class GameModel
         }
     }
 
+    /// <summary>
+    /// Deletes a cell from the registry
+    /// </summary>
+    /// <param name="id">Id of the cell to be unregistered</param>
+    /// <param name="isUndo">Need to be true when called from Undo sequence</param>
     public void UnregisterCell(int id, bool isUndo = false)
     {
         int amount = 0;
@@ -104,11 +125,22 @@ public class GameModel
         Debug.Log("From AllCells removed " + amount + " elements");
     }
 
+    /// <summary>
+    /// Checks for existence of a cell in certain coordinates
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns>True if cell exists and false otherwise</returns>
     public bool DoesCellExist(int x, int y)
     {
         return(GameField[y,x]!=null);
     }
 
+    /// <summary>
+    /// Sets a whole row to a gameModel
+    /// </summary>
+    /// <param name="row">An array of cells to be set as a row</param>
+    /// <param name="rowPosition">A row coordinate</param>
     public void SetRow(ModelCell[] row, int rowPosition)
     {        
         row.ToList().ForEach(RegisterCell);
@@ -124,6 +156,11 @@ public class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    /// <summary>
+    /// Sets a whole row to a previous gameModel
+    /// </summary>
+    /// <param name="row">An array of cells to be set as a row</param>
+    /// <param name="rowPosition">A row coordinate</param>
     public void SetRowToPrevious(ModelCell[] row, int rowPosition)
     {
         for (int i = 0; i < row.Length; i++)
@@ -138,6 +175,11 @@ public class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    /// <summary>
+    /// Sets a whole column to a gameModel
+    /// </summary>
+    /// <param name="column">An array of cells to be set as a column</param>
+    /// <param name="columnPosition">A column coordinate</param>
     public void SetColumn(ModelCell[] column, int columnPosition)
     {
         column.ToList().ForEach(RegisterCell);
@@ -153,6 +195,28 @@ public class GameModel
         //EventSystem.ModelModifiedInvoke(null);
     }
 
+    /// <summary>
+    /// Sets a whole column to a previous gameModel
+    /// </summary>
+    /// <param name="column">An array of cells to be set as a column</param>
+    /// <param name="columnPosition">A column coordinate</param>
+    public void SetColumnToPrevious(ModelCell[] column, int columnPosition)
+    {
+        for (int i = 0; i < column.Length; i++)
+        {
+            PreviousMoveField[i, columnPosition] = column[i];
+            if (PreviousMoveField[i, columnPosition] != null)
+            {
+                PreviousMoveField[i, columnPosition].x = columnPosition;
+                PreviousMoveField[i, columnPosition].y = i;
+            }
+        }
+        //EventSystem.ModelModifiedInvoke(null);
+    }
+
+    /// <summary>
+    /// Starts Undo sequence
+    /// </summary>
     internal void PrepareForUndo()
     {
         GameScore = PreviousScore;
@@ -177,11 +241,17 @@ public class GameModel
         isUndone = true;
     }
 
+    /// <summary>
+    /// Delete all cells that were marked as ready to be destroyed
+    /// </summary>
     private void ClearReadyToDestroyCells()
     {
         AllCells.RemoveAll(x => x.isReadyToDestroy);
     }
 
+    /// <summary>
+    /// Finishes the undo sequence
+    /// </summary>
     internal void FinalizeUndo()
     {
         ClearReadyToDestroyCells();
@@ -190,26 +260,21 @@ public class GameModel
             RegisterCell(modelCell);
         }
     }
-    
+
+    /// <summary>
+    /// Returns a cell from previous gameModel
+    /// </summary>
+    /// <param name="x">X coordinate of a requested cell</param>
+    /// <param name="y">Y coordinate of a requested cell</param>
+    /// <returns>A cell from the previous gameModel</returns>
     public ModelCell GetCellFromPrevious(int x, int y)
     {
         return PreviousMoveField[y, x];
     }
 
-    public void SetColumnToPrevious(ModelCell[] column, int columnPosition)
-    {
-        for (int i = 0; i < column.Length; i++)
-        {
-            PreviousMoveField[i, columnPosition] = column[i];
-            if (PreviousMoveField[i, columnPosition] != null)
-            {
-                PreviousMoveField[i, columnPosition].x = columnPosition;
-                PreviousMoveField[i, columnPosition].y = i;
-            }
-        }
-        //EventSystem.ModelModifiedInvoke(null);
-    }
-
+    /// <summary>
+    /// Resets the model
+    /// </summary>
     public void Restart()
     {
         GameScore = 0;
@@ -221,6 +286,11 @@ public class GameModel
         AllCells.Clear();
     }
 
+    /// <summary>
+    /// Returns a requested column
+    /// </summary>
+    /// <param name="columnPosition">Column coordinate</param>
+    /// <returns>Requested column</returns>
     public ModelCell[] GetColumn(int columnPosition)
     {
         ModelCell[] output = new ModelCell[Config.FieldHeight];
@@ -231,6 +301,11 @@ public class GameModel
         return output;
     }
 
+    /// <summary>
+    /// Returns a requested row
+    /// </summary>
+    /// <param name="rowPosition">Row coordinate</param>
+    /// <returns>Requested row</returns>
     public ModelCell[] GetRow(int rowPosition)
     {
         ModelCell[] output = new ModelCell[Config.FieldWidth];
@@ -242,6 +317,10 @@ public class GameModel
     }
  
 
+    /// <summary>
+    /// Compare current and previous gameModels
+    /// </summary>
+    /// <returns>True is models are equal, false otherwise</returns>
     public bool AreLastAndCurrentMoveEqual()
     {
         for (int i = 0; i < Config.FieldHeight; i++)
@@ -266,6 +345,9 @@ public class GameModel
 
 
 
+    /// <summary>
+    /// Save the last move of a player before making a new one
+    /// </summary>
     public void SavePreviousState()
     {
         PreviousScore = GameScore;
@@ -287,6 +369,10 @@ public class GameModel
         //DebugPanel.Instance.PrintGridBefore(PreviousMoveField);
     }
 
+    /// <summary>
+    /// Check if there are empty cells in a gameModel
+    /// </summary>
+    /// <returns>True if there are no empty cell, false otherwise</returns>
     public bool IsGameModelFilledUp()
     {
         int _filledCells = 0;
@@ -301,6 +387,11 @@ public class GameModel
         return (_filledCells == Config.FieldHeight * Config.FieldWidth);
     }
 
+    /// <summary>
+    /// Get a cell from previous gameModel by id
+    /// </summary>
+    /// <param name="id">Id of a requested cell</param>
+    /// <returns>Requested cell from previous gameModel</returns>
     public ModelCell GetPreviousCellById(int id)
     {
 
@@ -316,6 +407,11 @@ public class GameModel
         //return PreviousMoveField.Cast<Cell>().FirstOrDefault(c => c.id == id);
     }
 
+    /// <summary>
+    /// Return a class instance, containing all the info about current game state
+    /// </summary>
+    /// <param name="isAlreadyWon">If player has won</param>
+    /// <returns>A filled instance with all saved game data</returns>
     public InfoContainer SaveInfo(bool isAlreadyWon)
     {
         return new InfoContainer(AllCells,GameScore,GameHighScore,PreviousScore,isUndone,
@@ -324,6 +420,9 @@ public class GameModel
     }
 
 
+    /// <summary>
+    /// Resets all the offsets and multiplication marks after compression of the field is finished
+    /// </summary>
     public void ResetMultiplies()
     {
         foreach (var cell in AllCells)
@@ -334,11 +433,19 @@ public class GameModel
         }
     }
 
+    /// <summary>
+    /// If player has won
+    /// </summary>
+    /// <returns>True if player has won, false is he hasn't yet</returns>
     public bool IsWon()
     {
         return GameLogic<ModelCell,CellFactory>.IsWon(AllCells);
     }
 
+    /// <summary>
+    /// If player has lost
+    /// </summary>
+    /// <returns>True if player has lost, false is he hasn't yet</returns>
     public bool IsLose()
     {
         return GameLogic<ModelCell,CellFactory>.IsLose(GameField,Config.FieldHeight,Config.FieldWidth);

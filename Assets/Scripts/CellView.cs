@@ -18,11 +18,18 @@ public class CellView : MonoBehaviour
     private Sequence _multiplication;
     
 
+    /// <summary>
+    /// Returns an inner modelCell
+    /// </summary>
     public ModelCell CellData
     {
         get { return _cellData; }
     }
 
+    /// <summary>
+    /// Sets a new inner modelCell
+    /// </summary>
+    /// <param name="cellData">New modelCell</param>
     public void SetCellData(ModelCell cellData)
     {
         _cellData = cellData;
@@ -69,11 +76,17 @@ public class CellView : MonoBehaviour
         _rectTransform.localPosition = pos;
     }
 
+    /// <summary>
+    /// Destroys the cell
+    /// </summary>
     internal void Kill()
     {
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Updates the text on the scene, according to changes in gameModel
+    /// </summary>
     public void UpdateText()
     {
         SetText(_cellData.value.ToString());
@@ -99,6 +112,11 @@ public class CellView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets a movement animation for the cell
+    /// </summary>
+    /// <param name="onComplete">A delegate, that allows to add some actions after an animation is finished</param>
+    /// <param name="previousState">A previous state of modelCell, to compute an offset</param>
     public void Move(Action onComplete, ModelCell previousState)
     {
         //var previousState = _model.GetPreviousCellById(_cellData.id);
@@ -123,12 +141,18 @@ public class CellView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts a spawn animation
+    /// </summary>
     public void AnimateSpawn()
     {
         transform.localScale = new Vector3(0.1f, 0.1f);
         transform.DOScale(new Vector3(1, 1), Config.SpawningTime);
     }
 
+    /// <summary>
+    /// Starts a multiplication animation
+    /// </summary>
     public void AnimateMultiplication()
     {
         _multiplication.Append(transform.DOScale(new Vector3(1*Config.MultiplyAnimationScaleMultiplier, 1 * Config.MultiplyAnimationScaleMultiplier), Config.MultiplicationTime));

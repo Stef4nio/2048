@@ -15,6 +15,11 @@ public class EventSystem {
     public event EventHandler<InputEventArg> OnCurrentSwipeDirectionChanged;
 
 
+    /// <summary>
+    /// Invokes an onSwipe event
+    /// </summary>
+    /// <param name="sender">Standard sender parameter</param>
+    /// <param name="arg">An event argument with swipe direction</param>
     public void OnSwipeInvoke(object sender, InputEventArg arg)
     {
         if (OnSwipe != null)
@@ -23,6 +28,12 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If currentSwipe direction is changed (a new sequential swipe is loaded from a buffer) invokes a corresponding
+    /// event
+    /// </summary>
+    /// <param name="arg">SAn event argument with swipe direction</param>
+    /// <param name="sender">Standard sender parameter</param>
     public void OnCurrentSwipeDirectionChangedInvoke(InputEventArg arg, object sender = null)
     {
         if (OnCurrentSwipeDirectionChanged != null)
@@ -31,6 +42,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If there were some changes in gameModel, this event is invoked
+    /// </summary>
+    /// <param name="sender">An event argument with swipe direction</param>
     public void ModelModifiedInvoke(object sender = null)
     {
         if (OnModelModified != null)
@@ -39,6 +54,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If player loses, this event is invoked
+    /// </summary>
+    /// <param name="sender"></param>
     public void OnGameOverInvoke(object sender = null)
     {
         if (OnGameOver != null)
@@ -47,6 +66,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If player wins, this event is invoked
+    /// </summary>
+    /// <param name="sender"></param>
     public void OnWinInvoke(object sender = null)
     {
         if (OnWin != null)
@@ -55,6 +78,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If player presses Undo button, this event is invoked
+    /// </summary>
+    /// <param name="sender"></param>
     public void OnUndoInvoke(object sender = null)
     {
         if (OnUndo != null)
@@ -63,6 +90,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If player presses Restart button, this event is invoked
+    /// </summary>
+    /// <param name="sender"></param>
     public void OnRestartInvoke(object sender = null)
     {
         if (OnRestart != null)
@@ -71,6 +102,10 @@ public class EventSystem {
         }
     }
 
+    /// <summary>
+    /// If all animations are finished, this event is invoked
+    /// </summary>
+    /// <param name="sender"></param>
     public void OnMovementFinishedInvoke(object sender = null)
     {
         if (OnMovementFinished != null)

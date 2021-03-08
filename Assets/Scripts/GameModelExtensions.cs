@@ -2,6 +2,12 @@
 {
     public static class GameModelExtensions
     {
+        /// <summary>
+        /// An extension method for modelCell matrices, to check their equality
+        /// </summary>
+        /// <param name="array1">First matrix</param>
+        /// <param name="array2">Second matrix</param>
+        /// <returns>True if matrices are equal, false otherwise</returns>
         public static bool IsEqual(this ModelCell[,] array1, ModelCell[,] array2)
         {
             for (int i = 0; i < array1.GetLength(0); i++)
@@ -27,6 +33,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Converts this project's Direction to a gameLogic .dll Direction
+        /// </summary>
+        /// <param name="direction">This project direction</param>
+        /// <returns>GameLogic .dll direction </returns>
         public static GameLogic2048.Direction ToGameLogicDirection(this Direction direction)
         {
             switch (direction)

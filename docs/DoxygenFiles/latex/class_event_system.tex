@@ -1,0 +1,180 @@
+\hypertarget{class_event_system}{}\doxysection{Event\+System Class Reference}
+\label{class_event_system}\index{EventSystem@{EventSystem}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_event_system_a87a7e6f821ed393cd46a2dae3a5cb2e0}{On\+Swipe\+Invoke}} (object sender, \mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}} arg)
+\begin{DoxyCompactList}\small\item\em Invokes an on\+Swipe event \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_a7aa8f7aa3f7cfe062bd7aa22b6a7b412}{On\+Current\+Swipe\+Direction\+Changed\+Invoke}} (\mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}} arg, object sender=null)
+\begin{DoxyCompactList}\small\item\em If current\+Swipe direction is changed (a new sequential swipe is loaded from a buffer) invokes a corresponding event \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_a09d1c4dc87bd16717cf4ff9914298a71}{Model\+Modified\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If there were some changes in game\+Model, this event is invoked \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_a2bba8e87fe1c99629570571d7b36c651}{On\+Game\+Over\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If player loses, this event is invoked \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_a998f7092fae51ca57648caf3fc4b5b01}{On\+Win\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If player wins, this event is invoked \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_ac2d5adf07bd92eafb573be4a60426e5b}{On\+Undo\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If player presses Undo button, this event is invoked \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_a4664be0bf93df1bbdad3c4845610ef48}{On\+Restart\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If player presses Restart button, this event is invoked \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_event_system_ab4fc88b2e68fcdbf5ce7f88e35839a75}{On\+Movement\+Finished\+Invoke}} (object sender=null)
+\begin{DoxyCompactList}\small\item\em If all animations are finished, this event is invoked \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_event_system_a39def0b9e6222a191cebbbe130691456}\label{class_event_system_a39def0b9e6222a191cebbbe130691456}} 
+Event\+Handler$<$ \mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}} $>$ {\bfseries On\+Swipe}
+\item 
+\mbox{\Hypertarget{class_event_system_acc66a9f22ebbd98a2d8bb60528e6b560}\label{class_event_system_acc66a9f22ebbd98a2d8bb60528e6b560}} 
+Event\+Handler {\bfseries On\+Model\+Modified}
+\item 
+\mbox{\Hypertarget{class_event_system_a5832b49c3cae788b4f43b52303d4ee63}\label{class_event_system_a5832b49c3cae788b4f43b52303d4ee63}} 
+Event\+Handler {\bfseries On\+Game\+Over}
+\item 
+\mbox{\Hypertarget{class_event_system_a6c716f7ec063f9ecd92fcf227d6e08b7}\label{class_event_system_a6c716f7ec063f9ecd92fcf227d6e08b7}} 
+Event\+Handler {\bfseries On\+Win}
+\item 
+\mbox{\Hypertarget{class_event_system_a6cefd0c1db5131a2ecfd902adc394a27}\label{class_event_system_a6cefd0c1db5131a2ecfd902adc394a27}} 
+Event\+Handler {\bfseries On\+Undo}
+\item 
+\mbox{\Hypertarget{class_event_system_a91b5ef1ffe263de5d8cad47dc7c1e369}\label{class_event_system_a91b5ef1ffe263de5d8cad47dc7c1e369}} 
+Event\+Handler {\bfseries On\+Restart}
+\item 
+\mbox{\Hypertarget{class_event_system_adb7a8424840c38d55349e1943d911bb3}\label{class_event_system_adb7a8424840c38d55349e1943d911bb3}} 
+Event\+Handler {\bfseries On\+Movement\+Finished}
+\item 
+\mbox{\Hypertarget{class_event_system_a7ccc088f4e9df9a0dc6f1c7777fab563}\label{class_event_system_a7ccc088f4e9df9a0dc6f1c7777fab563}} 
+Event\+Handler$<$ \mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}} $>$ {\bfseries On\+Current\+Swipe\+Direction\+Changed}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_event_system_a09d1c4dc87bd16717cf4ff9914298a71}\label{class_event_system_a09d1c4dc87bd16717cf4ff9914298a71}} 
+\index{EventSystem@{EventSystem}!ModelModifiedInvoke@{ModelModifiedInvoke}}
+\index{ModelModifiedInvoke@{ModelModifiedInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{ModelModifiedInvoke()}{ModelModifiedInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+Model\+Modified\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If there were some changes in game\+Model, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & An event argument with swipe direction\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_a7aa8f7aa3f7cfe062bd7aa22b6a7b412}\label{class_event_system_a7aa8f7aa3f7cfe062bd7aa22b6a7b412}} 
+\index{EventSystem@{EventSystem}!OnCurrentSwipeDirectionChangedInvoke@{OnCurrentSwipeDirectionChangedInvoke}}
+\index{OnCurrentSwipeDirectionChangedInvoke@{OnCurrentSwipeDirectionChangedInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnCurrentSwipeDirectionChangedInvoke()}{OnCurrentSwipeDirectionChangedInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Current\+Swipe\+Direction\+Changed\+Invoke (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}}}]{arg,  }\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If current\+Swipe direction is changed (a new sequential swipe is loaded from a buffer) invokes a corresponding event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arg} & SAn event argument with swipe direction\\
+\hline
+{\em sender} & Standard sender parameter\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_a2bba8e87fe1c99629570571d7b36c651}\label{class_event_system_a2bba8e87fe1c99629570571d7b36c651}} 
+\index{EventSystem@{EventSystem}!OnGameOverInvoke@{OnGameOverInvoke}}
+\index{OnGameOverInvoke@{OnGameOverInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnGameOverInvoke()}{OnGameOverInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Game\+Over\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If player loses, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_ab4fc88b2e68fcdbf5ce7f88e35839a75}\label{class_event_system_ab4fc88b2e68fcdbf5ce7f88e35839a75}} 
+\index{EventSystem@{EventSystem}!OnMovementFinishedInvoke@{OnMovementFinishedInvoke}}
+\index{OnMovementFinishedInvoke@{OnMovementFinishedInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnMovementFinishedInvoke()}{OnMovementFinishedInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Movement\+Finished\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If all animations are finished, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_a4664be0bf93df1bbdad3c4845610ef48}\label{class_event_system_a4664be0bf93df1bbdad3c4845610ef48}} 
+\index{EventSystem@{EventSystem}!OnRestartInvoke@{OnRestartInvoke}}
+\index{OnRestartInvoke@{OnRestartInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnRestartInvoke()}{OnRestartInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Restart\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If player presses Restart button, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_a87a7e6f821ed393cd46a2dae3a5cb2e0}\label{class_event_system_a87a7e6f821ed393cd46a2dae3a5cb2e0}} 
+\index{EventSystem@{EventSystem}!OnSwipeInvoke@{OnSwipeInvoke}}
+\index{OnSwipeInvoke@{OnSwipeInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnSwipeInvoke()}{OnSwipeInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Swipe\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender,  }\item[{\mbox{\hyperlink{class_input_event_arg}{Input\+Event\+Arg}}}]{arg }\end{DoxyParamCaption})}
+
+
+
+Invokes an on\+Swipe event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & Standard sender parameter\\
+\hline
+{\em arg} & An event argument with swipe direction\\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_ac2d5adf07bd92eafb573be4a60426e5b}\label{class_event_system_ac2d5adf07bd92eafb573be4a60426e5b}} 
+\index{EventSystem@{EventSystem}!OnUndoInvoke@{OnUndoInvoke}}
+\index{OnUndoInvoke@{OnUndoInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnUndoInvoke()}{OnUndoInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Undo\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If player presses Undo button, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_event_system_a998f7092fae51ca57648caf3fc4b5b01}\label{class_event_system_a998f7092fae51ca57648caf3fc4b5b01}} 
+\index{EventSystem@{EventSystem}!OnWinInvoke@{OnWinInvoke}}
+\index{OnWinInvoke@{OnWinInvoke}!EventSystem@{EventSystem}}
+\doxysubsubsection{\texorpdfstring{OnWinInvoke()}{OnWinInvoke()}}
+{\footnotesize\ttfamily void Event\+System.\+On\+Win\+Invoke (\begin{DoxyParamCaption}\item[{object}]{sender = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+If player wins, this event is invoked 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sender} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Event\+System.\+cs\end{DoxyCompactItemize}

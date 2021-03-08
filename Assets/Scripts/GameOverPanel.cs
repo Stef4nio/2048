@@ -18,12 +18,18 @@ public class GameOverPanel : MonoBehaviour
 	    Disable();
 	}
 
+    /// <summary>
+    /// Reacts to a GameLost event, shows itself
+    /// </summary>
     public void OnGameLost()
     {
        Enable();
         _gameOverText.text = "You lost";
     }
 
+    /// <summary>
+    /// Shows the popup
+    /// </summary>
     public void Enable()
     {
         transform.gameObject.SetActive(true);
@@ -31,6 +37,9 @@ public class GameOverPanel : MonoBehaviour
         _gameOverText.DOFade(1, Config.FadeTime);
     }
 
+    /// <summary>
+    /// Hides the popup
+    /// </summary>
     public void Disable()
     {
         transform.gameObject.SetActive(false);

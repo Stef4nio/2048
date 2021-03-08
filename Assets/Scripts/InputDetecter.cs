@@ -81,6 +81,9 @@ public class InputDetecter : MonoBehaviour {
         Swipe();
 	}
 
+    /// <summary>
+    /// Reacts to users swipe and directs this input into a gameController
+    /// </summary>
     private void Swipe()
     {
     //TODO use preprocessor directives ano not comments
